@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-10-2022 a las 22:44:04
+-- Tiempo de generación: 06-10-2022 a las 23:36:09
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 7.3.29
 
@@ -31,6 +31,22 @@ CREATE TABLE `especialidad` (
   `esp_id` int(11) NOT NULL,
   `esp_nombre` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `especialidad`
+--
+
+INSERT INTO `especialidad` (`esp_id`, `esp_nombre`) VALUES
+(1, 'Cardiologia'),
+(2, 'Endocrinologia'),
+(3, 'hemoterapia'),
+(4, 'Neumologia'),
+(5, 'Neurologia'),
+(6, 'Nutricion'),
+(7, 'Pediatria'),
+(8, 'Oncologia'),
+(9, 'Psiquiatria'),
+(10, 'Reumatologia');
 
 -- --------------------------------------------------------
 
@@ -68,6 +84,22 @@ CREATE TABLE `obra_social` (
   `os_nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `obra_social`
+--
+
+INSERT INTO `obra_social` (`os_id`, `os_nombre`) VALUES
+(1, 'Avalian'),
+(2, 'FEMEBA'),
+(3, 'Galeno'),
+(4, 'IOMA'),
+(5, 'OSDE'),
+(6, 'Osmedica'),
+(7, 'OSPIN'),
+(8, 'OSPRERA'),
+(9, 'PAMI'),
+(10, 'Sancor Salud');
+
 -- --------------------------------------------------------
 
 --
@@ -81,8 +113,7 @@ CREATE TABLE `paciente` (
   `paciente_apellido` varchar(60) NOT NULL,
   `paciente_domicilio` varchar(100) NOT NULL,
   `paciente_telefono` varchar(20) NOT NULL,
-  `paciente_email` varchar(100) NOT NULL,
-  `paciente_id_obrasocial` int(11) NOT NULL
+  `paciente_email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -96,6 +127,17 @@ CREATE TABLE `paciente_os` (
   `pos_id_obrasocial` int(11) NOT NULL,
   `pos_id_paciente` int(11) NOT NULL,
   `pos_n_afiliado` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `rol`
+--
+
+CREATE TABLE `rol` (
+  `rol_id` int(11) NOT NULL,
+  `rol_nombre` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -155,13 +197,17 @@ ALTER TABLE `especialidad`
 -- Indices de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  ADD PRIMARY KEY (`grupo_id`);
+  ADD PRIMARY KEY (`grupo_id`),
+  ADD KEY `grupo_id_secretaria` (`grupo_id_secretaria`),
+  ADD KEY `grupo_id_medico` (`grupo_id_medico`);
 
 --
 -- Indices de la tabla `medico_os`
 --
 ALTER TABLE `medico_os`
-  ADD PRIMARY KEY (`mos_id`);
+  ADD PRIMARY KEY (`mos_id`),
+  ADD KEY `mos_id_medico` (`mos_id_medico`),
+  ADD KEY `mos_id_obrasocial` (`mos_id_obrasocial`);
 
 --
 -- Indices de la tabla `obra_social`
@@ -179,7 +225,15 @@ ALTER TABLE `paciente`
 -- Indices de la tabla `paciente_os`
 --
 ALTER TABLE `paciente_os`
-  ADD PRIMARY KEY (`pos_id`);
+  ADD PRIMARY KEY (`pos_id`),
+  ADD KEY `pos_id_obrasocial` (`pos_id_obrasocial`),
+  ADD KEY `pos_id_paciente` (`pos_id_paciente`);
+
+--
+-- Indices de la tabla `rol`
+--
+ALTER TABLE `rol`
+  ADD PRIMARY KEY (`rol_id`);
 
 --
 -- Indices de la tabla `tarifa`
@@ -191,13 +245,18 @@ ALTER TABLE `tarifa`
 -- Indices de la tabla `turno`
 --
 ALTER TABLE `turno`
-  ADD PRIMARY KEY (`turno_id`);
+  ADD PRIMARY KEY (`turno_id`),
+  ADD KEY `turno_id_paciente` (`turno_id_paciente`),
+  ADD KEY `turno_id_medico` (`turno_id_medico`),
+  ADD KEY `turno_id_monto` (`turno_id_monto`);
 
 --
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`usuario_id`);
+  ADD PRIMARY KEY (`usuario_id`),
+  ADD KEY `usuario_id_especialidad` (`usuario_id_especialidad`),
+  ADD KEY `usuario_id_rol` (`usuario_id_rol`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -207,7 +266,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `especialidad`
 --
 ALTER TABLE `especialidad`
-  MODIFY `esp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `esp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `grupo`
@@ -225,7 +284,7 @@ ALTER TABLE `medico_os`
 -- AUTO_INCREMENT de la tabla `obra_social`
 --
 ALTER TABLE `obra_social`
-  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
@@ -238,6 +297,12 @@ ALTER TABLE `paciente`
 --
 ALTER TABLE `paciente_os`
   MODIFY `pos_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `rol`
+--
+ALTER TABLE `rol`
+  MODIFY `rol_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tarifa`
@@ -256,6 +321,46 @@ ALTER TABLE `turno`
 --
 ALTER TABLE `usuario`
   MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `grupo`
+--
+ALTER TABLE `grupo`
+  ADD CONSTRAINT `grupo_ibfk_1` FOREIGN KEY (`grupo_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `grupo_ibfk_2` FOREIGN KEY (`grupo_id_secretaria`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `medico_os`
+--
+ALTER TABLE `medico_os`
+  ADD CONSTRAINT `medico_os_ibfk_1` FOREIGN KEY (`mos_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `medico_os_ibfk_2` FOREIGN KEY (`mos_id_obrasocial`) REFERENCES `obra_social` (`os_id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `paciente_os`
+--
+ALTER TABLE `paciente_os`
+  ADD CONSTRAINT `paciente_os_ibfk_1` FOREIGN KEY (`pos_id_paciente`) REFERENCES `paciente` (`paciente_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `paciente_os_ibfk_2` FOREIGN KEY (`pos_id_obrasocial`) REFERENCES `obra_social` (`os_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `turno`
+--
+ALTER TABLE `turno`
+  ADD CONSTRAINT `turno_ibfk_1` FOREIGN KEY (`turno_id_paciente`) REFERENCES `paciente` (`paciente_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `turno_ibfk_2` FOREIGN KEY (`turno_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `turno_ibfk_3` FOREIGN KEY (`turno_id_monto`) REFERENCES `tarifa` (`tarifa_id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`usuario_id_rol`) REFERENCES `rol` (`rol_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`usuario_id_especialidad`) REFERENCES `especialidad` (`esp_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
