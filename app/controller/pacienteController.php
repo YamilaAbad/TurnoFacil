@@ -21,8 +21,8 @@ class PacienteController {
         -Mostrar días y horarios que atiende un médico
     */
 
-    function filtroDeEspecialidad($medico){
-
+    function filtroDeEspecialidad($id){
+        //AuthHelper::isLogueado();  //Controla que el usuario (paciente en este caso) este logueado, falta implementar la clase para el logueo
         //Obtengo un medico por especialidad
        $medico = $this->model->getSelectEspecialidad($id); 
         if($medico){
@@ -33,7 +33,8 @@ class PacienteController {
         }
     }
 
-    function filtroPorObraSocial($medico){
+    function filtroPorObraSocial($id){
+        //AuthHelper::isLogueado();  //Controla que el usuario (paciente en este caso) este logueado, falta implementar la clase para el logueo
        //Obtengo un medico por obra social
        $medico = $this->model->getSelectObrasocial($id);
        if($medico){
@@ -44,7 +45,11 @@ class PacienteController {
        }     
     }
 
-    function filtroPorEspecialidadYObraSocial($medico){
+  /*   
+        FUNCION PARA MOSTRAR MEDICOS POR ESPACIALIDAD Y OBRA SOCIAL
+
+    function filtroPorEspecialidadYObraSocial($id,$id){
+        //AuthHelper::isLogueado();  //Controla que el usuario (paciente en este caso) este logueado, falta implementar la clase para el logueo
         $medico = $this->model->getAllEspecialidadYObrasocial($id, $id);
         if($medico){
             //Actualizo la vista
@@ -53,7 +58,7 @@ class PacienteController {
             $this->view->showError('No se encontró médico');
        } 
     }
-
+ */
 
 
 
