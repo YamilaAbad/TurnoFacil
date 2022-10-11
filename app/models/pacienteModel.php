@@ -1,12 +1,7 @@
 <?php
 
 
-class PacienteModel {
-
- 
 
 
-
-}
 
 ?>

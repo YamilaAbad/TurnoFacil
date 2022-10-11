@@ -6,7 +6,7 @@
 class PacienteController {
 
     private $model;
-    private $view;
+    private $views;
 
     function __construct() {
         $this->view = new PacienteView();

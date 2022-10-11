@@ -6,7 +6,7 @@ class DBHelper {
 
         // variables para conectarnos
         $this->host = 'localhost';
-        $this->database = 'turno_facil';
+        $this->database = 'turnoFacil';
         $this->user = 'root';
         $this->password = '';
 
