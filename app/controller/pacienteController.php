@@ -9,7 +9,7 @@ class PacienteController {
     private $view;
 
     function __construct() {
-        $this->view = new PacienteView();
+        $this->view = new PacienteViews();
         $this->model = new PacienteModel();
     
 
