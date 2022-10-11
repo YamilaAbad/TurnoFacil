@@ -21,7 +21,7 @@ class PacienteController {
         -Mostrar días y horarios que atiende un médico
     */
 
-    function filtroDeEspecialidad($medico){
+    function filtroDeEspecialidad($id){
 
         //Obtengo un medico por especialidad
        $medico = $this->model->getSelectEspecialidad($id); 
@@ -33,7 +33,7 @@ class PacienteController {
         }
     }
 
-    function filtroPorObraSocial($medico){
+    function filtroPorObraSocial($id){
        //Obtengo un medico por obra social
        $medico = $this->model->getSelectObrasocial($id);
        if($medico){
@@ -44,15 +44,15 @@ class PacienteController {
        }     
     }
 
-    function filtroPorEspecialidadYObraSocial($medico){
-        $medico = $this->model->getAllEspecialidadYObrasocial($id, $id);
-        if($medico){
-            //Actualizo la vista
-            $this-> view->filtroMedicos($medico); 
-       }else{
-            $this->view->showError('No se encontró médico');
-       } 
-    }
+    // function filtroPorEspecialidadYObraSocial($id, $id){
+    //     $medico = $this->model->getAllEspecialidadYObrasocial($id, $id);
+    //     if($medico){
+    //         //Actualizo la vista
+    //         $this-> view->filtroMedicos($medico); 
+    //    }else{
+    //         $this->view->showError('No se encontró médico');
+    //    } 
+    // }
 
 
 
