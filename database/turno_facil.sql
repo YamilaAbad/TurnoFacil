@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-10-2022 a las 22:00:00
--- Versión del servidor: 10.4.25-MariaDB
--- Versión de PHP: 8.1.10
+-- Tiempo de generación: 14-10-2022 a las 22:31:21
+-- Versión del servidor: 10.4.20-MariaDB
+-- Versión de PHP: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -78,6 +78,19 @@ INSERT INTO `grupo` (`grupo_id`, `gruno_nro`, `grupo_id_secretaria`, `grupo_id_m
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `medico`
+--
+
+CREATE TABLE `medico` (
+  `medico_id` int(11) NOT NULL,
+  `medico_usuario_id` int(11) NOT NULL,
+  `medico_id_rango_horario` int(11) NOT NULL,
+  `medico_id_especialidad` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `medico_os`
 --
 
@@ -143,7 +156,7 @@ CREATE TABLE `paciente` (
   `paciente_apellido` varchar(60) NOT NULL,
   `paciente_domicilio` varchar(100) NOT NULL,
   `paciente_telefono` varchar(20) NOT NULL,
-  `paciente_email` varchar(100) NOT NULL
+  `paciente_email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -194,6 +207,20 @@ INSERT INTO `paciente_os` (`pos_id`, `pos_id_obrasocial`, `pos_id_paciente`, `po
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `rango_horario`
+--
+
+CREATE TABLE `rango_horario` (
+  `rango_id` int(11) NOT NULL,
+  `rango_horario_inicial` time NOT NULL,
+  `rango_horario_final` time NOT NULL,
+  `rango_dia` varchar(100) NOT NULL,
+  `rango_duracion_turno` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `rol`
 --
 
@@ -209,8 +236,7 @@ CREATE TABLE `rol` (
 INSERT INTO `rol` (`rol_id`, `rol_nombre`) VALUES
 (1, 'Medico'),
 (2, 'Secretaria'),
-(3, 'Administrador'),
-(4, '');
+(3, 'Administrador');
 
 -- --------------------------------------------------------
 
@@ -244,16 +270,18 @@ CREATE TABLE `turno` (
   `turno_id_medico` int(11) NOT NULL,
   `turno_fecha` date NOT NULL,
   `turno_hora` time NOT NULL,
-  `turno_id_tarifa` int(11) NOT NULL
+  `turno_id_tarifa` int(11) NOT NULL,
+  `turno_ocupado` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `turno`
 --
 
-INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_fecha`, `turno_hora`, `turno_id_tarifa`) VALUES
-(1, 1, 1, '2022-10-27', '16:30:00', 1),
-(2, 2, 5, '2022-10-27', '17:30:00', 1);
+INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_fecha`, `turno_hora`, `turno_id_tarifa`, `turno_ocupado`) VALUES
+(1, 1, 1, '2022-10-27', '16:30:00', 1, NULL),
+(2, 2, 5, '2022-10-27', '17:30:00', 1, NULL),
+(3, 4, 5, '2022-10-27', '17:00:00', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -268,7 +296,7 @@ CREATE TABLE `usuario` (
   `usuario_user` varchar(100) NOT NULL,
   `usuario_contrasenia` varchar(150) NOT NULL,
   `usuario_id_rol` int(11) NOT NULL,
-  `usuario_id_especialidad` int(11) NOT NULL
+  `usuario_id_especialidad` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -279,15 +307,16 @@ INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usua
 (1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1, 1),
 (2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1, 8),
 (3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1, 7),
-(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2, 1),
+(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2, NULL),
 (5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1, 6),
 (6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1, 5),
-(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2, 1),
+(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2, NULL),
 (8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1, 5),
 (9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1, 10),
 (10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1, 2),
 (11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1, 2),
-(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3, 1);
+(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3, NULL),
+(13, 'Carolina', 'Hansen', 'caroH', '$2y$10$0r/yD6TqNz1BrJUVar1fk.x//CPMYeJSMkRCm7iBRZ7DyWtrCjLNq', 3, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -306,6 +335,12 @@ ALTER TABLE `grupo`
   ADD PRIMARY KEY (`grupo_id`),
   ADD KEY `grupo_id_secretaria` (`grupo_id_secretaria`),
   ADD KEY `grupo_id_medico` (`grupo_id_medico`);
+
+--
+-- Indices de la tabla `medico`
+--
+ALTER TABLE `medico`
+  ADD PRIMARY KEY (`medico_id`);
 
 --
 -- Indices de la tabla `medico_os`
@@ -334,6 +369,12 @@ ALTER TABLE `paciente_os`
   ADD PRIMARY KEY (`pos_id`),
   ADD KEY `pos_id_obrasocial` (`pos_id_obrasocial`),
   ADD KEY `pos_id_paciente` (`pos_id_paciente`);
+
+--
+-- Indices de la tabla `rango_horario`
+--
+ALTER TABLE `rango_horario`
+  ADD PRIMARY KEY (`rango_id`);
 
 --
 -- Indices de la tabla `rol`
@@ -381,6 +422,12 @@ ALTER TABLE `grupo`
   MODIFY `grupo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT de la tabla `medico`
+--
+ALTER TABLE `medico`
+  MODIFY `medico_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `medico_os`
 --
 ALTER TABLE `medico_os`
@@ -405,10 +452,16 @@ ALTER TABLE `paciente_os`
   MODIFY `pos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT de la tabla `rango_horario`
+--
+ALTER TABLE `rango_horario`
+  MODIFY `rango_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `rol_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `rol_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tarifa`
@@ -420,13 +473,13 @@ ALTER TABLE `tarifa`
 -- AUTO_INCREMENT de la tabla `turno`
 --
 ALTER TABLE `turno`
-  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
