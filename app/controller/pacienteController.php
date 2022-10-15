@@ -50,6 +50,10 @@ class PacienteController {
 
     }
 
+    function showTemplate(){
+        $this->view->showTemplate();
+    }
+
 }
 
 ?>

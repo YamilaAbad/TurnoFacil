@@ -1,6 +1,7 @@
 <?php
 
-require_once('libs/smarty/libs/Smarty.class.php');
+require_once('libs/Smarty/libs/Smarty.class.php');
+
 
 class PacienteView{
 
@@ -18,6 +19,11 @@ class PacienteView{
 
     function mostrarResultados($filtro, $mensaje){
 
+    }
+
+    function showTemplate(){
+        $smarty = new Smarty();
+        $smarty->display('./templates/registro.tpl');
     }
 
 
