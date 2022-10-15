@@ -22,7 +22,7 @@ class PacienteController {
     */
 
     function filtroDeEspecialidad($id){
-
+        //AuthHelper::isLogueado();  //Controla que el usuario (paciente en este caso) este logueado, falta implementar la clase para el logueo
         //Obtengo un medico por especialidad
        $medico = $this->model->getSelectEspecialidad($id); 
         if($medico){
@@ -34,6 +34,7 @@ class PacienteController {
     }
 
     function filtroPorObraSocial($id){
+        //AuthHelper::isLogueado();  //Controla que el usuario (paciente en este caso) este logueado, falta implementar la clase para el logueo
        //Obtengo un medico por obra social
        $medico = $this->model->getSelectObrasocial($id);
        if($medico){
@@ -44,16 +45,20 @@ class PacienteController {
        }     
     }
 
-    // function filtroPorEspecialidadYObraSocial($id, $id){
-    //     $medico = $this->model->getAllEspecialidadYObrasocial($id, $id);
-    //     if($medico){
-    //         //Actualizo la vista
-    //         $this-> view->filtroMedicos($medico); 
-    //    }else{
-    //         $this->view->showError('No se encontró médico');
-    //    } 
-    // }
+  /*   
+        FUNCION PARA MOSTRAR MEDICOS POR ESPACIALIDAD Y OBRA SOCIAL
 
+    function filtroPorEspecialidadYObraSocial($id,$id){
+        //AuthHelper::isLogueado();  //Controla que el usuario (paciente en este caso) este logueado, falta implementar la clase para el logueo
+        $medico = $this->model->getAllEspecialidadYObrasocial($id, $id);
+        if($medico){
+            //Actualizo la vista
+            $this-> view->filtroMedicos($medico); 
+       }else{
+            $this->view->showError('No se encontró médico');
+       } 
+    }
+ */
 
 
 
