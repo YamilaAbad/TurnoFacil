@@ -21,19 +21,11 @@
             return $medico;
         }
 
-    /********************************* OBTENEMOS LOS MEDICOS QUE TRABAJAN POR UNA OBRA SOCIAL ************************************/
-        function getSelectObrasocial($id){
-            $query=$this->db->prepare('SELECT u.usuario_nombre, u.usuario_apellido FROM usuario u 
-                                        INNER JOIN medico_os m ON u.usuario_id = m.mos_id_medico 
-                                        WHERE mos_id_obrasocial =( SELECT os_id FROM obra_social WHERE os_id =?)');
-            $query->execute([$id]);
-            $medico=$query->fetch(PDO :: FETCH_OBJ);
-            return $medico;
-        }
+ 
 
-    /********************************* NUEVA FUNCIÓN PARA OBTENER LOS MEDICOS QUE TRABAJAR POR OBRA SOCIAL - REVISAR -************/
+    /********************************* NUEVA FUNCIÓN PARA OBTENER LOS MEDICOS QUE TRABAJAR POR OBRA SOCIAL ************/
     //si pasa el test reemplazar la sentencia sql en getSelectObrasocial
-        function getSelectObrasocial2($id){
+        function getSelectObrasocial($id){
             $query=$this->db->prepare('SELECT u.usuario_nombre, u.usuario_apellido, r.rango_horario_inicial, r.rango_horario_final, r.rango_dia
                                         FROM usuario u 
                                         INNER JOIN medico m ON (u.usuario_id = m.medico_usuario_id)
