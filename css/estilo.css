@@ -1,0 +1,38 @@
+.portada {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.img-portada {
+    width: 100%;
+    filter: brightness(50%);
+}
+
+.titulo-portada {
+    position: absolute;
+    width: 480px;
+    z-index: 2;
+    top: 130px;
+    color: white;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.texto-portada {
+    position: absolute;
+    z-index: 2;
+    width: 480px;
+    top: 250px;
+    color: white;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.botones-portada {
+    position: absolute;
+    z-index: 2;
+    top: 380px;
+}
+
+.portada .btn {
+    box-shadow: black 0.2em 0.2em 0.3em;
+}

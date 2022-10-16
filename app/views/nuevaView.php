@@ -11,6 +11,6 @@ class NuevaView {
     function mostrar(){
 
         $smarty = new Smarty;
-        $smarty->display('templates/registro.tpl');
+        $smarty->display('templates/portada.tpl');
     }
 }
