@@ -14,17 +14,17 @@
             <div class="d-flex me-5 m-2">
                 <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
+                        {* <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
-                        </li>
+                        </li> *}
                         <li class="nav-item me-3 ms-5">
-                            <button type="button" class="btn btn-primary">Acceso institucion</button>
+                            <button type="button" class="btn bg-verde">Acceso institucion</button>
                         </li>
-                        <li class="nav-item dropdown">
-                            <button type="button" class="btn btn-primary">Acceso paciente</button>
+                        <li class="nav-item">
+                            <button type="button" class="btn bg-verde">Acceso paciente</button>
                         </li>
                     </ul>
                 </div>
@@ -42,8 +42,8 @@
         <h1 class="titulo-portada ms-5"> TurnoFacil Gestion de turnos online</h1>
         <p class="texto-portada ms-5">Bienvenido a Turno Facil, la turnera online mas intuitiva y flexible que te permitira gestionar tus turnos desde la comodidad de tu casa </p>
         <div class="botones-portada ms-5">
-            <button type="button" class="btn btn-primary me-2">Acceso institucion</button>
-            <button type="button" class="btn btn-primary ms-2">Acceso paciente</button>
+            <button type="button" class="btn bg-verde me-2">Acceso institucion</button>
+            <button type="button" class="btn bg-verde ms-2">Acceso paciente</button>
         </div>
     </div>
 
