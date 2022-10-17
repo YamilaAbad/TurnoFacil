@@ -1,12 +1,11 @@
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 // include("file_with_errors.php");
 
 include_once 'app/controller/pacienteController.php';
 include_once 'app/controller/nuevo.php';
 //  include_once 'app/helpers/DB.Helper.php';
-
 
 
 // defino la base url para la construccion de links con urls semánticas
@@ -27,13 +26,12 @@ $pacienteController = new PacienteController();
 // determina que camino seguir según la acción
 switch ($params[0]) {
     case 'prueba':
-    $controller->pruebaTemplate();
+        $controller->pruebaTemplate();
     break;
     
     case 'nuevo-turno':
-    $pacienteController->showNewTurn();
-    break;
-      
+        $pacienteController->showNewTurn();
+    break;     
     case 'verificar-datos':
         $pacienteController->showDatos();
         break;
@@ -48,7 +46,10 @@ switch ($params[0]) {
         $controller = new PacienteController();
         $controller->filtrarDiasDeAtencion($medico);
         break;
-   
+    case 'sacar-turno':
+        $controller = new PacienteController();
+        $controller->obtenerTurno();
+        break;
 
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
     default:

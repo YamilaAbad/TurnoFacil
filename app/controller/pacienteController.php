@@ -29,7 +29,7 @@ class PacienteController {
         $rangoElegidoH= $_POST['fecha_hasta'];
         $turno = $_POST['turno'];
 
-        $filtro=$this->modelPaciente->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
+        $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
 
         if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
@@ -38,7 +38,7 @@ class PacienteController {
             $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
-            $filtro=$this->modelGestion->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $medico);
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $medico);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{
@@ -48,6 +48,16 @@ class PacienteController {
         $this->view->mostrarResultados($filtro,$mensaje);
 
 
+    }
+
+    /*
+        * pantalla inicial para sacar un turno el paciente
+    */
+    function obtenerTurno(){
+
+        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
+        $mutuales=$this->model->obtenerMutuales();
+        $this->view->nuevoTurno($especialidades,$mutuales, $mensaje = '');
     }
 
     function showTemplate(){

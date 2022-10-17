@@ -26,6 +26,28 @@ class PacienteModel {
 
     }
 
+    /**
+     * Obtiene los mutuales que atienden los medicos del sistema
+     */
+    function obtenerMutuales(){
+
+        $query = $this->db->prepare("SELECT * FROM obra_social ORDER BY os_nombre;");
+        $query->execute([]);
+        $mutuales = $query->fetchAll(PDO::FETCH_OBJ);
+        return $mutuales;
+    }
+
+    /**
+     * Obtiene las diferentes especialidades registradas en el sistema
+     */
+    function obtenerEspecialidadesDeMedicos(){
+
+        $query = $this->db->prepare("SELECT * FROM especialidad ORDER BY esp_nombre;");
+        $query->execute([]);
+        $especialidades = $query->fetchAll(PDO::FETCH_OBJ);
+        return $especialidades;
+    }
+
 }
 
 ?>
