@@ -18,4 +18,6 @@ class NuevoController{
        
         $this->view->mostrar();
     }
+
+    
 }

@@ -1,3 +1,7 @@
+:root {
+    --main-color: #1abc9c;
+}
+
 .portada {
     width: 100%;
     position: relative;
@@ -35,4 +39,46 @@
 
 .portada .btn {
     box-shadow: black 0.2em 0.2em 0.3em;
+}
+
+
+/* inicio calendario */
+
+.datepicker table tr td.active.active {
+    background: var(--main-color);
+    width: 14%;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.datepicker table tr td.active.active:hover {
+    background: var(--main-color);
+    width: 14%;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.datepicker td:hover {
+    width: 2rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.datepicker .datepicker-switch {
+    background-color: var(--main-color);
+}
+
+.datepicker td,
+.datepicker th {
+    text-align: center;
+    width: 3rem;
+    height: 2rem;
+}
+
+
+/* fin calendario */
+
+.btn-primary {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
 }
