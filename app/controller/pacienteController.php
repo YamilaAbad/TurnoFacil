@@ -54,6 +54,13 @@ class PacienteController {
         $this->view->showTemplate();
     }
 
+    function showNewTurn(){
+        $this->view->showNewTurn();
+    }
+
+    function showDatos(){
+        $this->view->showDatos();
+    }
 }
 
 ?>

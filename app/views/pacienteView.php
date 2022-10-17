@@ -26,6 +26,16 @@ class PacienteView{
         $smarty->display('./templates/registro.tpl');
     }
 
+    function showNewTurn(){
+        $smarty = new Smarty();
+        $smarty->display('./templates/turno.tpl');
+    }
+
+    function showDatos(){
+        $smarty = new Smarty();
+        $smarty->display('./templates/verificar.tpl');
+    }
+
 
 }
 
