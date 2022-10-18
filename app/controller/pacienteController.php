@@ -23,13 +23,18 @@ class PacienteController {
             Permitir buscar si es turno mañana o tarde.
             Mostrar la siguiente semana,  en caso de no encontrar en el rango ingresado.
     */
-    function filtrarDiasDeAtencion ($medico){
-
+    function filtrarDiasDeAtencion (){
+        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
+        $obraSocial=$this->model->obtenerObraSocial();
+        $this->view->nuevoTurno($especialidades,$obraSocial, $mensaje = '');
+        
         $rangoElegidoD= $_POST['fecha_desde'];
         $rangoElegidoH= $_POST['fecha_hasta'];
+        var_dump($_POST);
+        die;
         $turno = $_POST['turno'];
 
-        $filtro=$this->modelPaciente->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
+        $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
 
         if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
@@ -38,7 +43,7 @@ class PacienteController {
             $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
-            $filtro=$this->modelGestion->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $medico);
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $medico);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{
@@ -50,18 +55,24 @@ class PacienteController {
 
     }
 
-    function showTemplate(){
-        $this->view->showTemplate();
+    /*
+        * pantalla inicial para sacar un turno el paciente
+    */
+    
+    function obtenerTurno(){
+
+        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
+        $obraSocial=$this->model->obtenerObraSocial();
+        $this->view->nuevoTurno($especialidades,$obraSocial, $mensaje = '');
     }
 
-    function showNewTurn(){
-        $this->view->showNewTurn();
+    function showTemplate(){
+        $this->view->showTemplate();
     }
 
     function showDatos(){
         $this->view->showDatos();
     }
-
 }
 
 ?>
