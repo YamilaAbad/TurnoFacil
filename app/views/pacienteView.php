@@ -36,6 +36,7 @@ class PacienteView{
         $smarty->display('./templates/verificar.tpl');
     }
 
+    
 
 }
 

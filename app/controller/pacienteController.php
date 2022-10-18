@@ -61,6 +61,7 @@ class PacienteController {
     function showDatos(){
         $this->view->showDatos();
     }
+
 }
 
 ?>
