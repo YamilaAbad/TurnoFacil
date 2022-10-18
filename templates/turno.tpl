@@ -15,7 +15,7 @@
                             <div class="form-group col-sm-12 flex-column d-flex">
                                 <label for='inputMedico'>Especialidad:<span class="text-danger">*</span> </label>
                                 <select name="especialidad" class="form-control" required>
-                                    <option name="obra_elegida" value=''>Selecione</option>
+                                    <option name="especialidad" value=''>Selecione</option>
                                     {foreach from=$especialidades item=esp} 
                                         <option value='{$esp->esp_id}'> {$esp->esp_nombre}</option>
                                     {/foreach}
@@ -25,7 +25,7 @@
                         <div class="row justify-content-between text-left mt-4">
                             <div class="form-group col-sm-12 flex-column d-flex">
                                 <label for='inputMedico'>Obra Social <span class="text-danger">*</span> </label>
-                                <select name="dependencia" class="form-control" required> 
+                                <select name="obra_elegida" class="form-control" required> 
                                     <option name="obra_elegida" value=''>Selecione</option>
                                     {foreach from=$mutuales item=mut} 
                                         <option value='{$mut->os_id}'> {$mut->os_nombre}</option>
