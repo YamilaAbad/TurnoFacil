@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+// error_reporting(E_ALL);
+// ini_set("display_errors", 1);
 // include("file_with_errors.php");
 
 include_once 'app/controller/pacienteController.php';
@@ -22,13 +22,15 @@ if (!empty($_GET['action'])) {
 
 // parsea la acción y los parámetros 
 $params = explode('/', $action);
-$controller = new NuevoController();
-$pacienteController = new PacienteController();
+
+//$pacienteController = new PacienteController();
 // determina que camino seguir según la acción
 switch ($params[0]) {
     case 'prueba':
+    $controller = new NuevoController();
     $controller->pruebaTemplate();
     break;
+
     
     case 'nuevo-turno':
     $pacienteController->showNewTurn();
