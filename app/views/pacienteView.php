@@ -26,11 +26,19 @@ class PacienteView{
         $smarty->display('./templates/registro.tpl');
     }
 
-    function showNewTurn(){
+    /**
+     * Muestra la vista para sacar un nuevo turno
+     */
+    function nuevoTurno($especialidades,$obraSocial, $mensaje = ''){
+
         $smarty = new Smarty();
+        $smarty->assign('especialidades', $especialidades);
+        $smarty->assign('obra_social', $obraSocial);
+        $smarty->assign('mensaje', $mensaje);
         $smarty->display('./templates/turno.tpl');
     }
 
+    
     function showDatos(){
         $smarty = new Smarty();
         $smarty->display('./templates/verificar.tpl');

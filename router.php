@@ -8,7 +8,6 @@ include_once 'app/controller/nuevo.php';
 //  include_once 'app/helpers/DB.Helper.php';
 
 
-
 // defino la base url para la construccion de links con urls semánticas
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
 
@@ -36,6 +35,9 @@ switch ($params[0]) {
     $pacienteController->showNewTurn();
     break;
       
+        $controller->pruebaTemplate();
+    break;
+  
     case 'verificar-datos':
         $pacienteController->showDatos();
         break;
@@ -45,12 +47,16 @@ switch ($params[0]) {
         // $controller = new HomeController();
         // $controller->mostrarHome();
         // break;
+        /*
     case 'filtrar-dias':
         $medico = $params[1];
         $controller = new PacienteController();
         $controller->filtrarDiasDeAtencion($medico);
         break;
-   
+        */
+    case 'sacar-turno':
+        $pacienteController->filtrarDiasDeAtencion();
+        break;
 
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
     default:
