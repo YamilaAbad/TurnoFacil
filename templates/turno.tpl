@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <form class='form' action='registrar_datos' method='POST'>
+                    <form class='form' action='obtener_turnos' method='POST'>
 
                         <div class="row justify-content-between text-left mt-4">
                             <div class="form-group col-sm-12 flex-column d-flex">
@@ -72,41 +72,47 @@
                             </div>
                         </div>
                 </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end m-2">
+                        <input class=" btn btn-primary" type="button" value="Filtrar">
+                    </div>
+                </form>
+                {if (!empty($filtro)) }
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Elegir</th>
+                                <th>Médico</th>
+                                <th>Atiende por</th>
+                                <th>Fecha y hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$filtro item=resu}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="check_list[]" value="{$resu->turno_id}">
+                                    </td>
+                                    <td>
+                                        {$resu->usuario_apellido}, {$resu->usuario_nombre}
+                                    </td>
+                                    <td>
+                                        {$resu->os_nombre}
+                                    </td>
+                                    <td>
+                                        {$resu->turno_fecha} - {$resu->turno_hora}
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end m-2">
-                    <input class=" btn btn-primary" type="button" value="Filtrar">
-                </div>
-
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Elegir</th>
-                            <th>Médico</th>
-                            <th>Atiende por</th>
-                            <th>Fecha y hora</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td> <input type="radio" name="turnoElegido" id="fila-1" required></td>
-                            <td>Rodriguez Pablo</td>
-                            <td>Av. Moreno 415</td>
-                            <td>10/11/2022 - 10:15am</td>
-                        </tr>
-                        <tr>
-                            <td> <input type="radio" name="turnoElegido" id="fila-2" required></td>
-                            <td>Tu vieja</td>
-                            <td>Av. Rivadavia 155</td>
-                            <td>15/11/2022 - 9:15am</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
-                    <button class=" btn btn-danger" type="submit">Cancelar</button>
-                </div>
-
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
+                        <button class=" btn btn-danger" type="submit">Cancelar</button>
+                    </div>
+            {else}
+                <p> No hay turnos elegidos para el rango filtrado</p>
+            {/if}
             </div>
 
         </div>

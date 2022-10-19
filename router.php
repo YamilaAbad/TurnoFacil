@@ -45,10 +45,10 @@ switch ($params[0]) {
         $medico = $params[1];
         $controller = new PacienteController();
         $controller->filtrarDiasDeAtencion($medico);
-        break;
-    case 'sacar-turno':
+        break;*/
+    case 'obtener_turnos':
         $controller = new PacienteController();
-        $controller->obtenerTurno();
+        $controller->filtrarDiasDeAtencion();
         break;
 
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  

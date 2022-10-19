@@ -31,8 +31,8 @@ class PacienteController {
         
         $rangoElegidoD= $_POST['fecha_desde'];
         $rangoElegidoH= $_POST['fecha_hasta'];
-        var_dump($_POST);
-        die;
+
+
         $turno = $_POST['turno'];
         $medico='';
         $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
