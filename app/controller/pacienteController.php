@@ -23,12 +23,18 @@ class PacienteController {
             Permitir buscar si es turno mañana o tarde.
             Mostrar la siguiente semana,  en caso de no encontrar en el rango ingresado.
     */
-    function filtrarDiasDeAtencion ($medico){
+    function filtrarDiasDeAtencion (){
 
+        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
+        $obraSocial=$this->model->obtenerMutuales();
+        $this->view->nuevoTurno($especialidades,$obraSocial, $mensaje = '');
+        
         $rangoElegidoD= $_POST['fecha_desde'];
         $rangoElegidoH= $_POST['fecha_hasta'];
+        var_dump($_POST);
+        die;
         $turno = $_POST['turno'];
-
+        $medico='';
         $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
 
         if (!empty($filtro)){
@@ -60,12 +66,9 @@ class PacienteController {
         $this->view->nuevoTurno($especialidades,$mutuales, $mensaje = '');
     }
 
+
     function showTemplate(){
         $this->view->showTemplate();
-    }
-
-    function showNewTurn(){
-        $this->view->showNewTurn();
     }
 
     function showDatos(){

@@ -28,9 +28,8 @@ switch ($params[0]) {
     case 'prueba':
         $controller->pruebaTemplate();
     break;
-    
     case 'nuevo-turno':
-        $pacienteController->showNewTurn();
+        $pacienteController->obtenerTurno();
     break;     
     case 'verificar-datos':
         $pacienteController->showDatos();
@@ -41,6 +40,7 @@ switch ($params[0]) {
         // $controller = new HomeController();
         // $controller->mostrarHome();
         // break;
+        /*
     case 'filtrar-dias':
         $medico = $params[1];
         $controller = new PacienteController();
@@ -55,7 +55,7 @@ switch ($params[0]) {
     default:
        // $controller = new ErrorHelper();
         // $controller->errorNotFound();
-        // break;
+         break;
 }
 
 ?>
