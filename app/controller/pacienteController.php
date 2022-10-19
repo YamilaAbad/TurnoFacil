@@ -14,6 +14,36 @@ class PacienteController {
  
     }
 
+    /**
+     * Ingreso un nuevo paciente
+     */
+    function registrarPaciente(){
+
+        $nombre= $_POST['nombre'];
+        $apellido= $_POST['apellido'];
+        $dni= $_POST['dni'];
+        $email= $_POST['email'];
+        $domicilio= $_POST['domicilio'];
+        $telefono= $_POST['telefono'];
+
+        if ($this->model->existePaciente($dni) > 0){
+            // si el paciente se encuentra registrado notifico
+            $mensaje="El paciente ya se encuentra registrado";
+        }else{
+            // si no lo guardo en la BD
+            $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
+            if ($paciente > 0){
+                $mensaje="Se registro correctamente.";
+            }else{
+                $mensaje="Ups! ocurrio un error intente mas tarde.";
+            }
+        }
+
+        // muestra la home de usuario
+        $this->view->homePaciente($mensaje);
+
+    }
+
 
     /*
         Como paciente quiero poder filtrar días y horarios de atención del médico elegido para poder elegir un día

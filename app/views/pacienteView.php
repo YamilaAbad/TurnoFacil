@@ -38,6 +38,20 @@ class PacienteView{
         $smarty->display('./templates/turno.tpl');
     }
 
+    function mostrarFiltro(){
+
+    }
+
+    /** 
+     * muestra la pantalla de home de paciente 
+     * */
+    function homePaciente($mensaje){
+
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/portada.tpl');
+    }
+
     function showNewTurn() {}
     
     function showDatos(){

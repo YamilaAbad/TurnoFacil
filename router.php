@@ -23,6 +23,7 @@ if (!empty($_GET['action'])) {
 $params = explode('/', $action);
 $controller = new NuevoController();
 $pacienteController = new PacienteController();
+
 // determina que camino seguir según la acción
 switch ($params[0]) {
     case 'prueba':
@@ -50,7 +51,10 @@ switch ($params[0]) {
         $controller = new PacienteController();
         $controller->filtrarDiasDeAtencion();
         break;
-
+    case 'registrar_paciente':
+        $controller = new PacienteController();
+        $controller->registrarPaciente();
+        break;
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
     default:
        // $controller = new ErrorHelper();

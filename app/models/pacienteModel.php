@@ -58,6 +58,27 @@ class PacienteModel {
         return $especialidades;
     }
 
+    /**
+     * Registra un nuevo paciente 
+     */
+    function registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email){
+
+        $query = $this->db->prepare('INSERT INTO paciente (paciente_dni, paciente_nombre, paciente_apellido, paciente_domicilio, paciente_telefono, paciente_email ) VALUES (?,?,?,?,?,?)');
+        $query->execute([$dni, $nombre, $apellido, $domicilio, $telefono, $email]);
+        return $this->db->lastInsertId();
+    }
+
+    /**
+     * Verifica si exite el paciente en cuestion 
+     */
+    function existePaciente($dni){
+
+        $query = $this->db->prepare("SELECT * FROM paciente where paciente_dni = ?;");
+        $query->execute([$dni]);
+        return $query->rowCount();
+
+    }
+
 }
 
 ?>
