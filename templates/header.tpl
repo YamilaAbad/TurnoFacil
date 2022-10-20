@@ -1,6 +1,3 @@
-
-
-
  {include 'head.tpl'}
 
  <header>

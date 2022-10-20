@@ -1,21 +1,22 @@
 {include 'header.tpl'}
 <section>
 
-<div class="portada">
+<div class="portada mb-0">
 
-    <img class="img-portada" src="img/image.png" alt="Municipalidad">
-
-    <h1 class="titulo-portada ms-5"> TurnoFacil Gestion de turnos online</h1>
-    <p class="texto-portada ms-5">Bienvenido a Turno Facil, la turnera online mas intuitiva y flexible que te permitira gestionar tus turnos desde la comodidad de tu casa </p>
-    <div class="botones-portada ms-5">
-        <button type="button" class="btn bg-verde me-2"><a class="nav-link">Acceso institucion</a></button>
-        <button type="button" class="btn bg-verde ms-2" ><a class="nav-link nav-item" href="login">Acceso paciente</a></button>
+    <img class="img-portada mb-0" src="img/1.jpg" alt="Municipalidad">
+    <div class="d-flex ms-5">
+        <h1 class="titulo-portada-home ">Bienvenido a TurnoFacil</h1>
+        <p class="texto-portada ">Ingrese al listado para ver cuando es su proximo turno o consulte al medico que desee  </p>
+        <div class="botones-portada-home">
+            <button type="button" class="btn bg-verde me-2">Ver mis turnos</button>
+            <button type="button" class="btn bg-verde ms-2">Sacar un turno</button>
+    </div>
     </div>
 </div>
 
 
 
-<p> lala </p>
+
 </section>
 
 {include 'footer.tpl'}
