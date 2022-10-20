@@ -15,7 +15,7 @@
                             <div class="form-group col-sm-12 flex-column d-flex">
                                 <label for='inputMedico'>Especialidad:<span class="text-danger">*</span> </label>
                                 <select name="especialidad" class="form-control" required>
-                                    <option name="obra_elegida" value=''>Selecione</option>
+                                    <option name="especialidad" value=''>Selecione</option>
                                     {foreach from=$especialidades item=esp} 
                                         <option value='{$esp->esp_id}'> {$esp->esp_nombre}</option>
                                     {/foreach}
@@ -106,7 +106,6 @@
                         </tbody>
                     </table>
 
-<<<<<<< HEAD
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
                         <button class=" btn btn-danger" type="submit">Cancelar</button>
@@ -114,7 +113,6 @@
             {else}
                 <p> No hay turnos elegidos para el rango filtrado</p>
             {/if}
-=======
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end m-2">
                     <input class=" btn btn-primary" type="button" value="Filtrar">
                 </div>
@@ -149,7 +147,6 @@
                     <button class=" btn btn-danger" type="submit">Cancelar</button>
                 </div>
 
->>>>>>> templates
             </div>
 
         </div>
