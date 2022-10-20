@@ -48,6 +48,7 @@ class PacienteController {
         //FUNCION PARA MOSTRAR MEDICOS POR ESPACIALIDAD Y OBRA SOCIAL
 
     function filtroPorEspecialidadYObraSocial($id1,$id2){
+
         //Obtengo un medico por obra social y especialidad del mismo
         $medico = $this->model->getAll($id1, $id2);
         if($medico){
@@ -58,7 +59,21 @@ class PacienteController {
        } 
     }
 
-
+    /**
+     * Muestro la pantalla de ingreso de paciente
+     */
+    function verificarPaciente(){
+        
+        $mutuales=$this->model->obtenerMutuales();
+        $dni= $_POST['dni'];
+        if ($dni=$this->model->existePaciente($dni) > 0){
+            // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
+            $this->view->showOpciones($mensaje = '');
+        }else{
+            // si no existe registro el paciente
+            $this->view->showTemplate($mutuales);
+        }
+    }
 
     /**
      * Ingreso un nuevo paciente
@@ -71,6 +86,8 @@ class PacienteController {
         $email= $_POST['email'];
         $domicilio= $_POST['domicilio'];
         $telefono= $_POST['telefono'];
+        $mutual= $_POST['obra_elegida'];
+        $afiliado= $_POST['afiliado'];
 
         if ($this->model->existePaciente($dni) > 0){
             // si el paciente se encuentra registrado notifico
@@ -80,6 +97,9 @@ class PacienteController {
             $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
             if ($paciente > 0){
                 $mensaje="Se registro correctamente.";
+                if ($mutual != 11){
+                    $reg_mut=$this->model->registraMutualPaciente($paciente, $mutual, $afiliado);  
+                }
             }else{
                 $mensaje="Ups! ocurrio un error intente mas tarde.";
             }

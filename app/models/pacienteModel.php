@@ -82,6 +82,16 @@ class PacienteModel {
     }
 
     /**
+     * Registra un nuevo paciente 
+     */
+    function registraMutualPaciente($paciente, $mutual, $afiliado){
+
+        $query = $this->db->prepare('INSERT INTO paciente_o (pos_id_obrasocial, pos_id_paciente, pos_n_afiliado ) VALUES (?,?,?)');
+        $query->execute([$mutual,$paciente, $afiliado]);
+        return $this->db->lastInsertId();
+    }
+
+    /**
      * Verifica si exite el paciente en cuestion 
      */
     function existePaciente($dni){
@@ -89,18 +99,20 @@ class PacienteModel {
         $query = $this->db->prepare("SELECT * FROM paciente where paciente_dni = ?;");
         $query->execute([$dni]);
         return $query->rowCount();
+    }
+
     /********************************* NUEVA FUNCIÓN PARA OBTENER LOS MEDICOS QUE TRABAJAR POR OBRA SOCIAL ************/
     //si pasa el test reemplazar la sentencia sql en getSelectObrasocial
-        function getSelectObrasocial($id){
-            $query=$this->db->prepare('SELECT u.usuario_nombre, u.usuario_apellido, r.rango_horario_inicial, r.rango_horario_final, r.rango_dia
-                                        FROM usuario u 
-                                        INNER JOIN medico m ON (u.usuario_id = m.medico_usuario_id)
-                                        INNER JOIN rango_horario r ON (m.medico_id_rango_horario = r.rango_id)
-                                        INNER JOIN medico_os med ON (u.usuario_id = med.mos_id_medico)
-                                        WHERE med.mos_id_obrasocial = ( SELECT o.os_id FROM obra_social o WHERE o.os_id = ?)');
-            $query->execute([$id]);
-            $medico=$query->fetch(PDO :: FETCH_OBJ);
-            return $medico;
+    function getSelectObrasocial($id){
+        $query=$this->db->prepare('SELECT u.usuario_nombre, u.usuario_apellido, r.rango_horario_inicial, r.rango_horario_final, r.rango_dia
+                                    FROM usuario u 
+                                    INNER JOIN medico m ON (u.usuario_id = m.medico_usuario_id)
+                                    INNER JOIN rango_horario r ON (m.medico_id_rango_horario = r.rango_id)
+                                    INNER JOIN medico_os med ON (u.usuario_id = med.mos_id_medico)
+                                    WHERE med.mos_id_obrasocial = ( SELECT o.os_id FROM obra_social o WHERE o.os_id = ?)');
+        $query->execute([$id]);
+        $medico=$query->fetch(PDO :: FETCH_OBJ);
+        return $medico;
     }
 
     /******************************OBTENEMOS DIAS, HORARIOS Y MEDICOS FILTADROS POR OBRA SOCIAL Y ESPECIALIDAD*********************/

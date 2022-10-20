@@ -9,9 +9,9 @@
     </div>
 
     <div class="modal-body p-5 pt-0">
-      <form class="">
+      <form class="" method="POST" action="chequear_paciente">
         <div class="form-floating mb-3">
-          <input type="number" class="form-control rounded-3" id="floatingInput">
+          <input type="text" class="form-control rounded-3" id="dni" name="dni" required>
           <label for="floatingInput">DNI</label>
         </div>
         <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Ingresar</button>

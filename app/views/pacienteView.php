@@ -21,8 +21,13 @@ class PacienteView{
 
     }
 
-    function showTemplate(){
+    /**
+     * muestra el registro de paciente
+     */
+    function showTemplate($mutuales){
+
         $smarty = new Smarty();
+        $smarty->assign('mutuales', $mutuales);
         $smarty->display('./templates/registro.tpl');
     }
 
@@ -45,24 +50,35 @@ class PacienteView{
         $smarty->display('./templates/login.tpl');
     }
 
+    /**
+     * muestro las pantallas de opciones que puede hacer el paciente
+     */
     function showOpciones($mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
         $smarty->display('./templates/opciones.tpl');
     }
-    
-    function showDatos(){
+
+
+    /**
+     * si es un paciente verifico los datos
+     */
+    function showDatos($dni, $mutuales,$mensaje){
+
         $smarty = new Smarty();
+        $smarty->assign('dni', $dni);
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->assign('mutuales', $mutuales);
         $smarty->display('./templates/verificar.tpl');
     }
 
-    function homePaciente(){
+    /*****************************************MENSAJE DE ERROR***********************************************/
+    function showError($msg) {
         $smarty = new Smarty();
-        $smarty->display('./templates/verificar.tpl');
+        $smarty->assign('msg', $msg);
+        $smarty->display('templates/error.tpl');
     }
-
-
 }
 
 ?>

@@ -17,7 +17,9 @@ if (!empty($_GET['action'])) {
 } else {
     $action = 'login'; // acción por defecto si no envían
 }
-$pacienteController = new PacienteController(); 
+
+$pacienteController = new PacienteController();
+$controller = new NuevoController(); 
 // phpinfo();
 
 // parsea la acción y los parámetros 
@@ -27,8 +29,7 @@ $params = explode('/', $action);
 // determina que camino seguir según la acción
 switch ($params[0]) {
 
-    case 'home':
-        $controller = new NuevoController();
+    case 'home':    
         $controller->showHome();
         break;
 
@@ -41,39 +42,22 @@ switch ($params[0]) {
         break;
         
     case 'prueba':
-    $controller = new NuevoController();
-    $controller->pruebaTemplate();
-    break;
+        $controller->pruebaTemplate();
+        break;
 
-
-      
-    $controller->pruebaTemplate();
-    break;
     case 'nuevo-turno':
         $pacienteController->obtenerTurno();
-    break;     
-    case 'verificar-datos':
+        break;   
+
+    case 'verificar_datos':
         $pacienteController->showDatos();
         break;
 
-    // case 'home':
-        /* muestra la pantalla principal del visitante */
-        // $controller = new HomeController();
-        // $controller->mostrarHome();
-        // break;
-        /*
-    case 'filtrar-dias':
-        $medico = $params[1];
-        $controller = new PacienteController();
-        $controller->filtrarDiasDeAtencion($medico);
-        break;*/
-    case 'obtener_turnos':
-        $controller = new PacienteController();
-        $controller->filtrarDiasDeAtencion();
+    case'chequear_paciente':
+        $pacienteController->verificarPaciente();
         break;
-    case 'registrar_paciente':
-        $controller = new PacienteController();
-        $controller->registrarPaciente();
+    case 'registrar_datos':
+        $pacienteController->registrarPaciente();
         break;
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
     default:
