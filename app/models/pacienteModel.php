@@ -1,6 +1,7 @@
 <?php
 
 include_once 'app/helpers/DB.helper.php';
+
 class PacienteModel {
 
     private $db;
@@ -31,7 +32,7 @@ class PacienteModel {
     function obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico){
 
         $query = $this->db->prepare("SELECT * FROM turno
-        WHERE fecha_disponible between ? and ? and turno = ? and turno_id_medico= ? ORDER BY  AS;");
+        WHERE fecha_disponible between ? and ? and turno = ? ORDER BY fecha_disponible, turno_hora;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $turno, $medico]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;

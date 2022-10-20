@@ -11,8 +11,11 @@ class PacienteViews{
          
     }
 
-    /************************************VISTA DE FILTRO DE MEDICOS POR BUSQUEDA DEL PACIENTE**************************/
+    /***
+     * VISTA DE FILTRO DE MEDICOS POR BUSQUEDA DEL PACIENTE
+     ******/
     function filtroMedicos($medico){
+
         $this->smarty->assign('medico', $medico);
         $this->smarty->display('templates/filtro_medico.tpl');
     }
