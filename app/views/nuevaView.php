@@ -11,6 +11,13 @@ class NuevaView {
     function mostrar(){
 
         $smarty = new Smarty;
-        $smarty->display('templates/confirmacion.turno.tpl');
+        $smarty->display('templates/home.tpl');
     }
-}
+    
+    
+    function showHome(){
+
+        $smarty = new Smarty;
+        $smarty->display('templates/home.tpl');
+    }
+  }

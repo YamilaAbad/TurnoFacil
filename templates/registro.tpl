@@ -9,7 +9,7 @@
 
 
         <div class="card col-lg-8 m-4">
-        <div class="card-header">
+        <div class="card-header bg-verde">
         <h1 class='h3 mb-3 font-weight-normal'>Registrar paciente </h1>
         </div>
             <div class="card-body">
@@ -19,7 +19,7 @@
 
                            <div class="row justify-content-between text-left m-2 mt-2  mt-3">       
                                 <div class="form-group col-sm-6 flex-column d-flex" >
-                                    <label for='inputEmail'>Apellido</label>
+                                    <label for='inputEmail'>Apellido <span class="text-danger">*</span> </label>
                                     <input type='email' name='email' id='email' class='form-control'>
                                 </div>
                                 <div class="form-group col-sm-6 flex-column d-flex" >
@@ -62,7 +62,7 @@
                             </div>
                             </div>
 </div>
-<div class="card-footer card-header">
+<div class="card-footer card-header bg-verde">
 <h5> Si posee obra social complete</h5>
 </div>
 <div class="card-body">
@@ -70,7 +70,7 @@
                                 
                             <div class="row justify-content-between text-left m-2 mt-2  mt-3">       
                                 <div class="form-group col-sm-6 flex-column d-flex" >
-                                    <label for='inputEmail'>Obra social <span class="text-danger">*</span> </label>
+                                    <label for='inputEmail'>Obra social </label>
                                     <select name="calle" class="form-control" required>
                                         <option value=''>selecione aqui</option> 
                                        
@@ -84,7 +84,7 @@
 
                                 <div class="form-group col-sm-6 flex-column d-flex" >
                                     <div class="form-group flex-column d-flex" >
-                                        <label for='inputEmail' >N° de afiliado <span class="text-danger">*</span>  </label>
+                                        <label for='inputEmail' >N° de afiliado  </label>
                                         <input type='number' name='telefono' id='telefono' class='form-control' required autofocus>
                                     </div>
                                 </div>

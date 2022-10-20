@@ -11,7 +11,6 @@ class PacienteController {
         
         $this->view = new PacienteView();
         $this->model = new PacienteModel();
- 
     }
 
     /**
@@ -44,6 +43,15 @@ class PacienteController {
 
     }
 
+    function showLogin(){
+        $mensaje = '';
+        $this->view->showLogin($mensaje);
+    }
+
+    function showOpciones(){
+        $mensaje = '';
+        $this->view->showOpciones($mensaje);
+    }
 
     /*
         Como paciente quiero poder filtrar días y horarios de atención del médico elegido para poder elegir un día
@@ -61,6 +69,10 @@ class PacienteController {
         
         $rangoElegidoD= $_POST['fecha_desde'];
         $rangoElegidoH= $_POST['fecha_hasta'];
+        $medico= ''; //ver
+        var_dump($_POST);
+        die;
+        $turno = $_POST['turno'];
 
 
         $turno = $_POST['turno'];

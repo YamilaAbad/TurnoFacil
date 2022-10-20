@@ -36,7 +36,7 @@
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-md-4 flex-column d-flex">
                                 <label for='inputFechaDesde'>Desde<span class="text-danger">*</span> </label>
-                                <div class="input-group date" id="datepickerDesde">
+                                <div class="input-group date">
                                      <input id="datepickerDesde" type="text" class="form-control clickable input-md" id="fechaDesde">
                                     <span class="input-group-append">
                                         <span class="input-group-text bg-white">
@@ -47,7 +47,7 @@
                             </div>
                             <div class="form-group col-md-4 flex-column d-flex">
                                 <label for='inputFechaHasta'>Hasta<span class="text-danger">*</span> </label>
-                                <div class="input-group date" id="datepickerHasta">
+                                <div class="input-group date">
                                 <input id="datepickerHasta" type="text" class="form-control clickable input-md" id="fechaHasta">
                                     <span class="input-group-append">
                                         <span class="input-group-text bg-white">
@@ -106,6 +106,7 @@
                         </tbody>
                     </table>
 
+<<<<<<< HEAD
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
                         <button class=" btn btn-danger" type="submit">Cancelar</button>
@@ -113,6 +114,42 @@
             {else}
                 <p> No hay turnos elegidos para el rango filtrado</p>
             {/if}
+=======
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end m-2">
+                    <input class=" btn btn-primary" type="button" value="Filtrar">
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Elegir</th>
+                            <th>Médico</th>
+                            <th>Atiende por</th>
+                            <th>Fecha y hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> <input type="radio" name="turnoElegido" id="fila-1" required></td>
+                            <td>Rodriguez Pablo</td>
+                            <td>Av. Moreno 415</td>
+                            <td>10/11/2022 - 10:15am</td>
+                        </tr>
+                        <tr>
+                            <td> <input type="radio" name="turnoElegido" id="fila-2" required></td>
+                            <td>Prueba</td>
+                            <td>Av. Rivadavia 155</td>
+                            <td>15/11/2022 - 9:15am</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
+                    <button class=" btn btn-danger" type="submit">Cancelar</button>
+                </div>
+
+>>>>>>> templates
             </div>
 
         </div>

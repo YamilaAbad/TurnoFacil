@@ -38,23 +38,26 @@ class PacienteView{
         $smarty->display('./templates/turno.tpl');
     }
 
-    function mostrarFiltro(){
-
-    }
-
-    /** 
-     * muestra la pantalla de home de paciente 
-     * */
-    function homePaciente($mensaje){
+    function showLogin($mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
-        $smarty->display('./templates/portada.tpl');
+        $smarty->display('./templates/login.tpl');
     }
 
-    function showNewTurn() {}
+    function showOpciones($mensaje = ''){
+
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/opciones.tpl');
+    }
     
     function showDatos(){
+        $smarty = new Smarty();
+        $smarty->display('./templates/verificar.tpl');
+    }
+
+    function homePaciente(){
         $smarty = new Smarty();
         $smarty->display('./templates/verificar.tpl');
     }
