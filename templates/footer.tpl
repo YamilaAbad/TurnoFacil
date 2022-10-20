@@ -1,5 +1,5 @@
 
-        <footer class="mt-5 bg-dark"> 
+        <footer class="mt-0 bg-dark"> 
             <div class="container-fluid">
                 <div class="row col-md-12 ">
         
@@ -7,8 +7,8 @@
                     <div class="col-md-5 d-flex justify-content-start pt-3">
                         <p >Turno Facil  </p>
                     </div>
-                    <div class="col-md-6 pt-3 d-flex justify-content-lg-end">
-                        <p>lala</p>
+                    <div class="col-md-6 pt-3 d-flex justify-content-lg-end ps-5">
+                        <p>Sistema de gestión de turnos online</p>
                     </div>
             
       
