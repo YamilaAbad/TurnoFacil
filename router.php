@@ -38,7 +38,8 @@ switch ($params[0]) {
         break;
 
     case 'opciones':
-        $pacienteController->showOpciones();
+        $dni = $params[1];
+        $pacienteController->showOpciones($dni);
         break;
         
     case 'prueba':
@@ -52,8 +53,12 @@ switch ($params[0]) {
     case 'verificar_datos':
         $pacienteController->showDatos();
         break;
-
+    case 'obtener_turnos':
+        // realiza el filtro con los turnos
+        $pacienteController->filtrarDiasDeAtencion();
+        break;
     case'chequear_paciente':
+        // chequea el paciente ingresado
         $pacienteController->verificarPaciente();
         break;
     case 'registrar_datos':

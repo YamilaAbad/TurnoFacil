@@ -66,12 +66,12 @@ class PacienteController {
         
         $mutuales=$this->model->obtenerMutuales();
         $dni= $_POST['dni'];
-        if ($dni=$this->model->existePaciente($dni) > 0){
+        if (!empty($dni) && $d=$this->model->existePaciente($dni) > 0){
             // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
             $this->view->showOpciones($mensaje = '');
         }else{
             // si no existe registro el paciente
-            $this->view->showTemplate($mutuales);
+            $this->view->showTemplate($mutuales,$dni);
         }
     }
 
@@ -130,21 +130,23 @@ class PacienteController {
     */
     function filtrarDiasDeAtencion (){
 
+        // obtengo las especialidades y mutuales por si tengo que volver a registrar turno
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
         $obraSocial=$this->model->obtenerMutuales();
-        $this->view->nuevoTurno($especialidades,$obraSocial, $mensaje = '');
         
-        $rangoElegidoD= $_POST['fecha_desde'];
-        $rangoElegidoH= $_POST['fecha_hasta'];
-        $medico= ''; //ver
-        var_dump($_POST);
-        die;
+        // tomo los datos filtrados en el formulario
+        $rangoElegidoD= $_POST['fechaDesde'];
+        $rangoElegidoH= $_POST['fechaHasta'];
         $turno = $_POST['turno'];
-
-
-        $turno = $_POST['turno'];
-        $medico='';
-        $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
+        $mutual = $_POST['obra_elegida'];
+        $especialidad = $_POST['especialidad'];
+        
+        // aca debo traer dos tipos de filtro 
+        /**
+         * 1- que filtre los medicos de determinada mutual u obra social 
+         * 2- que filtre para un medico en especial 
+         */
+        $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $especialidad);
 
         if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
@@ -153,7 +155,7 @@ class PacienteController {
             $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $medico);
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $especialidad);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{
@@ -175,6 +177,17 @@ class PacienteController {
         $this->view->nuevoTurno($especialidades,$mutuales, $mensaje = '');
     }
 
+    /*
+        * aca registra el turno elegido para el paciente
+    */
+    function registrarTurno(){
+
+        // post del formulario de la tabla 
+        // cambiar el estado en turno a ocupado ... el id_paciente
+        // lo de la tarifa ver si tiene adicional
+        // y el email mostrando la pantalla de confirmacion confirmacion.turno.tpl
+
+    }
 
     function showTemplate(){
         $this->view->showTemplate();
