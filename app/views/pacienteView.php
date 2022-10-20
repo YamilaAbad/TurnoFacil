@@ -29,7 +29,7 @@ class PacienteView{
     /**
      * Muestra la vista para sacar un nuevo turno
      */
-    function nuevoTurno($especialidades,$obraSocial, $mensaje = ''){
+    function showNewTurn($especialidades,$obraSocial, $mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('especialidades', $especialidades);
@@ -38,6 +38,19 @@ class PacienteView{
         $smarty->display('./templates/turno.tpl');
     }
 
+    function showLogin($mensaje = ''){
+
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/login.tpl');
+    }
+
+    function showOpciones($mensaje = ''){
+
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/opciones.tpl');
+    }
     
     function showDatos(){
         $smarty = new Smarty();

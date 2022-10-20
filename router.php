@@ -17,6 +17,7 @@ if (!empty($_GET['action'])) {
 } else {
     $action = 'login'; // acción por defecto si no envían
 }
+$pacienteController = new PacienteController(); 
 // phpinfo();
 
 // parsea la acción y los parámetros 
@@ -25,6 +26,20 @@ $params = explode('/', $action);
 //$pacienteController = new PacienteController();
 // determina que camino seguir según la acción
 switch ($params[0]) {
+
+    case 'home':
+        $controller = new NuevoController();
+        $controller->showHome();
+        break;
+
+    case 'login':
+        $pacienteController->showLogin();
+        break;
+
+    case 'opciones':
+        $pacienteController->showOpciones();
+        break;
+        
     case 'prueba':
     $controller = new NuevoController();
     $controller->pruebaTemplate();
@@ -32,10 +47,10 @@ switch ($params[0]) {
 
     
     case 'nuevo-turno':
-    $pacienteController->showNewTurn();
+    $pacienteController->newTurn();
     break;
       
-        $controller->pruebaTemplate();
+    $controller->pruebaTemplate();
     break;
   
     case 'verificar-datos':

@@ -19,5 +19,12 @@ class NuevoController{
         $this->view->mostrar();
     }
 
+    function showHome()
+    {
+       
+        $this->view->showHome();
+    }
+
+
     
 }

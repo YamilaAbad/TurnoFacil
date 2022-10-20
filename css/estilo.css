@@ -41,28 +41,29 @@
     box-shadow: black 0.2em 0.2em 0.3em;
 }
 
-
-.bg-verde{
+.bg-verde {
     background-color: #009587;
     color: rgb(250, 250, 250);
 }
 
-.bg-naranja{
+.bg-naranja {
     background-color: #FF9933;
     color: rgb(250, 250, 250);
 }
 
-.text-naranja{
+.text-naranja {
     color: #FF9933;
 }
 
-.linea{
+.linea {
     border-bottom: 1px solid rgb(192, 192, 192);
 }
 
-.tarjeta{
+.tarjeta {
     box-shadow: rgb(94, 94, 94) 0.2em 0.2em 0.3em;
 }
+
+
 /* inicio calendario */
 
 .datepicker table tr td.active.active {
@@ -102,4 +103,22 @@
 .btn-primary {
     background-color: var(--main-color);
     border-color: var(--main-color);
+}
+
+#linkBoton {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+#linkBoton:hover {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.bg-secondary .modal .modal-signin .position-static .d-block .bg-secondary .py-5 {
+    background-color: #009587 !important;
+}
+
+#centrado {
+    text-align: center !important;
 }
