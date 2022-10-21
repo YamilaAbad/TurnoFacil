@@ -193,10 +193,7 @@ class PacienteController {
     /*
         * pantalla inicial para sacar un turno el paciente
     */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> develop
+
     function obtenerTurno(){
 
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
@@ -205,20 +202,15 @@ class PacienteController {
         $this->view->nuevoTurno($especialidades,$mutuales, $medicos,$mensaje = '');
     }
 
-<<<<<<< HEAD
-    function showTemplate(){
-        $this->view->showTemplate();
-=======
     
     function newTurn(){
 
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
-        $obraSocial=$this->model->obtenerObraSocial();
+        $obraSocial=$this->model->obtenerMutuales();
         $this->view->showNewTurn($especialidades,$obraSocial, $mensaje = '');
->>>>>>> origin/develop
-=======
-    /*
-        * aca registra el turno elegido para el paciente
+    }
+
+    /*    * aca registra el turno elegido para el paciente
     */
     function registrarTurno(){
 
@@ -227,7 +219,6 @@ class PacienteController {
         // lo de la tarifa ver si tiene adicional
         // y el email mostrando la pantalla de confirmacion confirmacion.turno.tpl
 
->>>>>>> develop
     }
 
     function showTemplate(){
