@@ -17,8 +17,18 @@ class PacienteView{
 
     }
 
-    function mostrarResultados($filtro, $mensaje){
+    /**
+     * Muestra los resultados que obtiene de aplicar los diferentes filtros
+     */
+    function mostrarResultados($filtro, $especialidades,$mutuales, $medicos, $mensaje = ''){
 
+        $smarty = new Smarty();
+        $smarty->assign('especialidades', $especialidades);
+        $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('medicos', $medicos);
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->assign('filtro', $filtro);
+        $smarty->display('./templates/turno.tpl');
     }
 
     /**
@@ -34,11 +44,12 @@ class PacienteView{
     /**
      * Muestra la vista para sacar un nuevo turno
      */
-    function nuevoTurno($especialidades,$mutuales, $mensaje = ''){
+    function nuevoTurno($especialidades,$mutuales, $medicos, $mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('especialidades', $especialidades);
         $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('medicos', $medicos);
         $smarty->assign('mensaje', $mensaje);
         $smarty->display('./templates/turno.tpl');
     }

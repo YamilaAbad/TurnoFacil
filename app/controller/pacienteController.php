@@ -106,7 +106,7 @@ class PacienteController {
         }
 
         // muestra la home de usuario
-        $this->view->homePaciente($mensaje);
+        $this->view->showOpciones();
 
     }
 
@@ -116,6 +116,7 @@ class PacienteController {
     }
 
     function showOpciones(){
+
         $mensaje = '';
         $this->view->showOpciones($mensaje);
     }
@@ -132,7 +133,8 @@ class PacienteController {
 
         // obtengo las especialidades y mutuales por si tengo que volver a registrar turno
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
-        $obraSocial=$this->model->obtenerMutuales();
+        $mutuales=$this->model->obtenerMutuales();
+        $medicos=$this->model->obtenerMedicos();
         
         // tomo los datos filtrados en el formulario
         $rangoElegidoD= $_POST['fechaDesde'];
@@ -140,13 +142,32 @@ class PacienteController {
         $turno = $_POST['turno'];
         $mutual = $_POST['obra_elegida'];
         $especialidad = $_POST['especialidad'];
+        $medico = $_POST['medico'];
         
         // aca debo traer dos tipos de filtro 
         /**
          * 1- que filtre los medicos de determinada mutual u obra social 
          * 2- que filtre para un medico en especial 
          */
-        $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $especialidad);
+
+        if (empty($especialidad) && empty($medico) && empty($mutual) && !empty($turno) ) {
+            // si no filtro especialidad ni medico filtro solo por la fecha elegida y turno
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
+        }else{
+            // si no eligio especialidad filtro por medico
+            if (!empty($medico) && empty($especialidad) && empty($mutual) ) {
+                $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $turno, $medico);
+            }else{
+                if (empty($medico) && empty($especialidad) && !empty($mutual) ) {
+                    $filtro=$this->model->obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH, $turno, $mutual);
+                }else{
+                    if (!empty($especialidad) && empty($medico) && empty($mutual) ) {
+                        $filtro=$this->model->obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $turno, $especialidad);
+                    }
+                }
+            }
+        }
+        
 
         if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
@@ -162,7 +183,7 @@ class PacienteController {
                 $mensaje="El medico elegido no tiene turnos disponibles para el rango elegido ni para la siguiente semana. Por favor elija otro medico o intente otra fecha.";
             }
         }
-        $this->view->mostrarResultados($filtro,$mensaje);
+        $this->view->mostrarResultados($filtro,$especialidades,$mutuales, $medicos, $mensaje);
 
 
     }
@@ -174,7 +195,8 @@ class PacienteController {
 
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
         $mutuales=$this->model->obtenerMutuales();
-        $this->view->nuevoTurno($especialidades,$mutuales, $mensaje = '');
+        $medicos=$this->model->obtenerMedicos();
+        $this->view->nuevoTurno($especialidades,$mutuales, $medicos,$mensaje = '');
     }
 
     /*
