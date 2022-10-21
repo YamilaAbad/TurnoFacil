@@ -206,20 +206,16 @@ class PacienteController {
     */
     function registrarTurno(){
 
-        // post del formulario de la tabla 
-        //$mutual= $this->model-> obtenerMutualPaciente();
-        //if(!empty($mutual)){
+        $turnoOcupado=0;
+        
+        if($turnoOcupado==1){
+            $turno=$this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
 
-        
-        
-        $turno=$this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
+            $this-> enviarEmailConfirmacionTurno();
+            //DUDA
+            $this->view->mostrarMensaje('Se ha enviado un mail con la confirmacion del turno');
         // lo de la tarifa ver si tiene adicional
-        
-
-        //SI TURNO ESTA OCUPADO SE MANDA MAIL
-        $this-> enviarEmailConfirmacionTurno();
-        
-        // y el email mostrando la pantalla de confirmacion confirmacion.turno.tpl
+        }
         
 
     }

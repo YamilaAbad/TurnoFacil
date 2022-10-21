@@ -190,11 +190,14 @@ class PacienteModel {
 
     //Cambia el turno Disponible a ocupado
     function cambiarTurnoOcupado($IDpaciente,$turnoOcupado,$IDTarifa){
-       //DUDA 
-        $query = $this->db->prepare("UPDATE turno SET turno_id_paciente=?, turno_ocupado=?, turno_id_tarifa=? WHERE turno_id=?");
-        $params=[$IDPaciente,$turnoOcupado,$IDTarifa,$turno_id];
-        $query->execute($params);
-
+       //DUDA SI HACERLO ASI
+        if($turno->turno_ocupado == 0){
+            $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_ocupado=1, turno_id_tarifa=? WHERE id = ?');
+            $query->execute([$IDPaciente,$turnoOcupado,$IDTarifa,$turno_id]);
+        }else if ($turno->turno_ocupado == 1){
+            $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_ocupado=0, turno_id_tarifa=? WHERE id = ?');
+            $query->execute([$IDPaciente,$turnoOcupado,$IDTarifa,$turno_id]);
+        }
         
     }
 
