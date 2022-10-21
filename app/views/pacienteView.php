@@ -39,6 +39,19 @@ class PacienteView{
     }
 
     function showNewTurn() {}
+    function showLogin($mensaje = ''){
+
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/login.tpl');
+    }
+
+    function showOpciones($mensaje = ''){
+
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/opciones.tpl');
+    }
     
     function showDatos(){
         $smarty = new Smarty();

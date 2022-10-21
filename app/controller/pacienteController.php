@@ -11,7 +11,6 @@ class PacienteController {
         
         $this->view = new PacienteView();
         $this->model = new PacienteModel();
- 
     }
     /* "Como paciente quiero ver la lista de médicos para seleccionar
     uno"
@@ -61,6 +60,15 @@ class PacienteController {
 
 
 
+    function showLogin(){
+        $mensaje = '';
+        $this->view->showLogin($mensaje);
+    }
+
+    function showOpciones(){
+        $mensaje = '';
+        $this->view->showOpciones($mensaje);
+    }
 
     /*
         Como paciente quiero poder filtrar días y horarios de atención del médico elegido para poder elegir un día
@@ -70,10 +78,16 @@ class PacienteController {
             Permitir buscar si es turno mañana o tarde.
             Mostrar la siguiente semana,  en caso de no encontrar en el rango ingresado.
     */
-    function filtrarDiasDeAtencion ($medico){
-
+    function filtrarDiasDeAtencion (){
+        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
+        $obraSocial=$this->model->obtenerObraSocial();
+        $this->view->showNewTurn($especialidades,$obraSocial, $mensaje = '');
+        
         $rangoElegidoD= $_POST['fecha_desde'];
         $rangoElegidoH= $_POST['fecha_hasta'];
+        $medico= ''; //ver
+        var_dump($_POST);
+        die;
         $turno = $_POST['turno'];
 
         $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
@@ -100,6 +114,7 @@ class PacienteController {
     /*
         * pantalla inicial para sacar un turno el paciente
     */
+<<<<<<< HEAD
     function obtenerTurno(){
 
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
@@ -109,10 +124,18 @@ class PacienteController {
 
     function showTemplate(){
         $this->view->showTemplate();
+=======
+    
+    function newTurn(){
+
+        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
+        $obraSocial=$this->model->obtenerObraSocial();
+        $this->view->showNewTurn($especialidades,$obraSocial, $mensaje = '');
+>>>>>>> origin/develop
     }
 
-    function showNewTurn(){
-        $this->view->showNewTurn();
+    function showTemplate(){
+        $this->view->showTemplate();
     }
 
     function showDatos(){
