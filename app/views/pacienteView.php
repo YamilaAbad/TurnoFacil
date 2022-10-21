@@ -17,28 +17,45 @@ class PacienteView{
 
     }
 
-    function mostrarResultados($filtro, $mensaje){
+    /**
+     * Muestra los resultados que obtiene de aplicar los diferentes filtros
+     */
+    function mostrarResultados($filtro, $especialidades,$mutuales, $medicos, $mensaje = ''){
 
+        $smarty = new Smarty();
+        $smarty->assign('especialidades', $especialidades);
+        $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('medicos', $medicos);
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->assign('filtro', $filtro);
+        $smarty->display('./templates/turno.tpl');
     }
 
-    function showTemplate(){
+    /**
+     * muestra el registro de paciente
+     */
+    function showTemplate($mutuales){
+
         $smarty = new Smarty();
+        $smarty->assign('mutuales', $mutuales);
         $smarty->display('./templates/registro.tpl');
     }
 
     /**
      * Muestra la vista para sacar un nuevo turno
      */
-    function nuevoTurno($especialidades,$mutuales, $mensaje = ''){
+    function nuevoTurno($especialidades,$mutuales, $medicos, $mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('especialidades', $especialidades);
         $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('medicos', $medicos);
         $smarty->assign('mensaje', $mensaje);
         $smarty->display('./templates/turno.tpl');
     }
 
     function showNewTurn() {}
+    
     function showLogin($mensaje = ''){
 
         $smarty = new Smarty();
@@ -46,19 +63,35 @@ class PacienteView{
         $smarty->display('./templates/login.tpl');
     }
 
+    /**
+     * muestro las pantallas de opciones que puede hacer el paciente
+     */
     function showOpciones($mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
         $smarty->display('./templates/opciones.tpl');
     }
-    
-    function showDatos(){
+
+
+    /**
+     * si es un paciente verifico los datos
+     */
+    function showDatos($dni, $mutuales,$mensaje){
+
         $smarty = new Smarty();
+        $smarty->assign('dni', $dni);
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->assign('mutuales', $mutuales);
         $smarty->display('./templates/verificar.tpl');
     }
 
-
+    /*****************************************MENSAJE DE ERROR***********************************************/
+    function showError($msg) {
+        $smarty = new Smarty();
+        $smarty->assign('msg', $msg);
+        $smarty->display('templates/error.tpl');
+    }
 }
 
 ?>

@@ -48,6 +48,7 @@ class PacienteController {
         //FUNCION PARA MOSTRAR MEDICOS POR ESPACIALIDAD Y OBRA SOCIAL
 
     function filtroPorEspecialidadYObraSocial($id1,$id2){
+
         //Obtengo un medico por obra social y especialidad del mismo
         $medico = $this->model->getAll($id1, $id2);
         if($medico){
@@ -58,7 +59,56 @@ class PacienteController {
        } 
     }
 
+    /**
+     * Muestro la pantalla de ingreso de paciente
+     */
+    function verificarPaciente(){
+        
+        $mutuales=$this->model->obtenerMutuales();
+        $dni= $_POST['dni'];
+        if (!empty($dni) && $d=$this->model->existePaciente($dni) > 0){
+            // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
+            $this->view->showOpciones($mensaje = '');
+        }else{
+            // si no existe registro el paciente
+            $this->view->showTemplate($mutuales,$dni);
+        }
+    }
 
+    /**
+     * Ingreso un nuevo paciente
+     */
+    function registrarPaciente(){
+
+        $nombre= $_POST['nombre'];
+        $apellido= $_POST['apellido'];
+        $dni= $_POST['dni'];
+        $email= $_POST['email'];
+        $domicilio= $_POST['domicilio'];
+        $telefono= $_POST['telefono'];
+        $mutual= $_POST['obra_elegida'];
+        $afiliado= $_POST['afiliado'];
+
+        if ($this->model->existePaciente($dni) > 0){
+            // si el paciente se encuentra registrado notifico
+            $mensaje="El paciente ya se encuentra registrado";
+        }else{
+            // si no lo guardo en la BD
+            $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
+            if ($paciente > 0){
+                $mensaje="Se registro correctamente.";
+                if ($mutual != 11){
+                    $reg_mut=$this->model->registraMutualPaciente($paciente, $mutual, $afiliado);  
+                }
+            }else{
+                $mensaje="Ups! ocurrio un error intente mas tarde.";
+            }
+        }
+
+        // muestra la home de usuario
+        $this->view->showOpciones();
+
+    }
 
     function showLogin(){
         $mensaje = '';
@@ -66,6 +116,7 @@ class PacienteController {
     }
 
     function showOpciones(){
+
         $mensaje = '';
         $this->view->showOpciones($mensaje);
     }
@@ -79,18 +130,45 @@ class PacienteController {
             Mostrar la siguiente semana,  en caso de no encontrar en el rango ingresado.
     */
     function filtrarDiasDeAtencion (){
-        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
-        $obraSocial=$this->model->obtenerObraSocial();
-        $this->view->showNewTurn($especialidades,$obraSocial, $mensaje = '');
-        
-        $rangoElegidoD= $_POST['fecha_desde'];
-        $rangoElegidoH= $_POST['fecha_hasta'];
-        $medico= ''; //ver
-        var_dump($_POST);
-        die;
-        $turno = $_POST['turno'];
 
-        $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
+        // obtengo las especialidades y mutuales por si tengo que volver a registrar turno
+        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
+        $mutuales=$this->model->obtenerMutuales();
+        $medicos=$this->model->obtenerMedicos();
+        
+        // tomo los datos filtrados en el formulario
+        $rangoElegidoD= $_POST['fechaDesde'];
+        $rangoElegidoH= $_POST['fechaHasta'];
+        $turno = $_POST['turno'];
+        $mutual = $_POST['obra_elegida'];
+        $especialidad = $_POST['especialidad'];
+        $medico = $_POST['medico'];
+        
+        // aca debo traer dos tipos de filtro 
+        /**
+         * 1- que filtre los medicos de determinada mutual u obra social 
+         * 2- que filtre para un medico en especial 
+         */
+
+        if (empty($especialidad) && empty($medico) && empty($mutual) && !empty($turno) ) {
+            // si no filtro especialidad ni medico filtro solo por la fecha elegida y turno
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
+        }else{
+            // filtro por medico los turnos
+            if (!empty($medico) && empty($especialidad) && empty($mutual) ) {
+                $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
+            }else{
+                // filtro por mutual -- Yamila y Victoria
+                if (empty($medico) && empty($especialidad) && !empty($mutual) ) {
+                    $filtro=$this->model->obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH,$mutual);
+                }else{
+                    // filtro por especialidad -- Yamila y Victoria
+                    if (!empty($especialidad) && empty($medico) && empty($mutual) ) {
+                        $filtro=$this->model->obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad);
+                    }
+                }
+            }
+        }
 
         if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
@@ -99,14 +177,15 @@ class PacienteController {
             $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $medico);
+
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{
                 $mensaje="El medico elegido no tiene turnos disponibles para el rango elegido ni para la siguiente semana. Por favor elija otro medico o intente otra fecha.";
             }
         }
-        $this->view->mostrarResultados($filtro,$mensaje);
+        $this->view->mostrarResultados($filtro,$especialidades,$mutuales, $medicos, $mensaje);
 
 
     }
@@ -115,13 +194,18 @@ class PacienteController {
         * pantalla inicial para sacar un turno el paciente
     */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> develop
     function obtenerTurno(){
 
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
         $mutuales=$this->model->obtenerMutuales();
-        $this->view->nuevoTurno($especialidades,$mutuales, $mensaje = '');
+        $medicos=$this->model->obtenerMedicos();
+        $this->view->nuevoTurno($especialidades,$mutuales, $medicos,$mensaje = '');
     }
 
+<<<<<<< HEAD
     function showTemplate(){
         $this->view->showTemplate();
 =======
@@ -132,6 +216,18 @@ class PacienteController {
         $obraSocial=$this->model->obtenerObraSocial();
         $this->view->showNewTurn($especialidades,$obraSocial, $mensaje = '');
 >>>>>>> origin/develop
+=======
+    /*
+        * aca registra el turno elegido para el paciente
+    */
+    function registrarTurno(){
+
+        // post del formulario de la tabla 
+        // cambiar el estado en turno a ocupado ... el id_paciente
+        // lo de la tarifa ver si tiene adicional
+        // y el email mostrando la pantalla de confirmacion confirmacion.turno.tpl
+
+>>>>>>> develop
     }
 
     function showTemplate(){
@@ -140,6 +236,26 @@ class PacienteController {
 
     function showDatos(){
         $this->view->showDatos();
+    }
+
+    //Con la confirmacion del turno se envia email al paciente
+    function enviarEmailConfirmacionTurno(){
+        $email=$this->model->existeEmailUsuario();
+        if(!empty($email)){
+            //destinatarios de los mensajes de confirmacion
+            $to = "destinatario@email.com, destinatario2@email.com, destinatario3@email.com";
+            $subject = "Confirmacion de turno";//asunto
+            //$message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
+            "Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
+        
+ 
+            mail($to, $subject, $message);
+
+        }
+        else{//MOSTRARIA QUE NO TIENE EMAIL EL PACIENTE PARA MANDAR CONFIRMACION
+            this->view-> showError();
+        }
+
     }
 }
 

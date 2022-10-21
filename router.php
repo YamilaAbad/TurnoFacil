@@ -1,11 +1,16 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 //error_reporting(E_ALL);
 //ini_set("display_errors", 1);
 =======
 // error_reporting(E_ALL);
 // ini_set("display_errors", 1);
 >>>>>>> origin/develop
+=======
+// error_reporting(E_ALL);
+// ini_set("display_errors", 1);
+>>>>>>> develop
 // include("file_with_errors.php");
 
 include_once 'app/controller/pacienteController.php';
@@ -22,7 +27,9 @@ if (!empty($_GET['action'])) {
 } else {
     $action = 'login'; // acción por defecto si no envían
 }
-$pacienteController = new PacienteController(); 
+
+$pacienteController = new PacienteController();
+$controller = new NuevoController(); 
 // phpinfo();
 
 // parsea la acción y los parámetros 
@@ -32,8 +39,7 @@ $params = explode('/', $action);
 // determina que camino seguir según la acción
 switch ($params[0]) {
 
-    case 'home':
-        $controller = new NuevoController();
+    case 'home':    
         $controller->showHome();
         break;
 
@@ -42,10 +48,12 @@ switch ($params[0]) {
         break;
 
     case 'opciones':
-        $pacienteController->showOpciones();
+        $dni = $params[1];
+        $pacienteController->showOpciones($dni);
         break;
         
     case 'prueba':
+<<<<<<< HEAD
 <<<<<<< HEAD
         $controller->pruebaTemplate();
 =======
@@ -53,9 +61,13 @@ switch ($params[0]) {
     $controller->pruebaTemplate();
 >>>>>>> origin/develop
     break;
+=======
+        $controller->pruebaTemplate();
+        break;
+>>>>>>> develop
 
-    
     case 'nuevo-turno':
+<<<<<<< HEAD
 <<<<<<< HEAD
         $pacienteController->showNewTurn();
     break;     
@@ -70,18 +82,16 @@ switch ($params[0]) {
     case 'verificar-datos':
         $pacienteController->showDatos();
         break;
+=======
+        // muestra la pantalla para obtener turnos
+        $pacienteController->obtenerTurno();
+        break;   
+>>>>>>> develop
 
-    // case 'home':
-        /* muestra la pantalla principal del visitante */
-        // $controller = new HomeController();
-        // $controller->mostrarHome();
-        // break;
-        /*
-    case 'filtrar-dias':
-        $medico = $params[1];
-        $controller = new PacienteController();
-        $controller->filtrarDiasDeAtencion($medico);
+    case 'verificar_datos':
+        $pacienteController->showDatos();
         break;
+<<<<<<< HEAD
 <<<<<<< HEAD
     case 'sacar-turno':
         $controller = new PacienteController();
@@ -91,13 +101,25 @@ switch ($params[0]) {
     case 'sacar-turno':
         $pacienteController->filtrarDiasDeAtencion();
 >>>>>>> origin/develop
+=======
+    case 'obtener_turnos':
+        // realiza el filtro con los turnos
+        $pacienteController->filtrarDiasDeAtencion();
+>>>>>>> develop
         break;
-
+    case'chequear_paciente':
+        // chequea el paciente ingresado
+        $pacienteController->verificarPaciente();
+        break;
+    case 'registrar_turno':
+        // registrar el turno elegido
+        $pacienteController->registrarTurno();
+        break;
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
     default:
        // $controller = new ErrorHelper();
         // $controller->errorNotFound();
-        // break;
+         break;
 }
 
 ?>
