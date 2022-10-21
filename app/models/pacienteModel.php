@@ -31,8 +31,8 @@ class PacienteModel {
     function obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico){
 
         // busco los turnos disponibles
-        $query = $this->db->prepare("SELECT * FROM turno t inner join medico u on t.turno_id_medico = m.medico_id
-        WHERE fecha_disponible between ? and ? and medico_id = 1 and turno_ocupado = 0 ORDER BY fecha_disponible, turno_hora;");
+        $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
+        WHERE t.turno_fecha between ? and ? and t.turno_id_medico = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $medico]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
@@ -41,14 +41,21 @@ class PacienteModel {
     /**
      * Obtiene los dias de atencion por una obra social en particular
      */
-    function obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH, $turno, $mutual){
+    function obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH, $mutual){
 
+        $query = $this->db->prepare("SELECT * FROM turno t 
+            inner join medico u on t.turno_id_medico = m.medico_id 
+            inner join medico_os mo on m.medico_id = mo.mos_id_medico
+        WHERE turno_fecha between ? and ? and mo.mos_id_obra_social = ? and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora;");
+        $query->execute([$rangoElegidoD, $rangoElegidoH, $mutual]);
+        $turnos = $query->fetchAll(PDO::FETCH_OBJ);
+        return $turnos;
     }
 
     /**
      * Obtiene los dias de atencion por especialidad
      */
-    function obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $turno, $especialidad){
+    function obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad){
 
     }
 
@@ -59,16 +66,16 @@ class PacienteModel {
 
         // dependiendo si elige de mañana o tarde el rango elegido para filtrar turnos son esos horarios
         if ($turno == 'maniana'){
-            $hora_desde=8;
-            $hora_hasta=12;
+            $hora_desde='08:00:00';
+            $hora_hasta='12:00:00';
         }else{
-            $hora_desde=15;
-            $hora_hasta=20;
+            $hora_desde='15:00:00';
+            $hora_hasta='20:00:00';
         }
 
         // busco los turnos disponibles
         $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
-        WHERE fecha_disponible between ? and ? and turno between ? and ? and m.especialidad_id = ? and turno_ocupado = 0 ORDER BY fecha_disponible, turno_hora ;");
+        WHERE t.turno_fecha between ? and ? and t.turno_hora between ? and ? and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora ;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $hora_desde, $hora_hasta]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;

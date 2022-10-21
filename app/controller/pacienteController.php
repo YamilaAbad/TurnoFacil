@@ -154,20 +154,21 @@ class PacienteController {
             // si no filtro especialidad ni medico filtro solo por la fecha elegida y turno
             $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
         }else{
-            // si no eligio especialidad filtro por medico
+            // filtro por medico los turnos
             if (!empty($medico) && empty($especialidad) && empty($mutual) ) {
-                $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $turno, $medico);
+                $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
             }else{
+                // filtro por mutual -- Yamila y Victoria
                 if (empty($medico) && empty($especialidad) && !empty($mutual) ) {
-                    $filtro=$this->model->obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH, $turno, $mutual);
+                    $filtro=$this->model->obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH,$mutual);
                 }else{
+                    // filtro por especialidad -- Yamila y Victoria
                     if (!empty($especialidad) && empty($medico) && empty($mutual) ) {
-                        $filtro=$this->model->obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $turno, $especialidad);
+                        $filtro=$this->model->obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad);
                     }
                 }
             }
         }
-        
 
         if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
@@ -176,7 +177,8 @@ class PacienteController {
             $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $especialidad);
+
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{
@@ -226,7 +228,7 @@ class PacienteController {
             //destinatarios de los mensajes de confirmacion
             $to = "destinatario@email.com, destinatario2@email.com, destinatario3@email.com";
             $subject = "Confirmacion de turno";//asunto
-            $message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
+            //$message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
             "Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
         
  

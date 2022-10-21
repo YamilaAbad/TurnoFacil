@@ -95,7 +95,6 @@
                         <tr>
                             <th>Elegir</th>
                             <th>Médico</th>
-                            <th>Atiende por</th>
                             <th>Fecha y hora</th>
                         </tr>
                     </thead>
@@ -109,9 +108,6 @@
                                         </td>
                                         <td>
                                             {$resu->medico_apellido}, {$resu->medico_nombre}
-                                        </td>
-                                        <td>
-                                            {$resu->os_nombre}
                                         </td>
                                         <td>
                                             {$resu->turno_fecha} - {$resu->turno_hora}
