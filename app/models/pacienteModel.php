@@ -131,6 +131,14 @@ class PacienteModel {
 
     }
 
+    // Verifica si tiene email el paciente para enviar confirmacion
+    function existeEmailUsuario($email){
+        $query = $this->db->prepare("SELECT * FROM paciente where paciente_email = ?;");
+        $query->execute([$email]);
+        $emails = $query->fetch(PDO::FETCH_OBJ);
+        return $email;
+    }
+
 }
 
 ?>

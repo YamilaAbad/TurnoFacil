@@ -196,6 +196,26 @@ class PacienteController {
     function showDatos(){
         $this->view->showDatos();
     }
+
+    //Con la confirmacion del turno se envia email al paciente
+    function enviarEmailConfirmacionTurno(){
+        $email=$this->model->existeEmailUsuario();
+        if(!empty($email)){
+            //destinatarios de los mensajes de confirmacion
+            $to = "destinatario@email.com, destinatario2@email.com, destinatario3@email.com";
+            $subject = "Confirmacion de turno";//asunto
+            $message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
+            "Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
+        
+ 
+            mail($to, $subject, $message);
+
+        }
+        else{//MOSTRARIA QUE NO TIENE EMAIL EL PACIENTE PARA MANDAR CONFIRMACION
+            this->view-> showError();
+        }
+
+    }
 }
 
 ?>
