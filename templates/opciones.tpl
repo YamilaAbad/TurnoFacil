@@ -9,10 +9,8 @@
     </div>
 
     <div class="modal-body p-5 pt-0">
-      <form class="">
-        <a class="nav-link" href="nuevo-turno"><button class="w-100 mb-5 btn btn-lg rounded-3 btn-primary" type="submit">SACAR TURNO</button></a>
-        <a class="nav-link" href="#"><button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">CONSULTAR TURNOS</button>
-      </form>
+        <a class="nav-link" href="nuevo-turno"><button class="w-100 mb-5 btn btn-lg rounded-3 btn-primary" type="button">SACAR TURNO</button></a>
+        <a class="nav-link" href="#"><button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button">CONSULTAR TURNOS</button>
     </div>
   </div>
 </div>

@@ -106,7 +106,7 @@ class PacienteController {
         }
 
         // muestra la home de usuario
-        $this->view->homePaciente($mensaje);
+        $this->view->showOpciones();
 
     }
 
@@ -116,6 +116,7 @@ class PacienteController {
     }
 
     function showOpciones(){
+
         $mensaje = '';
         $this->view->showOpciones($mensaje);
     }
@@ -132,7 +133,8 @@ class PacienteController {
 
         // obtengo las especialidades y mutuales por si tengo que volver a registrar turno
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
-        $obraSocial=$this->model->obtenerMutuales();
+        $mutuales=$this->model->obtenerMutuales();
+        $medicos=$this->model->obtenerMedicos();
         
         // tomo los datos filtrados en el formulario
         $rangoElegidoD= $_POST['fechaDesde'];
@@ -140,13 +142,33 @@ class PacienteController {
         $turno = $_POST['turno'];
         $mutual = $_POST['obra_elegida'];
         $especialidad = $_POST['especialidad'];
+        $medico = $_POST['medico'];
         
         // aca debo traer dos tipos de filtro 
         /**
          * 1- que filtre los medicos de determinada mutual u obra social 
          * 2- que filtre para un medico en especial 
          */
-        $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $especialidad);
+
+        if (empty($especialidad) && empty($medico) && empty($mutual) && !empty($turno) ) {
+            // si no filtro especialidad ni medico filtro solo por la fecha elegida y turno
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
+        }else{
+            // filtro por medico los turnos
+            if (!empty($medico) && empty($especialidad) && empty($mutual) ) {
+                $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
+            }else{
+                // filtro por mutual -- Yamila y Victoria
+                if (empty($medico) && empty($especialidad) && !empty($mutual) ) {
+                    $filtro=$this->model->obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH,$mutual);
+                }else{
+                    // filtro por especialidad -- Yamila y Victoria
+                    if (!empty($especialidad) && empty($medico) && empty($mutual) ) {
+                        $filtro=$this->model->obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad);
+                    }
+                }
+            }
+        }
 
         if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
@@ -155,14 +177,15 @@ class PacienteController {
             $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD +7, $rangoElegidoH + 7, $turno, $especialidad);
+
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{
                 $mensaje="El medico elegido no tiene turnos disponibles para el rango elegido ni para la siguiente semana. Por favor elija otro medico o intente otra fecha.";
             }
         }
-        $this->view->mostrarResultados($filtro,$mensaje);
+        $this->view->mostrarResultados($filtro,$especialidades,$mutuales, $medicos, $mensaje);
 
 
     }
@@ -174,7 +197,8 @@ class PacienteController {
 
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
         $mutuales=$this->model->obtenerMutuales();
-        $this->view->nuevoTurno($especialidades,$mutuales, $mensaje = '');
+        $medicos=$this->model->obtenerMedicos();
+        $this->view->nuevoTurno($especialidades,$mutuales, $medicos,$mensaje = '');
     }
 
     /*
@@ -222,7 +246,7 @@ class PacienteController {
             //destinatarios de los mensajes de confirmacion
             $to = "destinatario@email.com, destinatario2@email.com, destinatario3@email.com";
             $subject = "Confirmacion de turno";//asunto
-            $message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
+            //$message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
             "Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
         
  

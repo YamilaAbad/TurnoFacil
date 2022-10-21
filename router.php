@@ -47,6 +47,7 @@ switch ($params[0]) {
         break;
 
     case 'nuevo-turno':
+        // muestra la pantalla para obtener turnos
         $pacienteController->obtenerTurno();
         break;   
 
@@ -61,8 +62,9 @@ switch ($params[0]) {
         // chequea el paciente ingresado
         $pacienteController->verificarPaciente();
         break;
-    case 'registrar_datos':
-        $pacienteController->registrarPaciente();
+    case 'registrar_turno':
+        // registrar el turno elegido
+        $pacienteController->registrarTurno();
         break;
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
     default:
