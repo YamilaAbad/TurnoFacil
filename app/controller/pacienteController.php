@@ -207,10 +207,10 @@ class PacienteController {
     function registrarTurno(){
 
         // post del formulario de la tabla 
-        
+
         
         // cambiar el estado en turno a ocupado ... el id_paciente
-        $this->model->cambiarTurnoOcupado($turnoOcupado);
+        $turno=$this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
         // lo de la tarifa ver si tiene adicional
         
         // y el email mostrando la pantalla de confirmacion confirmacion.turno.tpl
@@ -231,7 +231,7 @@ class PacienteController {
         $email=$this->model->existeEmailUsuario($email);
         if(!empty($email)){
             //destinatarios de los mensajes de confirmacion
-            $to = "destinatario@email.com, destinatario2@email.com, destinatario3@email.com";
+            $to = "centenomanuela40@gmail.com";
             $subject = "Confirmacion de turno";//asunto
             //$message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
             "Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
