@@ -1,16 +1,6 @@
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
-=======
 // error_reporting(E_ALL);
 // ini_set("display_errors", 1);
->>>>>>> origin/develop
-=======
-// error_reporting(E_ALL);
-// ini_set("display_errors", 1);
->>>>>>> develop
 // include("file_with_errors.php");
 
 include_once 'app/controller/pacienteController.php';
@@ -53,59 +43,20 @@ switch ($params[0]) {
         break;
         
     case 'prueba':
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $controller->pruebaTemplate();
-=======
-    $controller = new NuevoController();
-    $controller->pruebaTemplate();
->>>>>>> origin/develop
-    break;
-=======
         $controller->pruebaTemplate();
         break;
->>>>>>> develop
 
     case 'nuevo-turno':
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $pacienteController->showNewTurn();
-    break;     
-=======
-    $pacienteController->newTurn();
-    break;
-      
-    $controller->pruebaTemplate();
-    break;
-  
->>>>>>> origin/develop
-    case 'verificar-datos':
-        $pacienteController->showDatos();
-        break;
-=======
         // muestra la pantalla para obtener turnos
         $pacienteController->obtenerTurno();
         break;   
->>>>>>> develop
 
     case 'verificar_datos':
         $pacienteController->showDatos();
         break;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    case 'sacar-turno':
-        $controller = new PacienteController();
-        $controller->obtenerTurno();
-=======
-        */
-    case 'sacar-turno':
-        $pacienteController->filtrarDiasDeAtencion();
->>>>>>> origin/develop
-=======
     case 'obtener_turnos':
         // realiza el filtro con los turnos
         $pacienteController->filtrarDiasDeAtencion();
->>>>>>> develop
         break;
     case'chequear_paciente':
         // chequea el paciente ingresado
