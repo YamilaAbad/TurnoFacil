@@ -198,14 +198,15 @@ class PacienteModel {
         
     }
 
-    function registrarTurno($IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado){
+    //Obtener mutual
+    /*function obtenerMutualPaciente(){
+        $query = $this->db->prepare("SELECT pos_id_obrasocial FROM paciente_os WHERE pos_id_paciente=?");
+        $query->execute([]);
+        $mutual = $query->fetch(PDO::FETCH_OBJ);
+        return $mutual;
+    }*/
 
-        $query = $this->db->prepare("INSERT INTO turno(turno_id_paciente, turno_id_medico, turno_fecha, turno_hora, turno_id_tarifa, turno_ocupado) VALUES (?,?,?,?,?,?");
-        $query->execute([$IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado]);
-        return $this->db->lastInsertId();
     
-
-}
 
 ?>
 

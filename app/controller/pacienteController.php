@@ -207,11 +207,17 @@ class PacienteController {
     function registrarTurno(){
 
         // post del formulario de la tabla 
+        //$mutual= $this->model-> obtenerMutualPaciente();
+        //if(!empty($mutual)){
 
         
-        // cambiar el estado en turno a ocupado ... el id_paciente
+        
         $turno=$this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
         // lo de la tarifa ver si tiene adicional
+        
+
+        //SI TURNO ESTA OCUPADO SE MANDA MAIL
+        $this-> enviarEmailConfirmacionTurno();
         
         // y el email mostrando la pantalla de confirmacion confirmacion.turno.tpl
         
