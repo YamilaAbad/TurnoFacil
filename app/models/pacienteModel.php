@@ -44,9 +44,9 @@ class PacienteModel {
     function obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH, $mutual){
 
         $query = $this->db->prepare("SELECT * FROM turno t 
-            inner join medico u on t.turno_id_medico = m.medico_id 
+            inner join medico m on t.turno_id_medico = m.medico_id 
             inner join medico_os mo on m.medico_id = mo.mos_id_medico
-        WHERE turno_fecha between ? and ? and mo.mos_id_obra_social = ? and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora;");
+        WHERE turno_fecha between ? and ? and mo.mos_id_obrasocial = ? and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $mutual]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
@@ -57,6 +57,11 @@ class PacienteModel {
      */
     function obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad){
 
+        $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
+        WHERE t.turno_fecha between ? and ? and m.especialidad_id = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
+        $query->execute([$rangoElegidoD, $rangoElegidoH, $especialidad]);
+        $turnos = $query->fetchAll(PDO::FETCH_OBJ);
+        return $turnos;
     }
 
     /**
@@ -193,6 +198,11 @@ class PacienteModel {
         
     }
 
+    function registrarTurno($IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado){
+
+        $query = $this->db->prepare("INSERT INTO turno(turno_id_paciente, turno_id_medico, turno_fecha, turno_hora, turno_id_tarifa, turno_ocupado) VALUES (?,?,?,?,?,?");
+        $query->execute([$IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado]);
+        return $this->db->lastInsertId();
     
 
 }

@@ -158,11 +158,11 @@ class PacienteController {
             if (!empty($medico) && empty($especialidad) && empty($mutual) ) {
                 $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
             }else{
-                // filtro por mutual -- Yamila y Victoria
+                // filtro por mutual
                 if (empty($medico) && empty($especialidad) && !empty($mutual) ) {
                     $filtro=$this->model->obtenerHorariosDeAtencionPorMutual($rangoElegidoD, $rangoElegidoH,$mutual);
                 }else{
-                    // filtro por especialidad -- Yamila y Victoria
+                    // filtro por especialidad 
                     if (!empty($especialidad) && empty($medico) && empty($mutual) ) {
                         $filtro=$this->model->obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad);
                     }

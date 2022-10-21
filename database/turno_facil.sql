@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2022 a las 13:22:17
+-- Tiempo de generación: 21-10-2022 a las 15:34:51
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -106,6 +106,30 @@ INSERT INTO `medico` (`medico_id`, `medico_dni`, `medico_nombre`, `medico_apelli
 (9, '12345687', 'Carla', 'Iriarte', '29835689785', 2),
 (10, '12355687', 'Antonia', 'Navarro', '29835689785', 3),
 (11, '30218748', 'Maria Jose', 'Perez', '29835689785', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico_os`
+--
+
+CREATE TABLE `medico_os` (
+  `mos_id` int(11) NOT NULL,
+  `mos_id_medico` int(11) NOT NULL,
+  `mos_id_obrasocial` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `medico_os`
+--
+
+INSERT INTO `medico_os` (`mos_id`, `mos_id_medico`, `mos_id_obrasocial`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 5),
+(4, 2, 1),
+(5, 10, 1),
+(6, 10, 10);
 
 -- --------------------------------------------------------
 
@@ -288,27 +312,26 @@ CREATE TABLE `usuario` (
   `usuario_apellido` varchar(60) NOT NULL,
   `usuario_user` varchar(100) NOT NULL,
   `usuario_contrasenia` varchar(150) NOT NULL,
-  `usuario_id_rol` int(11) NOT NULL,
-  `usuario_id_especialidad` int(11) NOT NULL
+  `usuario_id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`, `usuario_id_especialidad`) VALUES
-(1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1, 1),
-(2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1, 8),
-(3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1, 7),
-(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2, 1),
-(5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1, 6),
-(6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1, 5),
-(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2, 1),
-(8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1, 5),
-(9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1, 10),
-(10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1, 2),
-(11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1, 2),
-(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3, 1);
+INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`) VALUES
+(1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1),
+(2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1),
+(3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1),
+(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2),
+(5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1),
+(6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1),
+(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2),
+(8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1),
+(9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1),
+(10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1),
+(11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1),
+(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3);
 
 --
 -- Índices para tablas volcadas
@@ -333,6 +356,12 @@ ALTER TABLE `grupo`
 --
 ALTER TABLE `medico`
   ADD PRIMARY KEY (`medico_id`);
+
+--
+-- Indices de la tabla `medico_os`
+--
+ALTER TABLE `medico_os`
+  ADD PRIMARY KEY (`mos_id`);
 
 --
 -- Indices de la tabla `obra_social`
@@ -404,6 +433,12 @@ ALTER TABLE `medico`
   MODIFY `medico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT de la tabla `medico_os`
+--
+ALTER TABLE `medico_os`
+  MODIFY `mos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT de la tabla `obra_social`
 --
 ALTER TABLE `obra_social`
@@ -470,13 +505,6 @@ ALTER TABLE `turno`
   ADD CONSTRAINT `turno_ibfk_1` FOREIGN KEY (`turno_id_paciente`) REFERENCES `paciente` (`paciente_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `turno_ibfk_2` FOREIGN KEY (`turno_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `turno_ibfk_3` FOREIGN KEY (`turno_id_tarifa`) REFERENCES `tarifa` (`tarifa_id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`usuario_id_rol`) REFERENCES `rol` (`rol_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`usuario_id_especialidad`) REFERENCES `especialidad` (`esp_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
