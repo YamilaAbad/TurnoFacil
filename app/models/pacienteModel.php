@@ -184,22 +184,16 @@ class PacienteModel {
     }
 
     //Cambia el turno Disponible a ocupado
-    function cambiarTurnoOcupado($turnoOcupado){
+    function cambiarTurnoOcupado($IDpaciente,$turnoOcupado,$IDTarifa){
        //DUDA 
-        $query = $this->db->prepare("UPDATE turno SET turno_ocupado=? WHERE turno_id=?");
-        $params=[$turnoOcupado,$turno_id];
+        $query = $this->db->prepare("UPDATE turno SET turno_id_paciente=?, turno_ocupado=?, turno_id_tarifa=? WHERE turno_id=?");
+        $params=[$IDPaciente,$turnoOcupado,$IDTarifa,$turno_id];
         $query->execute($params);
 
         
     }
 
-    function registrarTurno($IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado){
-
-        $query = $this->db->prepare("INSERT INTO turno(turno_id_paciente, turno_id_medico, turno_fecha, turno_hora, turno_id_tarifa, turno_ocupado) VALUES (?,?,?,?,?,?")
-        $query->execute([$IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado]);
-        return $this->db->lastInsertId();
     
-    }
 
 }
 

@@ -206,22 +206,9 @@ class PacienteController {
     */
     function registrarTurno(){
 
-        // post del formulario de la tabla BORRAR CUANDO ESTE CONFIRMADO SI ESTA BIEN
-        //Se agrega a la tabla turno el turno seleccionado por el paciente
-        $IDPaciente= $_POST['idpaciente'];
-        $fechaTurno= $_POST['idmedico'];
-        $horaTurno= $_POST['horaturno'];
-        $IDTarifa= $_POST['idtarifa'];
-        $turnoOcupado= $_POST['turnoocupado'];
-
-        if(!empty($IDPaciente) || !empty($fechaTurno)|| !empty($horaTurno) || !empty($IDTarifa) || !empty($turnoOcupado)){
-            $turno=$this->model-> registrarTurno($IDPaciente,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado);
-        }
-        else{
-            this->view-> showError('Error, compruebe que el formulario este completo');
-            //CONSULTAR SI LO MANEJO CON VARIABLES A LOS MENSAJES
-        }
-
+        // post del formulario de la tabla 
+        
+        
         // cambiar el estado en turno a ocupado ... el id_paciente
         $this->model->cambiarTurnoOcupado($turnoOcupado);
         // lo de la tarifa ver si tiene adicional
