@@ -206,16 +206,18 @@ class PacienteController {
     */
     function registrarTurno(){
 
-        $turnoOcupado=0;
-        
-        if($turnoOcupado==1){
-            $turno=$this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
+        $IDPaciente = $this->model-> existeUsuario();
+        $IDTarifa=1000;
+        if(!empty($IDPaciente))
+            $this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
 
             $this-> enviarEmailConfirmacionTurno();
             //DUDA
             $this->view->mostrarMensaje('Se ha enviado un mail con la confirmacion del turno');
+        } 
+    
         // lo de la tarifa ver si tiene adicional
-        }
+        
         
 
     }
