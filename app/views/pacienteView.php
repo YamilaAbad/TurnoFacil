@@ -49,7 +49,7 @@ class PacienteView{
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
-        $smarty->display('./templates/opciones.tpl');
+        $smarty->display('./templates/home.paciente.tpl');
     }
     
     function showDatos(){

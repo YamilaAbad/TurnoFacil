@@ -11,13 +11,13 @@ class NuevaView {
     function mostrar(){
 
         $smarty = new Smarty;
-        $smarty->display('templates/home.tpl');
+        $smarty->display('templates/home.unlogged.tpl');
     }
     
     
     function showHome(){
 
         $smarty = new Smarty;
-        $smarty->display('templates/home.tpl');
+        $smarty->display('templates/home.unlogged.tpl');
     }
   }
