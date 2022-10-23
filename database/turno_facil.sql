@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-10-2022 a las 22:00:00
--- Versión del servidor: 10.4.25-MariaDB
--- Versión de PHP: 8.1.10
+-- Tiempo de generación: 21-10-2022 a las 15:34:51
+-- Versión del servidor: 10.4.21-MariaDB
+-- Versión de PHP: 8.0.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -78,6 +78,38 @@ INSERT INTO `grupo` (`grupo_id`, `gruno_nro`, `grupo_id_secretaria`, `grupo_id_m
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `medico`
+--
+
+CREATE TABLE `medico` (
+  `medico_id` int(11) NOT NULL,
+  `medico_dni` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
+  `medico_nombre` varchar(125) COLLATE utf8_spanish_ci NOT NULL,
+  `medico_apellido` varchar(145) COLLATE utf8_spanish_ci NOT NULL,
+  `medico_telefono` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
+  `especialidad_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `medico`
+--
+
+INSERT INTO `medico` (`medico_id`, `medico_dni`, `medico_nombre`, `medico_apellido`, `medico_telefono`, `especialidad_id`) VALUES
+(1, '74125896', 'Martin', 'Gonzalez', '29835689785', 1),
+(2, '85247111', 'Juan', 'Martinez', '29835689785', 8),
+(3, '852369', 'Cristian', 'Diaz', '2983534569', 7),
+(4, '30258748', 'Maria', 'Cinalli', '29835689785', 6),
+(5, '45632158', 'Juan Cruz', 'Cinalli', '29835689785', 5),
+(6, '1235896', 'David', 'Orlando', '29835689785', 5),
+(7, '74125896', 'Julian', 'Tormes', '29835689785', 10),
+(8, '5896741', 'Jose', 'Lopez', '29835689785', 2),
+(9, '12345687', 'Carla', 'Iriarte', '29835689785', 2),
+(10, '12355687', 'Antonia', 'Navarro', '29835689785', 3),
+(11, '30218748', 'Maria Jose', 'Perez', '29835689785', 4);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `medico_os`
 --
 
@@ -93,15 +125,11 @@ CREATE TABLE `medico_os` (
 
 INSERT INTO `medico_os` (`mos_id`, `mos_id_medico`, `mos_id_obrasocial`) VALUES
 (1, 1, 1),
-(2, 2, 2),
-(3, 3, 3),
-(4, 5, 4),
-(5, 6, 3),
-(6, 2, 5),
-(7, 11, 1),
-(8, 11, 7),
-(9, 10, 10),
-(10, 9, 3);
+(2, 1, 2),
+(3, 1, 5),
+(4, 2, 1),
+(5, 10, 1),
+(6, 10, 10);
 
 -- --------------------------------------------------------
 
@@ -160,7 +188,8 @@ INSERT INTO `paciente` (`paciente_id`, `paciente_dni`, `paciente_nombre`, `pacie
 (7, 12345654, 'Maria', 'Lopez', 'Castelli 48', '431926', 'maria@gmail.com'),
 (8, 14321234, 'Raul', 'Poloniato', 'Cangallo 125', '425465', 'raulsito@gmail.com'),
 (9, 11098273, 'Teresa', 'Mancini', 'Canada 35', '428178', 'tere@gmail.com'),
-(10, 5678432, 'Hector', 'Garcia', 'Burchardo 40', '430908', 'hector@gmail.com');
+(10, 5678432, 'Hector', 'Garcia', 'Burchardo 40', '430908', 'hector@gmail.com'),
+(11, 34509257, 'Noelia Daiana', 'Carrizo', '25 de mayo 445', '2983510330', 'noeliacarrizo22@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -240,20 +269,36 @@ INSERT INTO `tarifa` (`tarifa_id`, `tarifa_motivo`, `tarifa_monto`) VALUES
 
 CREATE TABLE `turno` (
   `turno_id` int(11) NOT NULL,
-  `turno_id_paciente` int(11) NOT NULL,
+  `turno_id_paciente` int(11) DEFAULT NULL,
   `turno_id_medico` int(11) NOT NULL,
   `turno_fecha` date NOT NULL,
   `turno_hora` time NOT NULL,
-  `turno_id_tarifa` int(11) NOT NULL
+  `turno_id_tarifa` int(11) DEFAULT NULL,
+  `turno_ocupado` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `turno`
 --
 
-INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_fecha`, `turno_hora`, `turno_id_tarifa`) VALUES
-(1, 1, 1, '2022-10-27', '16:30:00', 1),
-(2, 2, 5, '2022-10-27', '17:30:00', 1);
+INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_fecha`, `turno_hora`, `turno_id_tarifa`, `turno_ocupado`) VALUES
+(1, 1, 1, '2022-10-27', '16:30:00', 1, 1),
+(2, 2, 5, '2022-10-27', '17:30:00', 1, 1),
+(3, NULL, 10, '2022-10-19', '10:00:00', NULL, 0),
+(4, NULL, 3, '2022-10-28', '09:30:00', NULL, 0),
+(5, NULL, 10, '2022-10-25', '18:00:00', NULL, 0),
+(9, NULL, 12, '2022-10-19', '09:30:00', NULL, 0),
+(10, NULL, 3, '2022-10-28', '10:30:00', NULL, 0),
+(11, NULL, 3, '2022-10-28', '10:00:00', NULL, 0),
+(12, NULL, 5, '2022-10-19', '10:00:00', NULL, 0),
+(13, NULL, 1, '2022-10-19', '09:30:00', NULL, 0),
+(14, NULL, 4, '2022-10-28', '10:30:00', NULL, 0),
+(15, NULL, 4, '2022-10-28', '10:00:00', NULL, 0),
+(16, NULL, 4, '2022-10-28', '18:30:00', NULL, 0),
+(17, NULL, 4, '2022-10-28', '18:00:00', NULL, 0),
+(18, NULL, 5, '2022-10-19', '18:00:00', NULL, 0),
+(19, NULL, 2, '2022-10-19', '18:00:00', NULL, 0),
+(20, NULL, 2, '2022-10-28', '18:30:00', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -267,27 +312,26 @@ CREATE TABLE `usuario` (
   `usuario_apellido` varchar(60) NOT NULL,
   `usuario_user` varchar(100) NOT NULL,
   `usuario_contrasenia` varchar(150) NOT NULL,
-  `usuario_id_rol` int(11) NOT NULL,
-  `usuario_id_especialidad` int(11) NOT NULL
+  `usuario_id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`, `usuario_id_especialidad`) VALUES
-(1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1, 1),
-(2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1, 8),
-(3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1, 7),
-(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2, 1),
-(5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1, 6),
-(6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1, 5),
-(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2, 1),
-(8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1, 5),
-(9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1, 10),
-(10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1, 2),
-(11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1, 2),
-(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3, 1);
+INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`) VALUES
+(1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1),
+(2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1),
+(3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1),
+(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2),
+(5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1),
+(6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1),
+(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2),
+(8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1),
+(9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1),
+(10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1),
+(11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1),
+(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3);
 
 --
 -- Índices para tablas volcadas
@@ -308,12 +352,16 @@ ALTER TABLE `grupo`
   ADD KEY `grupo_id_medico` (`grupo_id_medico`);
 
 --
+-- Indices de la tabla `medico`
+--
+ALTER TABLE `medico`
+  ADD PRIMARY KEY (`medico_id`);
+
+--
 -- Indices de la tabla `medico_os`
 --
 ALTER TABLE `medico_os`
-  ADD PRIMARY KEY (`mos_id`),
-  ADD KEY `mos_id_medico` (`mos_id_medico`),
-  ADD KEY `mos_id_obrasocial` (`mos_id_obrasocial`);
+  ADD PRIMARY KEY (`mos_id`);
 
 --
 -- Indices de la tabla `obra_social`
@@ -360,9 +408,7 @@ ALTER TABLE `turno`
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`usuario_id`),
-  ADD KEY `usuario_id_especialidad` (`usuario_id_especialidad`),
-  ADD KEY `usuario_id_rol` (`usuario_id_rol`);
+  ADD PRIMARY KEY (`usuario_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -381,10 +427,16 @@ ALTER TABLE `grupo`
   MODIFY `grupo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT de la tabla `medico`
+--
+ALTER TABLE `medico`
+  MODIFY `medico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT de la tabla `medico_os`
 --
 ALTER TABLE `medico_os`
-  MODIFY `mos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `mos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `obra_social`
@@ -396,7 +448,7 @@ ALTER TABLE `obra_social`
 -- AUTO_INCREMENT de la tabla `paciente`
 --
 ALTER TABLE `paciente`
-  MODIFY `paciente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `paciente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente_os`
@@ -420,7 +472,7 @@ ALTER TABLE `tarifa`
 -- AUTO_INCREMENT de la tabla `turno`
 --
 ALTER TABLE `turno`
-  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -440,13 +492,6 @@ ALTER TABLE `grupo`
   ADD CONSTRAINT `grupo_ibfk_2` FOREIGN KEY (`grupo_id_secretaria`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `medico_os`
---
-ALTER TABLE `medico_os`
-  ADD CONSTRAINT `medico_os_ibfk_1` FOREIGN KEY (`mos_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `medico_os_ibfk_2` FOREIGN KEY (`mos_id_obrasocial`) REFERENCES `obra_social` (`os_id`) ON UPDATE CASCADE;
-
---
 -- Filtros para la tabla `paciente_os`
 --
 ALTER TABLE `paciente_os`
@@ -460,13 +505,6 @@ ALTER TABLE `turno`
   ADD CONSTRAINT `turno_ibfk_1` FOREIGN KEY (`turno_id_paciente`) REFERENCES `paciente` (`paciente_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `turno_ibfk_2` FOREIGN KEY (`turno_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `turno_ibfk_3` FOREIGN KEY (`turno_id_tarifa`) REFERENCES `tarifa` (`tarifa_id`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`usuario_id_rol`) REFERENCES `rol` (`rol_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`usuario_id_especialidad`) REFERENCES `especialidad` (`esp_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
