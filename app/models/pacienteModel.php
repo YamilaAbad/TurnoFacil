@@ -58,7 +58,7 @@ class PacienteModel {
     function obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad){
 
         $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
-        WHERE t.turno_fecha between ? and ? and m.especialidad_id = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
+        WHERE t.turno_fecha between ? and ? and m.medico_id_especialidad = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $especialidad]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
@@ -103,8 +103,8 @@ class PacienteModel {
      */
     function obtenerMedicos(){
 
-        $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.especialidad_id = e.esp_id ORDER BY medico_apellido, medico_nombre;");
-        $query->execute([]);
+        $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.medico_id_especialidad = e.esp_id ORDER BY medico_apellido, medico_nombre;");
+        $query->execute();
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
         return $medicos;
     }
@@ -181,32 +181,31 @@ class PacienteModel {
     }
 
     // Verifica si tiene email el paciente para enviar confirmacion
-    function existeEmailUsuario($email){
+    function existeEmailUsuario($correo){
         $query = $this->db->prepare("SELECT * FROM paciente where paciente_email = ?;");
-        $query->execute([$email]);
-        $emails = $query->fetch(PDO::FETCH_OBJ);
+        $query->execute([$correo]);
+        $email = $query->fetch(PDO::FETCH_OBJ);
         return $email;
     }
 
+    function existeUsuario($idPaciente){
+        $query = $this->db->prepare("SELECT * FROM paciente where paciente_id = ?;");
+        $query->execute([$idPaciente]);
+        $idPaciente = $query->fetch(PDO::FETCH_OBJ);
+        return $idPaciente;
+    }
+
     //Cambia el turno Disponible a ocupado
-    function cambiarTurnoOcupado($turnoOcupado){
-       //DUDA 
-        $query = $this->db->prepare("UPDATE turno SET turno_ocupado=? WHERE turno_id=?");
-        $params=[$turnoOcupado,$turno_id];
-        $query->execute($params);
-
-        
+    function cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa){
+       //DUDA SI HACERLO ASI
+            $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_ocupado=1, turno_id_tarifa=? WHERE turno_id = ?');
+            $query->execute([$IDPaciente,$turnoOcupado,$IDTarifa]);
+          
     }
 
-    function registrarTurno($IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado){
-
-        $query = $this->db->prepare("INSERT INTO turno(turno_id_paciente, turno_id_medico, turno_fecha, turno_hora, turno_id_tarifa, turno_ocupado) VALUES (?,?,?,?,?,?");
-        $query->execute([$IDPaciente,$IDMedico,$fechaTurno,$horaTurno,$IDTarifa,$turnoOcupado]);
-        return $this->db->lastInsertId();
     
-    }
 
-}
+}   
 
 ?>
 
