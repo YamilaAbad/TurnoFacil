@@ -181,14 +181,14 @@ class PacienteModel {
     }
 
     // Verifica si tiene email el paciente para enviar confirmacion
-    function existeEmailUsuario($email){
+    function existeEmailUsuario($correo){
         $query = $this->db->prepare("SELECT * FROM paciente where paciente_email = ?;");
-        $query->execute([$email]);
-        $emails = $query->fetch(PDO::FETCH_OBJ);
+        $query->execute([$correo]);
+        $email = $query->fetch(PDO::FETCH_OBJ);
         return $email;
     }
 
-    function existeUsuario(){
+    function existeUsuario($idPaciente){
         $query = $this->db->prepare("SELECT * FROM paciente where paciente_id = ?;");
         $query->execute([$idPaciente]);
         $idPaciente = $query->fetch(PDO::FETCH_OBJ);
@@ -196,22 +196,16 @@ class PacienteModel {
     }
 
     //Cambia el turno Disponible a ocupado
-    function cambiarTurnoOcupado($IDpaciente,$turnoOcupado,$IDTarifa){
+    function cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa){
        //DUDA SI HACERLO ASI
-            $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_ocupado=1, turno_id_tarifa=? WHERE id = ?');
-            $query->execute([$IDPaciente,$turnoOcupado,$IDTarifa,$turno_id]);
+            $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_ocupado=1, turno_id_tarifa=? WHERE turno_id = ?');
+            $query->execute([$IDPaciente,$turnoOcupado,$IDTarifa]);
           
     }
 
-    //Obtener mutual
-    /*function obtenerMutualPaciente(){
-        $query = $this->db->prepare("SELECT pos_id_obrasocial FROM paciente_os WHERE pos_id_paciente=?");
-        $query->execute([]);
-        $mutual = $query->fetch(PDO::FETCH_OBJ);
-        return $mutual;
-    }*/
-
     
+
+}   
 
 ?>
 
