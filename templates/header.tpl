@@ -8,7 +8,7 @@
 
      
         <div>
-        <a class="navbar-brand" href="home"><img id="logo" src="css/imagenes/logo.png" alt="TurnoFacil"></a>
+        <a class="navbar-brand" href="home"><img id="logo" src="./img/logo.png" alt="TurnoFacil"></a>
           </button>
         </div>
 
