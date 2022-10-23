@@ -205,26 +205,22 @@ class PacienteController {
     /*
         * aca registra el turno elegido para el paciente
     */
-    function registrarTurno($idPaciente,$idTarifa,$correo){
+    function registrarTurno(){
 
-        $IDPaciente = $this->model-> existeUsuario($idPaciente);
+        $IDPaciente = $this->model-> existeUsuario();
         $IDTarifa=1000;
-        $turnoOcupado=1;
-        if(!empty($IDPaciente) && !empty($IDTarifa)){
+        if(!empty($IDPaciente))
             $this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
 
-            $email=$this->model->existeEmailUsuario($correo);
-                if(!empty($email)){
-                    $this-> enviarEmailConfirmacionTurno();
-                    $this->view->mostrarMensaje('Se ha enviado un mail con la confirmacion del turno');
-                }
-                else{
-                    $this->view->mostrarError('Este paciente no posee email');
-                }
-            //CONSULTAR SI HACER UN INNER JOIN A LA TABLA TARIFA
-            
+            $this-> enviarEmailConfirmacionTurno();
+            //DUDA
+            $this->view->mostrarMensaje('Se ha enviado un mail con la confirmacion del turno');
         } 
     
+        // lo de la tarifa ver si tiene adicional
+        
+        
+
     }
 
     function showTemplate(){
@@ -236,17 +232,23 @@ class PacienteController {
     }
 
     //Con la confirmacion del turno se envia email al paciente
-    function enviarEmailConfirmacionTurno(){//PASAR CORREO POR PARAMETRO
-
+    function enviarEmailConfirmacionTurno(){
+        $email=$this->model->existeEmailUsuario($email);
+        if(!empty($email)){
             //destinatarios de los mensajes de confirmacion
-            $to = "centenomanuela40@gmail.com";//ACA TENDRIA QUE IR EL CORREO
+            $to = "centenomanuela40@gmail.com";
             $subject = "Confirmacion de turno";//asunto
-            $message = "Hola! Envio confirmacion de turno para la fecha:" + /*$fecha*/ + "en el horario:" /*$horario*/ + 
+            //$message = "Hola! Envio confirmacion de turno para la fecha:" + $fecha + "en el horario:" $horario + 
             "Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
         
  
             mail($to, $subject, $message);
+
+        }
+        else{//MOSTRARIA QUE NO TIENE EMAIL EL PACIENTE PARA MANDAR CONFIRMACION
+            this->view-> showError('Este usuario no tiene email para enviar la confirmacion');
+        }
+
     }
 
-}
 ?>

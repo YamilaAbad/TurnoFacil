@@ -64,7 +64,7 @@ switch ($params[0]) {
         break;
     case 'registrar_turno':
         // registrar el turno elegido
-        //$pacienteController->registrarTurno();
+        $pacienteController->registrarTurno();
         break;
     case 'registrar_datos':
         // registrar el nuevo paciente
