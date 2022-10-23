@@ -8,7 +8,7 @@
              <h1><i class="far fa-check-circle pe-2"></i>   Turno confirmado</h1>
             </div>
             <div class="card-body m-3">
-                <p class="card-text m-0">Dia y horario </p>
+                <p class="card-text m-0">Día y horario </p>
                 <p class="card-text  m-0"><strong>Lunes 21 de noviembre</strong></p>
                 <p class="card-text linea pb-2">16:00 hs</p>
 
