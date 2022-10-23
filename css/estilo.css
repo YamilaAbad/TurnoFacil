@@ -1,0 +1,157 @@
+:root {
+    --main-color: #1abc9c;
+}
+
+.bg-verde {
+    background-color: #009587;
+    color: rgb(250, 250, 250);
+}
+
+.bg-naranja {
+    background-color: #FF9933;
+    color: rgb(250, 250, 250);
+}
+
+.text-naranja {
+    color: #FF9933;
+}
+
+.linea {
+    border-bottom: 1px solid rgb(192, 192, 192);
+}
+
+
+/* footer */
+
+footer {
+    color: white;
+}
+
+
+/* HOME */
+
+.portada {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.img-portada {
+    width: 100%;
+    filter: brightness(50%);
+}
+
+.titulo-portada {
+    position: absolute;
+    width: 480px;
+    z-index: 2;
+    top: 130px;
+    color: white;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.texto-portada {
+    position: absolute;
+    z-index: 2;
+    width: 480px;
+    top: 250px;
+    color: white;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.botones-portada {
+    position: absolute;
+    z-index: 2;
+    top: 380px;
+}
+
+.portada .btn {
+    box-shadow: black 0.2em 0.2em 0.3em;
+}
+
+.tarjeta {
+    box-shadow: rgb(94, 94, 94) 0.2em 0.2em 0.3em;
+}
+
+
+/* HOME */
+
+.botones-portada-home {
+    position: absolute;
+    z-index: 2;
+    top: 340px;
+}
+
+.titulo-portada-home {
+    position: absolute;
+    width: 480px;
+    z-index: 2;
+    top: 190px;
+    color: white;
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
+.bg-verde:hover {
+    background-color: #FF9933;
+    color: white;
+}
+
+
+/* inicio calendario */
+
+.datepicker table tr td.active.active {
+    background: var(--main-color);
+    width: 14%;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.datepicker table tr td.active.active:hover {
+    background: var(--main-color);
+    width: 14%;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.datepicker td:hover {
+    width: 2rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.datepicker .datepicker-switch {
+    background-color: var(--main-color);
+}
+
+.datepicker td,
+.datepicker th {
+    text-align: center;
+    width: 3rem;
+    height: 2rem;
+}
+
+
+/* fin calendario */
+
+.btn-primary {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+#linkBoton {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+#linkBoton:hover {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.bg-secondary .modal .modal-signin .position-static .d-block .bg-secondary .py-5 {
+    background-color: #009587 !important;
+}
+
+#centrado {
+    text-align: center !important;
+}
