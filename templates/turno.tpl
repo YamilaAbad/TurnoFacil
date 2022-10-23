@@ -37,7 +37,7 @@
                             <div class="form-group col-md-4 flex-column d-flex">
                                 <label for='inputFechaDesde'>Desde<span class="text-danger">*</span> </label>
                                 <div class="input-group date">
-                                    <input id="datepickerDesde" type="text" class="form-control clickable input-md" id="fechaDesde" name="fechaDesde">
+                                    <input id="datepickerDesde" type="text" class="form-control clickable input-md" id="fechaDesde" name="fechaDesde" required>
                                     <span class="input-group-append">
                                         <span class="input-group-text bg-white">
                                             <i class="fa fa-calendar"></i>
@@ -48,7 +48,7 @@
                             <div class="form-group col-md-4 flex-column d-flex">
                                 <label for='inputFechaHasta'>Hasta<span class="text-danger">*</span> </label>
                                 <div class="input-group date">
-                                <input id="datepickerHasta" type="text" class="form-control clickable input-md" id="fechaHasta" name="fechaHasta">
+                                <input id="datepickerHasta" type="text" class="form-control clickable input-md" id="fechaHasta" name="fechaHasta" required>
                                     <span class="input-group-append">
                                         <span class="input-group-text bg-white">
                                             <i class="fa fa-calendar"></i>
