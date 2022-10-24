@@ -58,7 +58,7 @@ class PacienteModel {
     function obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad){
 
         $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
-        WHERE t.turno_fecha between ? and ? and m.especialidad_id = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
+        WHERE t.turno_fecha between ? and ? and m.medico_id_especialidad = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $especialidad]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
@@ -103,7 +103,7 @@ class PacienteModel {
      */
     function obtenerMedicos(){
 
-        $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.especialidad_id = e.esp_id ORDER BY medico_apellido, medico_nombre;");
+        $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.medico_id_especialidad = e.esp_id ORDER BY medico_apellido, medico_nombre;");
         $query->execute([]);
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
         return $medicos;
@@ -181,25 +181,28 @@ class PacienteModel {
     }
 
     // Verifica si tiene email el paciente para enviar confirmacion
-    function existeEmailUsuario($correo){
-        $query = $this->db->prepare("SELECT * FROM paciente where paciente_email = ?;");
-        $query->execute([$correo]);
+    function existeEmailUsuario($idPaciente){
+        $query = $this->db->prepare("SELECT paciente_email FROM paciente WHERE paciente_id=?");
+        $query->execute([$idPaciente]);
         $email = $query->fetch(PDO::FETCH_OBJ);
         return $email;
     }
 
-    function existeUsuario($idPaciente){
-        $query = $this->db->prepare("SELECT * FROM paciente where paciente_id = ?;");
+    function obtenerObraSocial($idPaciente){
+        $query = $this->db->prepare("SELECT  pos_id_obrasocial FROM paciente_os WHERE pos_id_paciente =?");
         $query->execute([$idPaciente]);
-        $idPaciente = $query->fetch(PDO::FETCH_OBJ);
-        return $idPaciente;
+        $idObraSocial = $query->fetch(PDO::FETCH_OBJ);
+        return $idObraSocial;
+    
+
     }
 
     //Cambia el turno Disponible a ocupado
-    function cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa){
-       //DUDA SI HACERLO ASI
-            $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_ocupado=1, turno_id_tarifa=? WHERE turno_id = ?');
-            $query->execute([$IDPaciente,$turnoOcupado,$IDTarifa]);
+    function cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno){
+        
+       
+            $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_id_tarifa=?, turno_ocupado=1 WHERE turno_id = ?');
+            $query->execute([$idPaciente,$idTarifa,$idTurno]);
           
     }
 
