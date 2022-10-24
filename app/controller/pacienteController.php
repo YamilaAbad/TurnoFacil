@@ -225,9 +225,9 @@ class PacienteController {
             $this->view->showError('No posee obra social por lo que tiene que abonar el costo del turno que seria de $3000');
             
         }
-        $this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
+       // $this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
          
-        /*if(!empty($idPaciente && !empty($idTurno))){
+        if(!empty($idPaciente && !empty($idTurno))){
             
             $this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
             //Verifico que el paciente tenga email para enviar el correo con la confirmacion
@@ -243,7 +243,7 @@ class PacienteController {
         }
         else{
             $this->view->showError('Upp! Ocurrio un error intente nuevamente');
-        } */
+        } 
 
     
     }
