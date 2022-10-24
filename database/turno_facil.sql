@@ -87,14 +87,14 @@ CREATE TABLE `medico` (
   `medico_nombre` varchar(125) COLLATE utf8_spanish_ci NOT NULL,
   `medico_apellido` varchar(145) COLLATE utf8_spanish_ci NOT NULL,
   `medico_telefono` varchar(12) COLLATE utf8_spanish_ci NOT NULL,
-  `especialidad_id` int(11) NOT NULL
+  `medico_id_especialidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `medico`
 --
 
-INSERT INTO `medico` (`medico_id`, `medico_dni`, `medico_nombre`, `medico_apellido`, `medico_telefono`, `especialidad_id`) VALUES
+INSERT INTO `medico` (`medico_id`, `medico_dni`, `medico_nombre`, `medico_apellido`, `medico_telefono`, `medico_id_especialidad`) VALUES
 (1, '74125896', 'Martin', 'Gonzalez', '29835689785', 1),
 (2, '85247111', 'Juan', 'Martinez', '29835689785', 8),
 (3, '852369', 'Cristian', 'Diaz', '2983534569', 7),

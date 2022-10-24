@@ -205,28 +205,58 @@ class PacienteController {
     /*
         * aca registra el turno elegido para el paciente
     */
-    function registrarTurno($idPaciente,$idTarifa,$correo){
+    function registrarTurno(){
 
-        $IDPaciente = $this->model-> existeUsuario($idPaciente);
-        $IDTarifa=1000;
-        $turnoOcupado=1;
-        if(!empty($IDPaciente) && !empty($IDTarifa)){
-            $this->model->cambiarTurnoOcupado($IDPaciente,$turnoOcupado,$IDTarifa);
+        $idPaciente= $_POST['paciente'];// se utiliza de esta forma hasta hacer el iniciar seccion
+        //guarda el turno seleccionado
+        $idTurno = $_POST['check_list'];
+        
+       // var_dump($idTurno);  
+       // var_dump($idPaciente); 
 
-            $email=$this->model->existeEmailUsuario($correo);
-                if(!empty($email)){
-                    $this-> enviarEmailConfirmacionTurno();
-                    $this->view->mostrarMensaje('Se ha enviado un mail con la confirmacion del turno');
-                }
-                else{
-                    $this->view->mostrarError('Este paciente no posee email');
-                }
-            //CONSULTAR SI HACER UN INNER JOIN A LA TABLA TARIFA
+        // si el paciente tiene obra social le cobro un tarifa sino la otra
+        $obraSocial= $this->model->obtenerObraSocial($idPaciente); 
+        //var_dump($obraSocial);
+        //$idTarifa=null;
+        if(!empty($obraSocial)){
+            $idTarifa =1;
+            $mensaje='Al poseer obra social solo tiene que abonar un adicional de $1000';          
+        }else{
+            $idTarifa=2;
+            $mensaje='No posee obra social por lo que tiene que abonar el costo del turno que seria de $3000';
             
+        }
+       // $this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
+         
+        if(!empty($idPaciente && !empty($idTurno))){
+            
+            $turno=$this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
+            
+            // si devuelve un numero mayor es porque actualizo
+            if ($turno > 0){
+                //Verifico que el paciente tenga email para enviar el correo con la confirmacion
+                $email=$this->model->existeEmailUsuario($idPaciente);
+
+                var_dump($email);
+                if(!empty($email)){
+                    $this->enviarEmailConfirmacionTurno($email);
+                }else{
+                    $mensaje='Este paciente no posee email';
+                }
+                // obtengo los datos del turno para poder mostrar en la pantalla de confirmacion de turno
+                $datos=$this->model->obtenerInfoTurno($idTurno);
+                $msg='Se ha enviado un mail con la confirmacion del turno';
+                $this->view->confirmacionDeTurno($msg, $datos);
+            }
+        }else{
+            // si no se actualizo muestra la pantalla de error
+            $this->view->showError('Upp! Ocurrio un error intente nuevamente');
         } 
+
     
     }
 
+    
     function showTemplate(){
         $this->view->showTemplate();
     }
@@ -236,16 +266,15 @@ class PacienteController {
     }
 
     //Con la confirmacion del turno se envia email al paciente
-    function enviarEmailConfirmacionTurno(){//PASAR CORREO POR PARAMETRO
+    function enviarEmailConfirmacionTurno($email){//PASAR CORREO POR PARAMETRO
 
-            //destinatarios de los mensajes de confirmacion
-            $to = "centenomanuela40@gmail.com";//ACA TENDRIA QUE IR EL CORREO
+           /* //destinatarios de los mensajes de confirmacion
+            $to = $email;//"centenomanuela40@gmail.com";//ACA TENDRIA QUE IR EL CORREO
             $subject = "Confirmacion de turno";//asunto
-            $message = "Hola! Envio confirmacion de turno para la fecha:" + /*$fecha*/ + "en el horario:" /*$horario*/ + 
-            "Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
+            $message = "Hola! Envio confirmacion de turno para la fecha:en el horario: Muchas gracias por utilizar TurnoFacil. Cualquier consulta comunicarse a tales numero";
         
  
-            mail($to, $subject, $message);
+            mail($to, $subject, $message);*/
     }
 
 }

@@ -105,7 +105,7 @@
                                 {foreach from=$filtro item=resu}
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="check_list[]" value="{$resu->turno_id}">
+                                            <input type="checkbox" name="check_list" value="{$resu->turno_id}">
                                         </td>
                                         <td>
                                             {$resu->medico_apellido}, {$resu->medico_nombre}

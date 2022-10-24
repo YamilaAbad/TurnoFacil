@@ -84,6 +84,17 @@ class PacienteView{
         $smarty->display('./templates/verificar.tpl');
     }
 
+    /**
+     * muestra la pantalla de confirmacion de turno
+     */
+    function confirmacionDeTurno($msg, $datos) {
+
+        $smarty = new Smarty();
+        $smarty->assign('datos_turno', $datos);
+        $smarty->assign('mensaje', $msg);
+        $smarty->display('templates/confirmacion.turno.tpl');
+    }
+
     /*****************************************MENSAJE DE ERROR***********************************************/
     function showError($msg) {
         $smarty = new Smarty();
