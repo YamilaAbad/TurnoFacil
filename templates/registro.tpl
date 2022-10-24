@@ -66,7 +66,7 @@
                 <div class="form-group col-sm-6 flex-column d-flex" >
                     <label for='inputEmail'>Obra social </label>
                     <select name="obra_elegida" class="form-control" required> 
-                        <option name="obra_elegida" value=''>Selecione</option>
+                        <option name="obra_elegida" value=''>Seleccione</option>
                         {foreach from=$mutuales item=mut} 
                             <option value='{$mut->os_id}'> {$mut->os_nombre}</option>
                         {/foreach}

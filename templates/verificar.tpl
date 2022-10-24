@@ -39,7 +39,7 @@
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-sm-6 flex-column d-flex">
                                 <div class="form-group flex-column d-flex">
-                                    <label for='inputEmail'>Telefono <span class="text-danger">*</span> </label>
+                                    <label for='inputEmail'>Teléfono <span class="text-danger">*</span> </label>
                                     <input type='text' name='telefono' id='telefono' class='form-control' required
                                         autofocus>
                                 </div>
