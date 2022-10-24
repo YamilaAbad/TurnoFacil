@@ -205,7 +205,8 @@ class PacienteModel {
            
         $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_id_tarifa=?, turno_ocupado=1 WHERE turno_id = ?');
         $query->execute([$idPaciente,$idTarifa,$idTurno]);
-        $query->rowCount();
+        return $query->rowCount();
+
           
     }
 
@@ -214,8 +215,7 @@ class PacienteModel {
      */
     function obtenerInfoTurno($idTurno){
 
-        // falta traer datos del medico inner join con la tabla esa
-        $query = $this->db->prepare('SELECT * FROM WHERE turno_id = ?');
+        $query = $this->db->prepare('SELECT * FROM medico INNER JOIN turno ON medico.medico_id = turno.turno_id_medico  WHERE turno.turno_id=?');
         $query->execute([$idTurno]);
         return $turno = $query->fetch(PDO::FETCH_OBJ);
 

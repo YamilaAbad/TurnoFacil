@@ -90,7 +90,7 @@ class PacienteView{
     function confirmacionDeTurno($msg, $datos) {
 
         $smarty = new Smarty();
-        $smarty->assign('datos_turno', $datos);
+        $smarty->assign('datos', $datos);
         $smarty->assign('mensaje', $msg);
         $smarty->display('templates/confirmacion.turno.tpl');
     }

@@ -2,22 +2,18 @@
 <div class="d-flex justify-content-center">
 
     <div class="col-lg-6"> 
-        {foreach from=$datos name=$dat}
+        {foreach from=$datos item=$dat}
         <div class="card m-4 tarjeta">
             <div class="card-header bg-verde p-4">
              <h1><i class="far fa-check-circle pe-2"></i>Turno confirmado</h1>
             </div>
             <div class="card-body m-3">
                 <p class="card-text m-0">Dia y horario </p>
-                <p class="card-text  m-0"><strong>{}</strong></p>
+                <p class="card-text  m-0"><strong>{$dat->turno_hora}{$dat->turno_fecha} </strong></p>
                 <p class="card-text linea pb-2">{}</p>
 
                 <p class="card-text  m-0">Médico</p>
-                <p class="card-text linea pb-2"><strong>{}</strong></p>
-
-                <p class="card-text  m-0">Dirección</p>
-                <p class="card-text linea pb-2"><strong>{}</strong></p>
-
+                <p class="card-text linea pb-2"><strong>{$dat->medico_nombre}{$dat->medico_apellido}</strong></p>
 
                 <p class="text-danger"> <strong> Recordatorio: </strong> {$mensaje}</p>
             </div>
