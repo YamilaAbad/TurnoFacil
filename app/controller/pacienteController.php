@@ -219,13 +219,11 @@ class PacienteController {
         if(!empty($obraSocial)){
             $idTarifa=1;
             $mensaje='Al poseer obra social solo tiene que abonar un adicional de $1000'; 
-            
-                     
+                      
         }else{
             $idTarifa =2;
             $mensaje='No posee obra social por lo que tiene que abonar el costo del turno que seria de $3000';
-            
-            
+             
         }
        // $this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
          
@@ -235,12 +233,8 @@ class PacienteController {
 
             $datos=$this->model->obtenerInfoTurno($idTurno);
 
-            $msg="funciona";
-            $this->view->confirmacionDeTurno($msg, $datos);
-            var_dump($turno);
-            var_dump($datos);
             // si devuelve un numero mayor es porque actualizo
-            /*if ($turno > 0){
+            if ($turno > 0){
                 //Verifico que el paciente tenga email para enviar el correo con la confirmacion
                 $email=$this->model->existeEmailUsuario($idPaciente);
 
@@ -251,10 +245,9 @@ class PacienteController {
                 }
                 // obtengo los datos del turno para poder mostrar en la pantalla de confirmacion de turno
                 $datos=$this->model->obtenerInfoTurno($idTurno);
-                var_dump($datos);
                 $msg='Se ha enviado un mail con la confirmacion del turno';
                 $this->view->confirmacionDeTurno($msg, $datos);
-            }*/
+            }
         }else{
             // si no se actualizo muestra la pantalla de error
             $this->view->showError('Upp! Ocurrio un error intente nuevamente');

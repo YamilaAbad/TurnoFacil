@@ -183,6 +183,7 @@ class PacienteModel {
 
     // Verifica si tiene email el paciente para enviar confirmacion
     function existeEmailUsuario($idPaciente){
+
         $query = $this->db->prepare("SELECT paciente_email FROM paciente WHERE paciente_id=?");
         $query->execute([$idPaciente]);
         $email = $query->fetch(PDO::FETCH_OBJ);
@@ -190,9 +191,11 @@ class PacienteModel {
     }
 
     function obtenerObraSocial($idPaciente){
+
         $query = $this->db->prepare("SELECT pos_id_obrasocial FROM paciente_os WHERE pos_id_paciente =?");
         $query->execute([$idPaciente]);
-        $idObraSocial = $query->fetch(PDO::FETCH_OBJ);
+        // devuelve cantidad de filas
+        $idObraSocial = $query->rowCount();
         return $idObraSocial;
     
 
@@ -215,9 +218,12 @@ class PacienteModel {
      */
     function obtenerInfoTurno($idTurno){
 
-        $query = $this->db->prepare('SELECT * FROM medico INNER JOIN turno ON medico.medico_id = turno.turno_id_medico  WHERE turno.turno_id=?');
+        $query = $this->db->prepare('SELECT * FROM medico 
+            INNER JOIN turno ON medico.medico_id = turno.turno_id_medico
+            INNER JOIN tarifa ON tarifa.tarifa_id = turno.turno_id_tarifa
+            WHERE turno.turno_id=?');
         $query->execute([$idTurno]);
-        return $turno = $query->fetch(PDO::FETCH_OBJ);
+        return $turno =$query->fetchAll(PDO::FETCH_OBJ);
 
     }
 
