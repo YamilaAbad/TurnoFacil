@@ -103,7 +103,7 @@ class PacienteModel {
      */
     function obtenerMedicos(){
 
-        $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.especialidad_id = e.esp_id ORDER BY medico_apellido, medico_nombre;");
+        $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.medico_id_especialidad = e.esp_id ORDER BY medico_apellido, medico_nombre;");
         $query->execute([]);
         $query->execute();
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
