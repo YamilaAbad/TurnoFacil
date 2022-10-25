@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2022 a las 15:34:51
+-- Tiempo de generación: 25-10-2022 a las 15:38:43
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `turno_facil`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `config_turnos`
+--
+
+CREATE TABLE `config_turnos` (
+  `id_config` int(11) NOT NULL,
+  `turno` varchar(12) COLLATE utf8_spanish2_ci NOT NULL COMMENT 'Si es de mañana o tarde',
+  `medico_id` int(11) NOT NULL,
+  `intervalo_turno` int(11) NOT NULL COMMENT 'Minutos que dura el turno',
+  `rango_inicial` int(11) NOT NULL COMMENT 'Inicio de horario de atencion en consultorio',
+  `rango_final` int(11) NOT NULL COMMENT 'Final de horario de atencion en consultorio',
+  `fecha_desde` date NOT NULL COMMENT 'Configuracion valida desde este dia',
+  `fecha_hasta` date NOT NULL COMMENT 'Configuracion valida desde este dia',
+  `secretaria_id` int(11) NOT NULL COMMENT 'Persona que creo la configuracion',
+  `fecha_actualizacion` date NOT NULL COMMENT 'Dia que se creo la actualizacion'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
 -- --------------------------------------------------------
 
@@ -46,7 +65,8 @@ INSERT INTO `especialidad` (`esp_id`, `esp_nombre`) VALUES
 (7, 'Pediatria'),
 (8, 'Oncologia'),
 (9, 'Psiquiatria'),
-(10, 'Reumatologia');
+(10, 'Reumatologia'),
+(11, 'NINGUNA');
 
 -- --------------------------------------------------------
 
@@ -125,11 +145,15 @@ CREATE TABLE `medico_os` (
 
 INSERT INTO `medico_os` (`mos_id`, `mos_id_medico`, `mos_id_obrasocial`) VALUES
 (1, 1, 1),
-(2, 1, 2),
-(3, 1, 5),
-(4, 2, 1),
-(5, 10, 1),
-(6, 10, 10);
+(2, 2, 2),
+(3, 3, 3),
+(4, 5, 4),
+(5, 6, 3),
+(6, 2, 5),
+(7, 11, 1),
+(8, 11, 7),
+(9, 10, 10),
+(10, 9, 3);
 
 -- --------------------------------------------------------
 
@@ -156,7 +180,8 @@ INSERT INTO `obra_social` (`os_id`, `os_nombre`) VALUES
 (7, 'OSPIN'),
 (8, 'OSPRERA'),
 (9, 'PAMI'),
-(10, 'Sancor Salud');
+(10, 'Sancor Salud'),
+(11, 'NO POSEE');
 
 -- --------------------------------------------------------
 
@@ -166,7 +191,7 @@ INSERT INTO `obra_social` (`os_id`, `os_nombre`) VALUES
 
 CREATE TABLE `paciente` (
   `paciente_id` int(11) NOT NULL,
-  `paciente_dni` int(11) NOT NULL,
+  `paciente_dni` varchar(11) NOT NULL,
   `paciente_nombre` varchar(60) NOT NULL,
   `paciente_apellido` varchar(60) NOT NULL,
   `paciente_domicilio` varchar(100) NOT NULL,
@@ -179,17 +204,17 @@ CREATE TABLE `paciente` (
 --
 
 INSERT INTO `paciente` (`paciente_id`, `paciente_dni`, `paciente_nombre`, `paciente_apellido`, `paciente_domicilio`, `paciente_telefono`, `paciente_email`) VALUES
-(1, 23456789, 'Pedro', 'Frapiccini', 'Berutti 635', '423332', 'pfrappi@gmail.com'),
-(2, 12435678, 'Ana', 'Aldaz', 'Betolaza 48', '433225', 'ani@gmail.com'),
-(3, 45678983, 'Saul', 'Naveyra', 'Berutti 624', '425709', 'saul@gmail.com'),
-(4, 24567345, 'Roberto', 'Colantonio', 'Bradzen 87', '422827', 'colan@gmail.com'),
-(5, 57689543, 'Magdalena', 'Gervasi', 'Brandsen 134', '423219', 'magda@gmail.com'),
-(6, 34567876, 'Norma', 'Errea', 'Bolivia 925', '425939', 'norma@gmail.com'),
-(7, 12345654, 'Maria', 'Lopez', 'Castelli 48', '431926', 'maria@gmail.com'),
-(8, 14321234, 'Raul', 'Poloniato', 'Cangallo 125', '425465', 'raulsito@gmail.com'),
-(9, 11098273, 'Teresa', 'Mancini', 'Canada 35', '428178', 'tere@gmail.com'),
-(10, 5678432, 'Hector', 'Garcia', 'Burchardo 40', '430908', 'hector@gmail.com'),
-(11, 34509257, 'Noelia Daiana', 'Carrizo', '25 de mayo 445', '2983510330', 'noeliacarrizo22@gmail.com');
+(1, '23456789', 'Pedro', 'Frapiccini', 'Berutti 635', '423332', 'pfrappi@gmail.com'),
+(2, '12435678', 'Ana', 'Aldaz', 'Betolaza 48', '433225', 'ani@gmail.com'),
+(3, '45678983', 'Saul', 'Naveyra', 'Berutti 624', '425709', 'saul@gmail.com'),
+(4, '24567345', 'Roberto', 'Colantonio', 'Bradzen 87', '422827', 'colan@gmail.com'),
+(5, '57689543', 'Magdalena', 'Gervasi', 'Brandsen 134', '423219', 'magda@gmail.com'),
+(6, '34567876', 'Norma', 'Errea', 'Bolivia 925', '425939', 'norma@gmail.com'),
+(7, '12345654', 'Maria', 'Lopez', 'Castelli 48', '431926', 'maria@gmail.com'),
+(8, '14321234', 'Raul', 'Poloniato', 'Cangallo 125', '425465', 'raulsito@gmail.com'),
+(9, '11098273', 'Teresa', 'Mancini', 'Canada 35', '428178', 'tere@gmail.com'),
+(10, '5678432', 'Hector', 'Garcia', 'Burchardo 40', '430908', 'hector@gmail.com'),
+(11, '34509257', 'Noelia Daiana', 'Carrizo', '25 de mayo 445', '(298) 351-0330', 'noeliacarrizo22@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -238,8 +263,7 @@ CREATE TABLE `rol` (
 INSERT INTO `rol` (`rol_id`, `rol_nombre`) VALUES
 (1, 'Medico'),
 (2, 'Secretaria'),
-(3, 'Administrador'),
-(4, '');
+(3, 'Administrador');
 
 -- --------------------------------------------------------
 
@@ -282,23 +306,20 @@ CREATE TABLE `turno` (
 --
 
 INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_fecha`, `turno_hora`, `turno_id_tarifa`, `turno_ocupado`) VALUES
-(1, 1, 1, '2022-10-27', '16:30:00', 1, 1),
+(1, 1, 1, '2022-10-27', '16:30:00', 1, 0),
 (2, 2, 5, '2022-10-27', '17:30:00', 1, 1),
-(3, NULL, 10, '2022-10-19', '10:00:00', NULL, 0),
-(4, NULL, 3, '2022-10-28', '09:30:00', NULL, 0),
-(5, NULL, 10, '2022-10-25', '18:00:00', NULL, 0),
-(9, NULL, 12, '2022-10-19', '09:30:00', NULL, 0),
-(10, NULL, 3, '2022-10-28', '10:30:00', NULL, 0),
-(11, NULL, 3, '2022-10-28', '10:00:00', NULL, 0),
-(12, NULL, 5, '2022-10-19', '10:00:00', NULL, 0),
-(13, NULL, 1, '2022-10-19', '09:30:00', NULL, 0),
-(14, NULL, 4, '2022-10-28', '10:30:00', NULL, 0),
-(15, NULL, 4, '2022-10-28', '10:00:00', NULL, 0),
-(16, NULL, 4, '2022-10-28', '18:30:00', NULL, 0),
-(17, NULL, 4, '2022-10-28', '18:00:00', NULL, 0),
-(18, NULL, 5, '2022-10-19', '18:00:00', NULL, 0),
-(19, NULL, 2, '2022-10-19', '18:00:00', NULL, 0),
-(20, NULL, 2, '2022-10-28', '18:30:00', NULL, 0);
+(3, 1, 3, '2022-10-27', '10:00:00', 1, 1),
+(4, 1, 11, '2022-10-25', '18:00:00', 1, 1),
+(5, 1, 6, '2022-10-28', '09:00:00', 1, 1),
+(6, 1, 7, '2022-11-10', '09:30:00', 1, 1),
+(7, 1, 6, '2022-10-28', '09:00:00', 1, 1),
+(8, 1, 6, '2022-10-31', '18:00:00', 1, 1),
+(9, NULL, 10, '2022-10-25', '09:30:00', NULL, 0),
+(10, NULL, 2, '2022-10-25', '10:30:00', NULL, 0),
+(11, NULL, 6, '2022-10-31', '09:30:00', NULL, 0),
+(12, NULL, 11, '2022-10-25', '10:00:00', NULL, 0),
+(13, NULL, 8, '2022-10-25', '18:00:00', NULL, 0),
+(14, NULL, 1, '2022-10-25', '10:00:00', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -312,30 +333,37 @@ CREATE TABLE `usuario` (
   `usuario_apellido` varchar(60) NOT NULL,
   `usuario_user` varchar(100) NOT NULL,
   `usuario_contrasenia` varchar(150) NOT NULL,
-  `usuario_id_rol` int(11) NOT NULL
+  `usuario_id_rol` int(11) NOT NULL COMMENT 'Aca se indica el tipo de usuario que es (Medico, secretaria o admin)',
+  `usuario_id_especialidad` int(11) DEFAULT NULL COMMENT 'Si es medico se indica la especialidad del mismo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`) VALUES
-(1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1),
-(2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1),
-(3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1),
-(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2),
-(5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1),
-(6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1),
-(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2),
-(8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1),
-(9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1),
-(10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1),
-(11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1),
-(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3);
+INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`, `usuario_id_especialidad`) VALUES
+(1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1, 1),
+(2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1, 8),
+(3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1, 7),
+(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2, 1),
+(5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1, 6),
+(6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1, 5),
+(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2, 1),
+(8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1, 5),
+(9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1, 10),
+(10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1, 2),
+(11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1, 2),
+(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3, 1);
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `config_turnos`
+--
+ALTER TABLE `config_turnos`
+  ADD PRIMARY KEY (`id_config`);
 
 --
 -- Indices de la tabla `especialidad`
@@ -352,16 +380,12 @@ ALTER TABLE `grupo`
   ADD KEY `grupo_id_medico` (`grupo_id_medico`);
 
 --
--- Indices de la tabla `medico`
---
-ALTER TABLE `medico`
-  ADD PRIMARY KEY (`medico_id`);
-
---
 -- Indices de la tabla `medico_os`
 --
 ALTER TABLE `medico_os`
-  ADD PRIMARY KEY (`mos_id`);
+  ADD PRIMARY KEY (`mos_id`),
+  ADD KEY `mos_id_medico` (`mos_id_medico`),
+  ADD KEY `mos_id_obrasocial` (`mos_id_obrasocial`);
 
 --
 -- Indices de la tabla `obra_social`
@@ -408,17 +432,25 @@ ALTER TABLE `turno`
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`usuario_id`);
+  ADD PRIMARY KEY (`usuario_id`),
+  ADD KEY `usuario_id_especialidad` (`usuario_id_especialidad`),
+  ADD KEY `usuario_id_rol` (`usuario_id_rol`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
+-- AUTO_INCREMENT de la tabla `config_turnos`
+--
+ALTER TABLE `config_turnos`
+  MODIFY `id_config` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `especialidad`
 --
 ALTER TABLE `especialidad`
-  MODIFY `esp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `esp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `grupo`
@@ -427,22 +459,16 @@ ALTER TABLE `grupo`
   MODIFY `grupo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT de la tabla `medico`
---
-ALTER TABLE `medico`
-  MODIFY `medico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
 -- AUTO_INCREMENT de la tabla `medico_os`
 --
 ALTER TABLE `medico_os`
-  MODIFY `mos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `mos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `obra_social`
 --
 ALTER TABLE `obra_social`
-  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
@@ -472,7 +498,7 @@ ALTER TABLE `tarifa`
 -- AUTO_INCREMENT de la tabla `turno`
 --
 ALTER TABLE `turno`
-  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -492,6 +518,13 @@ ALTER TABLE `grupo`
   ADD CONSTRAINT `grupo_ibfk_2` FOREIGN KEY (`grupo_id_secretaria`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Filtros para la tabla `medico_os`
+--
+ALTER TABLE `medico_os`
+  ADD CONSTRAINT `medico_os_ibfk_1` FOREIGN KEY (`mos_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `medico_os_ibfk_2` FOREIGN KEY (`mos_id_obrasocial`) REFERENCES `obra_social` (`os_id`) ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `paciente_os`
 --
 ALTER TABLE `paciente_os`
@@ -505,6 +538,13 @@ ALTER TABLE `turno`
   ADD CONSTRAINT `turno_ibfk_1` FOREIGN KEY (`turno_id_paciente`) REFERENCES `paciente` (`paciente_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `turno_ibfk_2` FOREIGN KEY (`turno_id_medico`) REFERENCES `usuario` (`usuario_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `turno_ibfk_3` FOREIGN KEY (`turno_id_tarifa`) REFERENCES `tarifa` (`tarifa_id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`usuario_id_rol`) REFERENCES `rol` (`rol_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `usuario_ibfk_2` FOREIGN KEY (`usuario_id_especialidad`) REFERENCES `especialidad` (`esp_id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
