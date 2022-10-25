@@ -101,10 +101,11 @@
                     <tbody>
                         {if isset($filtro) && !empty($filtro)}  
                             <form action="registrar_turno" method="POST" class="form-inline my-2 my-lg-0"> 
+                                <input type="hidden" name="paciente" value="1">
                                 {foreach from=$filtro item=resu}
                                     <tr>
                                         <td>
-                                            <input type="checkbox" name="check_list[]" value="{$resu->turno_id}">
+                                            <input type="checkbox" name="check_list" value="{$resu->turno_id}">
                                         </td>
                                         <td>
                                             {$resu->medico_apellido}, {$resu->medico_nombre}

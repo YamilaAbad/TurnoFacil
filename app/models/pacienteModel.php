@@ -105,6 +105,7 @@ class PacienteModel {
 
         $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.especialidad_id = e.esp_id ORDER BY medico_apellido, medico_nombre;");
         $query->execute([]);
+        $query->execute();
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
         return $medicos;
     }
@@ -180,37 +181,53 @@ class PacienteModel {
 
     }
 
- // Verifica si tiene email el paciente para enviar confirmacion
- function existeEmailUsuario($email){
-    $query = $this->db->prepare("SELECT * FROM paciente where paciente_email = ?;");
-    $query->execute([$email]);
-    $emails = $query->fetch(PDO::FETCH_OBJ);
-    return $email;
-}
+    // Verifica si tiene email el paciente para enviar confirmacion
+    function existeEmailUsuario($idPaciente){
 
-function existeUsuario(){
-    $query = $this->db->prepare("SELECT * FROM paciente where paciente_id = ?;");
-    $query->execute([$idPaciente]);
-    $idPaciente = $query->fetch(PDO::FETCH_OBJ);
-    return $idPaciente;
-}
+        $query = $this->db->prepare("SELECT paciente_email FROM paciente WHERE paciente_id=?");
+        $query->execute([$idPaciente]);
+        $email = $query->fetch(PDO::FETCH_OBJ);
+        return $email;
+    }
 
-//Cambia el turno Disponible a ocupado
-function cambiarTurnoOcupado($IDpaciente,$turnoOcupado,$IDTarifa){
-   //DUDA SI HACERLO ASI
-        $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_ocupado=1, turno_id_tarifa=? WHERE id = ?');
-        $query->execute([$IDPaciente,$turnoOcupado,$IDTarifa,$turno_id]);
-      
-}
+    function obtenerObraSocial($idPaciente){
 
-//Obtener mutual
-/*function obtenerMutualPaciente(){
-    $query = $this->db->prepare("SELECT pos_id_obrasocial FROM paciente_os WHERE pos_id_paciente=?");
-    $query->execute([]);
-    $mutual = $query->fetch(PDO::FETCH_OBJ);
-    return $mutual;
-}*/
+        $query = $this->db->prepare("SELECT pos_id_obrasocial FROM paciente_os WHERE pos_id_paciente =?");
+        $query->execute([$idPaciente]);
+        // devuelve cantidad de filas
+        $idObraSocial = $query->rowCount();
+        return $idObraSocial;
+    
 
+    }
+
+    /*
+     * Registra el turno elegido para el paciente elegido con la tarifa correspondiente
+     */
+    function cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno){
+           
+        $query = $this->db->prepare('UPDATE turno SET turno_id_paciente=?, turno_id_tarifa=?, turno_ocupado=1 WHERE turno_id = ?');
+        $query->execute([$idPaciente,$idTarifa,$idTurno]);
+        return $query->rowCount();
+
+          
+    }
+
+    /*
+     * Registra el turno elegido para el paciente elegido con la tarifa correspondiente
+     */
+    function obtenerInfoTurno($idTurno){
+
+        $query = $this->db->prepare('SELECT * FROM medico 
+            INNER JOIN turno ON medico.medico_id = turno.turno_id_medico
+            INNER JOIN tarifa ON tarifa.tarifa_id = turno.turno_id_tarifa
+            WHERE turno.turno_id=?');
+        $query->execute([$idTurno]);
+        return $turno =$query->fetchAll(PDO::FETCH_OBJ);
+
+    }
+
+    
 
 }   
 
