@@ -7,7 +7,12 @@
       <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
       <h1 class="text-center fw-bold mb-0 fs-2 ">Iniciar sesión</h1>
     </div>
-
+    {if isset($mensaje) && !empty($mensaje)}
+      <div class="alert alert-dismissible alert-secondary">
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <strong>{$mensaje}</strong>
+      </div>
+    {/if}
     <div class="modal-body p-5 pt-0">
       <form class="" method="POST" action="chequear_paciente">
         <div class="form-floating mb-3">

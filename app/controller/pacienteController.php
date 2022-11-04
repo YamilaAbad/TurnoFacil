@@ -93,21 +93,25 @@ class PacienteController {
         if ($this->model->existePaciente($dni) > 0){
             // si el paciente se encuentra registrado notifico
             $mensaje="El paciente ya se encuentra registrado";
+            $this->view->showLogin($mensaje);
         }else{
             // si no lo guardo en la BD
             $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
             if ($paciente > 0){
-                $mensaje="Se registro correctamente.";
+                $mensaje="Se registro correctamente. Inicie session por favor";
                 if ($mutual != 11){
                     $reg_mut=$this->model->registraMutualPaciente($paciente, $mutual, $afiliado);  
+                }else{
+                    // si no posee mutual
+                    $reg_mut=$this->model->registraMutualPaciente($paciente, 11, 0);
                 }
+                // si se registro mutual y paciente correctamente lo mando al login
+                $this->view->showLogin($mensaje);
             }else{
-                $mensaje="Ups! ocurrio un error intente mas tarde.";
+                $mensaje="Ups! no pudimos registrarlo como paciente. Intente mas tarde.";
+                $this->view->showLogin($mensaje);
             }
         }
-
-        // muestra la home de usuario
-        $this->view->showOpciones();
 
     }
 
