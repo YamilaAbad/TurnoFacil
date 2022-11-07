@@ -58,7 +58,7 @@ class PacienteModel {
     function obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad){
 
         $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
-        WHERE t.turno_fecha between ? and ? and m.especialidad_id = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
+        WHERE t.turno_fecha between ? and ? and m.medico_id_especialidad = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $especialidad]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
@@ -93,7 +93,7 @@ class PacienteModel {
     function obtenerMutuales(){
 
         $query = $this->db->prepare("SELECT * FROM obra_social ORDER BY os_nombre;");
-        $query->execute([]);
+        $query->execute();
         $mutuales = $query->fetchAll(PDO::FETCH_OBJ);
         return $mutuales;
     }
@@ -104,7 +104,6 @@ class PacienteModel {
     function obtenerMedicos(){
 
         $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.medico_id_especialidad = e.esp_id ORDER BY medico_apellido, medico_nombre;");
-        $query->execute([]);
         $query->execute();
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
         return $medicos;
