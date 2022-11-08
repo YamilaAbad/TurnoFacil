@@ -65,14 +65,16 @@ class PacienteController {
      */
     function verificarPaciente(){
         
-        $mutuales=$this->model->obtenerMutuales();
+        //$mutuales=$this->model->obtenerMutuales();
         $dni= $_POST['dni'];
+        
         if (!empty($dni) && $d=$this->model->existePaciente($dni) > 0){
             // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
             $this->view->showOpciones($mensaje = '');
         }else{
             // si no existe registro el paciente
-            $this->view->showTemplate($mutuales,$dni);
+            $this->view->showError("Datos incorrectos");
+            //$this->view->showTemplate($mutuales,$dni);
         }
     }
 
