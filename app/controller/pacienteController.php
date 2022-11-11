@@ -67,9 +67,14 @@ class PacienteController {
         
         //$mutuales=$this->model->obtenerMutuales();
         $dni= $_POST['dni'];
+        $paciente=$this->model->existePaciente($dni);
+        var_dump($paciente);
         
-        if (!empty($dni) && $d=$this->model->existePaciente($dni) > 0){
+        if (!empty($dni) && !empty($paciente)){
             // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
+            session_start();
+            $_SESSION['ID_PACIENTE'] = $paciente->paciente_id;
+
             $this->view->showOpciones($mensaje = '');
         }else{
             // si no existe registro el paciente
@@ -212,16 +217,17 @@ class PacienteController {
         * aca registra el turno elegido para el paciente
     */
     function registrarTurno(){
-
-        $idPaciente= $_POST['paciente'];// se utiliza de esta forma hasta hacer el iniciar seccion
+        session_start();
+        //guardo el id del paciente
+        $idPaciente= $_SESSION['ID_PACIENTE'];
+       
         //guarda el turno seleccionado
         $idTurno = $_POST['check_list'];
         
        
         // si el paciente tiene obra social le cobro un tarifa sino la otra
         $obraSocial= $this->model->obtenerObraSocial($idPaciente); 
-        //var_dump($obraSocial);
-        //$idTarifa=null;
+
         if(!empty($obraSocial)){
             $idTarifa=1;
             $mensaje='Al poseer obra social solo tiene que abonar un adicional de $1000'; 
@@ -231,7 +237,7 @@ class PacienteController {
             $mensaje='No posee obra social por lo que tiene que abonar el costo del turno que seria de $3000';
              
         }
-       // $this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
+    
          
         if(!empty($idPaciente && !empty($idTurno))){
             

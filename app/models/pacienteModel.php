@@ -148,7 +148,8 @@ class PacienteModel {
 
         $query = $this->db->prepare("SELECT * FROM paciente where paciente_dni = ?;");
         $query->execute([$dni]);
-        return $query->rowCount();
+        //return $query->rowCount();
+        return $query->fetch(PDO::FETCH_OBJ);
     }
 
     /********************************* NUEVA FUNCIÓN PARA OBTENER LOS MEDICOS QUE TRABAJAR POR OBRA SOCIAL ************/
