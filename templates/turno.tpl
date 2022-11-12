@@ -3,7 +3,7 @@
 
     <div class="d-flex justify-content-center">
 
-        <div class="card col-lg-8 m-4">
+        <div class="card col-lg-8 m-4 p-0">
             <div class="card-header">
                 <h1 class='h3 mb-2 font-weight-normal'>Solicitar turno </h1>
             </div>

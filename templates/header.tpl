@@ -8,7 +8,7 @@
 
      
         <div>
-        <a class="navbar-brand" href="home"><img id="logo" src="../img/TurnoFacil_logo_blanco.png" alt="TurnoFacil"></a>
+        <a class="navbar-brand" href="home"><img class="img-logo" src="img/logobco.png" alt="TurnoFacil"></a>
           </button>
         </div>
 
@@ -21,7 +21,7 @@
               <a class="nav-link active" aria-current="page" href="opciones">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Mis turnos</a>
+              <a class="nav-link" href="listar_turnos">Mis turnos</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="nuevo-turno">Sacar turno</a>

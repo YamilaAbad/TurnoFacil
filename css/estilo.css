@@ -34,6 +34,10 @@ footer {
 
 /* HOME */
 
+.img-logo {
+    width: 150px;
+}
+
 .portada {
     width: 100%;
     position: relative;
@@ -158,4 +162,11 @@ footer {
 
 #centrado {
     text-align: center !important;
+}
+
+
+/* listado turnos del paciente*/
+
+.list-turnos {
+    min-height: 485px;
 }
