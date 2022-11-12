@@ -278,6 +278,10 @@ class PacienteController {
  
             mail($to, $subject, $message);*/
     }
+
+    function listadoPaciente(){
+        $this->view->showList();
+    }
 }
 
 ?>

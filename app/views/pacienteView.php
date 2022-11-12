@@ -95,6 +95,11 @@ class PacienteView{
         $smarty->display('templates/confirmacion.turno.tpl');
     }
 
+    function showList(){
+        $smarty = new Smarty();
+        $smarty->display('templates/turnos.paciente.tpl');
+    }
+
     /*****************************************MENSAJE DE ERROR***********************************************/
     function showError($msg) {
         $smarty = new Smarty();
