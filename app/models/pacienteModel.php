@@ -237,7 +237,8 @@ class PacienteModel {
                                  INNER JOIN turno t ON (t.turno_id_paciente = p.paciente_id)
                                  INNER JOIN medico m ON (t.turno_id_medico = m.medico_id)
                                  INNER JOIN especialidad e ON (m.medico_id_especialidad=e.esp_id)
-                                 WHERE p.paciente_id = ?');
+                                 WHERE p.paciente_id = ?
+                                 ORDER BY t.turno_fecha ASC');
     $query->execute([$idPaciente]);
     return $turnos = $query -> fetchAll(PDO::FETCH_OBJ);
    }
