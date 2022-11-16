@@ -95,8 +95,9 @@ class PacienteView{
         $smarty->display('templates/confirmacion.turno.tpl');
     }
 
-    function showList(){
+    function showList($turno){//revisar esto
         $smarty = new Smarty();
+        $smarty->assign('turno', $turno);
         $smarty->display('templates/turnos.paciente.tpl');
     }
 

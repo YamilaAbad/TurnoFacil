@@ -278,9 +278,18 @@ class PacienteController {
  
             mail($to, $subject, $message);*/
     }
-
-    function listadoPaciente(){
-        $this->view->showList();
+    //Muestra los turnos que tiene el paciente
+    function listadoPaciente(){//revisar esto
+        $idPaciente=$_GET['paciente'];
+        //AuthHelper::checkAdmin();//SEGURIDAD
+        $turno = $this->model->obtenerTurnosPaciente($idPaciente);
+        if($turno){
+    //         //Actualizo la vista
+            $this->view->showList($turno);
+        }else{
+            $this->view->showError('No hay turnos elegidos');
+        }
+       
     }
 }
 
