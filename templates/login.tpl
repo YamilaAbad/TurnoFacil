@@ -5,6 +5,19 @@
   <div class="modal-content rounded-4 shadow">
     <div class="pt-5 pb-2 border-bottom-0">
       <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
+
+      
+      {* ++++++++ VER EL TEMA DE LA SESION CON BRENDA ++++++++
+      
+      if esta logueada la secretaria {
+        <h1 class="text-center fw-bold mb-0 fs-2 ">Buscar paciente</h1>
+      }
+      else{
+        <h1 class="text-center fw-bold mb-0 fs-2 ">Iniciar sesión</h1>
+      } 
+      
+      *}
+      
       <h1 class="text-center fw-bold mb-0 fs-2 ">Iniciar sesión</h1>
     </div>
 
