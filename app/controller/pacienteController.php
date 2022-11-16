@@ -12,6 +12,8 @@ class PacienteController {
         
         $this->view = new PacienteView();
         $this->model = new PacienteModel();
+        session_start();
+        
     }
     /* "Como paciente quiero ver la lista de médicos para seleccionar
     uno"
@@ -68,11 +70,11 @@ class PacienteController {
         //$mutuales=$this->model->obtenerMutuales();
         $dni= $_POST['dni'];
         $paciente=$this->model->existePaciente($dni);
-        var_dump($paciente);
+        //var_dump($paciente);
         
         if (!empty($dni) && !empty($paciente)){
             // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
-            session_start();
+            //session_start();
             $_SESSION['ID_PACIENTE'] = $paciente->paciente_id;
 
             $this->view->showOpciones($mensaje = '');
@@ -217,9 +219,10 @@ class PacienteController {
         * aca registra el turno elegido para el paciente
     */
     function registrarTurno(){
-        session_start();
+        //session_start();
         //guardo el id del paciente
         $idPaciente= $_SESSION['ID_PACIENTE'];
+        var_dump($idPaciente);
        
         //guarda el turno seleccionado
         $idTurno = $_POST['check_list'];
