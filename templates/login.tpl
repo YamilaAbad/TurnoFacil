@@ -17,8 +17,11 @@
       } 
       
       *}
-      
-      <h1 class="text-center fw-bold mb-0 fs-2 ">Iniciar sesión</h1>
+      {if $secretaria = '2'}
+      <h1 class="text-center fw-bold mb-0 fs-2 ">Buscar paciente</h1>
+      {else}
+        <h1 class="text-center fw-bold mb-0 fs-2 ">Iniciar sesión</h1>
+      {/if}
     </div>
 
     <div class="modal-body p-5 pt-0">

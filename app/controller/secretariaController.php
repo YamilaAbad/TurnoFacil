@@ -2,11 +2,14 @@
     include_once 'app/models/pacienteModel.php';
     include_once 'app/views/pacienteView.php';
     include_once 'app/views/secretariaView.php';
+    include_once 'app/models/secretariaModel.php';
 
 class SecretariaController {
 
     private $model;
-    private $views;
+    private $view;
+    private $secretariaView;
+    private $secretariaModel;
 
 
     function __construct() {
@@ -14,6 +17,7 @@ class SecretariaController {
         $this->view = new PacienteView();
         $this->model = new PacienteModel();
         $this->secretariaView = new SecretariaView();
+        $this->secretariaModel = new SecretariaModel();
     }
 
     /**
@@ -53,16 +57,18 @@ class SecretariaController {
 
     //muestro la pantalla de turnos
     function showTurno(){
-        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
-        $mutuales=$this->model->obtenerMutuales();
-        $medicos=$this->model->obtenerMedicos();
-        $this->secretariaView->nuevoTurno($especialidades,$mutuales, $medicos, $mensaje = '');
+        $medicos=$this->secretariaModel->obtenerMedicos();
+        $obraSocial=$this->secretariaModel->obtenerMutuales($medicos);
+        /*SESION - VER CON BRENDA*/ 
+        $secretaria='2';
+        $this->secretariaView->nuevoTurno($secretaria, $medicos, $mensaje = '');
 
     }
 
     function showLogin(){
         $mensaje = '';
-        $this->view->showLogin($mensaje);
+        $secretaria = 2;
+        $this->view->showLogin($secretaria,$mensaje);
     }
 
     function showOpciones(){
@@ -76,9 +82,7 @@ class SecretariaController {
     */
     function ingresarTurno(){
 
-        $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
-        $mutuales=$this->model->obtenerMutuales();
-        $medicos=$this->model->obtenerMedicos();
+      //  $medicos=$this->secretariaModel->obtenerMedicos();
         $this->secretariaView->showBuscador($mensaje = '');
     }
 
@@ -153,14 +157,48 @@ class SecretariaController {
 
     }
 
-    
-    function showTemplate(){
-        $this->view->showTemplate();
-    }
+    function filtrarDiasDeAtencion (){
 
-    function showDatos(){
-        $this->view->showDatos();
+        $secretaria = '2';
+        $medicos=$this->secretariaModel->obtenerMedicos();
+        
+        // tomo los datos filtrados en el formulario
+        $rangoElegidoD= $_POST['fechaDesde'];
+        $rangoElegidoH= $_POST['fechaHasta'];
+        $turno = $_POST['turno'];
+        $medico = $_POST['medico'];
+        
+        // filtro por medico los turnos
+      $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
+            
+
+        if (!empty($filtro)){
+            $mensaje="Seleccione el dia que desea y confirme por favor";
+        }else{
+            // si no encuentra resultados en la semana elegida muestra la semana siguiente
+            $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
+            //sumo 7 dias
+            $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
+
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
+            if (!empty($filtro)){
+                $mensaje="Seleccione el dia que desea y confirme por favor";
+            }else{
+                $mensaje="El medico elegido no tiene turnos disponibles para el rango elegido ni para la siguiente semana. Por favor elija otro medico o intente otra fecha.";
+            }
+        }
+        $this->secretariaView->mostrarResultados($secretaria, $filtro, $medicos, $mensaje);
+
+
     }
+    
+    // function showTemplate(){
+    //     $this->view->showTemplate();
+    // }
+
+    // function showDatos(){
+    //     $this->view->showDatos();
+    // }
 
 }
 

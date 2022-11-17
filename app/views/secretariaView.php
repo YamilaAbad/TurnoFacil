@@ -20,11 +20,10 @@ class SecretariaView{
     /**
      * Muestra los resultados que obtiene de aplicar los diferentes filtros
      */
-    function mostrarResultados($filtro, $especialidades,$mutuales, $medicos, $mensaje = ''){
+    function mostrarResultados($secretaria, $filtro, $medicos, $mensaje = ''){
 
         $smarty = new Smarty();
-        $smarty->assign('especialidades', $especialidades);
-        $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('secretaria', $secretaria);
         $smarty->assign('medicos', $medicos);
         $smarty->assign('mensaje', $mensaje);
         $smarty->assign('filtro', $filtro);
@@ -44,20 +43,20 @@ class SecretariaView{
     /**
      * Muestra la vista para sacar un nuevo turno
      */
-    function nuevoTurno($especialidades,$mutuales, $medicos, $mensaje = ''){
+    function nuevoTurno($secretaria, $medicos, $mensaje = ''){
 
         $smarty = new Smarty();
-        $smarty->assign('especialidades', $especialidades);
-        $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('secretaria', $secretaria);
         $smarty->assign('medicos', $medicos);
         $smarty->assign('mensaje', $mensaje);
         $smarty->display('./templates/turno.tpl');
     }
 
-    function showLogin($mensaje = ''){
+    function showLogin($secretaria, $mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
+        $smarty->assign('secretaria', $secretaria);
         $smarty->display('./templates/login.tpl');
     }
 

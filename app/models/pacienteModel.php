@@ -67,21 +67,21 @@ class PacienteModel {
     /**
      * Obtiene los dias de atencion con turnos disponibles para el rango elegido de un medico en particular
      */
-    function obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno){
+    function obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico){
 
         // dependiendo si elige de mañana o tarde el rango elegido para filtrar turnos son esos horarios
-        if ($turno == 'maniana'){
-            $hora_desde='08:00:00';
-            $hora_hasta='12:00:00';
-        }else{
+        if ($turno == 'tarde'){
             $hora_desde='15:00:00';
             $hora_hasta='20:00:00';
+        }else{
+            $hora_desde='08:00:00';
+            $hora_hasta='12:00:00';
         }
 
         // busco los turnos disponibles
-        $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
-        WHERE t.turno_fecha between ? and ? and t.turno_hora between ? and ? and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora ;");
-        $query->execute([$rangoElegidoD, $rangoElegidoH, $hora_desde, $hora_hasta]);
+        $query = $this->db->prepare("SELECT * FROM turno t
+        WHERE t.turno_fecha between ? and ? and t.turno_hora between ? and ? and t.turno_ocupado = 0 and t.turno_id_medico = ? ORDER BY turno_fecha, turno_hora ;");
+        $query->execute([$rangoElegidoD, $rangoElegidoH, $hora_desde, $hora_hasta, $medico]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
 

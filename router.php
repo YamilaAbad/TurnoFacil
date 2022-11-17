@@ -36,7 +36,16 @@ switch ($params[0]) {
         break;
 
     case 'login':
-        $pacienteController->showLogin();
+
+        //++++++++++++++VER CON BRENDA ++++++++++++++
+        /*if(sesion = secretaria){
+            $secretariaController->showLogin();
+        }
+
+        */
+        //$pacienteController->showLogin();
+
+        $secretariaController->showLogin();
         break;
 
     case 'opciones':
@@ -57,11 +66,24 @@ switch ($params[0]) {
     case 'ingresar-turnos':
         $secretariaController->ingresarTurno();
         break;   
+
+        case 'filtrar_turnos':
+            // realiza el filtro con los turnos 
+            $secretariaController->filtrarDiasDeAtencion();
+            break;
     case 'verificar_datos':
         $pacienteController->showDatos();
         break;
     case 'obtener_turnos':
-        // realiza el filtro con los turnos
+        // realiza el filtro con los turnos 
+
+        
+        //++++++++++++++VER CON BRENDA ++++++++++++++
+        /*if(sesion = secretaria){
+            $secretariaController->filtrarDiasDeAtencion();
+        }
+
+        */
         $pacienteController->filtrarDiasDeAtencion();
         break;
     case'chequear_paciente':

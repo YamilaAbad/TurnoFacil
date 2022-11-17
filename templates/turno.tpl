@@ -9,41 +9,66 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <form class='form' action='obtener_turnos' method='POST'>
+
                     {* inicio de filtro para obtener los turnos *}
+
+                    {if $secretaria == '2'}
+                        <form class='form' action='filtrar_turnos' method='POST'>
                         <div class="row justify-content-between text-left mt-4">
-                            <div class="form-group col-sm-12 flex-column d-flex">
-                                <label for='inputMedico'>Especialidad:</label>
-                                <select name="especialidad" class="form-select">
-                                    <option name="especialidad" value=''>Selecione</option>
-                                    {foreach from=$especialidades item=esp} 
-                                        <option name="especialidad" value='{$esp->esp_id}'> {$esp->esp_nombre}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label for='inputMedico'>Médico:</label>
+                            <select name="medico" id="medicoSeleccionado" class="form-select">
+                                <option name="medico" value=''>Selecione</option>
+                                {foreach from=$medicos item=med} 
+                                    <option name="medico" value='{$med->medico_id}'> {$med->medico_apellido}, {$med->medico_nombre}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+
+                                       
+                    
+                    {else}
+                        <form class='form' action='obtener_turnos' method='POST'>
+                    <div class="row justify-content-between text-left mt-4">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label for='inputMedico'>Especialidad:</label>
+                            <select name="especialidad" class="form-select">
+                                <option name="especialidad" value=''>Selecione</option>
+                                {foreach from=$especialidades item=esp} 
+                                    <option name="especialidad" value='{$esp->esp_id}'> {$esp->esp_nombre}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-between text-left mt-4">
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label for='inputMedico'>Médico:</label>
+                            <select name="medico" class="form-select">
+                                <option name="medico" value=''>Selecione</option>
+                                {foreach from=$medicos item=med} 
+                                    <option name="medico" value='{$med->medico_id}'> {$med->medico_apellido},{$med->medico_nombre}- {$med->esp_nombre}</option>
+                                {/foreach}
+                            </select>
                         </div>
                         <div class="row justify-content-between text-left mt-4">
-                            <div class="form-group col-sm-12 flex-column d-flex">
-                                <label for='inputMedico'>Obra Social</label>
-                                <select name="obra_elegida" class="form-select"> 
-                                    <option name="obra_elegida" value=''>Selecione</option>
-                                    {foreach from=$mutuales item=mut} 
-                                        <option name="obra_elegida" value='{$mut->os_id}'> {$mut->os_nombre}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
+                        <div class="form-group col-sm-12 flex-column d-flex">
+                            <label for='inputMedico'>Obra Social</label>
+                            <select name="obra_elegida" class="form-select"> 
+                                <option name="obra_elegida" value=''>Selecione</option>
+                                {foreach from=$mutuales item=mut} 
+                                    <option name="obra_elegida" value='{$mut->os_id}'> {$mut->os_nombre}</option>
+                                {/foreach}
+                            </select>
                         </div>
-                        <div class="row justify-content-between text-left mt-4">
-                            <div class="form-group col-sm-12 flex-column d-flex">
-                                <label for='inputMedico'>Médico:</label>
-                                <select name="medico" class="form-select">
-                                    <option name="medico" value=''>Selecione</option>
-                                    {foreach from=$medicos item=med} 
-                                        <option name="medico" value='{$med->medico_id}'> {$med->medico_apellido},{$med->medico_nombre}- {$med->esp_nombre}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        </div><br/>
+                    </div>
+                    
+                            {/if}
+                        
+
+                </div>    
+
+
                         <div class="row justify-content-between text-left">
                             <div class="form-group col-md-4 flex-column d-flex">
                                 <label for='inputFechaDesde'>Desde<span class="text-danger">*</span> </label>
@@ -89,12 +114,14 @@
                 </form>
             </div>
 
+            
             {* fin de filtro para obtener los turnos *}
+
+            {if $secretaria == '2'}
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Elegir</th>
-                            <th>Médico</th>
                             <th>Fecha y hora</th>
                         </tr>
                     </thead>
@@ -115,19 +142,58 @@
                                         </td>
                                     </tr>
                                 {/foreach}
+                            {else}
+                                {$mensaje}
+                            {/if}
                             </tbody>
                         </table>
-                            
+            {else}
+                <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Elegir</th>
+                        <th>Médico</th>
+                        <th>Fecha y hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if isset($filtro) && !empty($filtro)}  
+                        <form action="registrar_turno" method="POST" class="form-inline my-2 my-lg-0"> 
+                            <input type="hidden" name="paciente" value="1">
+                            {foreach from=$filtro item=resu}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="check_list" value="{$resu->turno_id}">
+                                    </td>
+                                    <td>
+                                        {$resu->medico_apellido}, {$resu->medico_nombre}
+                                    </td>
+                                    <td>
+                                        {$resu->turno_fecha} - {$resu->turno_hora}
+                                    </td>
+                                </tr>
+                            {/foreach}
+                            {else}
+                                {$mensaje}
+                            {/if}
+
+                        </tbody>
+                    </table>
+            {/if}              
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
                                 <button class=" btn btn-danger" type="button">Cancelar</button>
                             </div>
                         </form>
-                    {/if}
+                  
 
+            
+            
+                 </div>
             </div>
-            </div>
-        </div> {* fin del div card col-lg-8 m-4 *}
+        </div> 
+        
+        {* fin del div card col-lg-8 m-4 *}
 
         <script type="text/javascript" src="./js/script.js"></script>
     </div> {* fin del div d-flex justify-content-center *}
