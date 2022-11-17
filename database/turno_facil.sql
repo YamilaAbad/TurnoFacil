@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2022 a las 15:34:51
+-- Tiempo de generación: 17-11-2022 a las 23:44:50
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -39,14 +39,18 @@ CREATE TABLE `especialidad` (
 INSERT INTO `especialidad` (`esp_id`, `esp_nombre`) VALUES
 (1, 'Cardiologia'),
 (2, 'Endocrinologia'),
-(3, 'hemoterapia'),
+(3, 'Hemoterapia'),
 (4, 'Neumologia'),
 (5, 'Neurologia'),
 (6, 'Nutricion'),
 (7, 'Pediatria'),
 (8, 'Oncologia'),
 (9, 'Psiquiatria'),
-(10, 'Reumatologia');
+(10, 'Reumatologia'),
+(11, 'Generalista'),
+(12, 'Diabetologo'),
+(13, 'Oculista'),
+(14, 'Psicologia');
 
 -- --------------------------------------------------------
 
@@ -105,7 +109,31 @@ INSERT INTO `medico` (`medico_id`, `medico_dni`, `medico_nombre`, `medico_apelli
 (8, '5896741', 'Jose', 'Lopez', '29835689785', 2),
 (9, '12345687', 'Carla', 'Iriarte', '29835689785', 2),
 (10, '12355687', 'Antonia', 'Navarro', '29835689785', 3),
-(11, '30218748', 'Maria Jose', 'Perez', '29835689785', 4);
+(11, '30218748', 'Maria Jose', 'Perez', '29835689785', 4),
+(12, '74133896', 'Laura', 'Gonzalez', '298315030303', 1),
+(13, '85247888', 'Juana', 'Martinez Lacos', '29835611785', 8),
+(14, '11155687', 'Anacleta', 'Lazarte', '22238689785', 3),
+(15, '30288748', 'Mario Jose', 'Carrozi', '29835689785', 4),
+(16, '45002158', 'Juana Margarita', 'Cinalli', '29835611785', 5),
+(17, '50258748', 'Maria Paula', 'Martin', '29835689785', 6),
+(18, '25236989', 'Cristiana', 'Diaz Velez', '2983514569', 7),
+(19, '74125226', 'Juana', 'Viale', '29835689785', 10),
+(20, '35558748', 'Martina', 'Leggareta', '29835689785', 6),
+(21, '25231189', 'Juan Pedro', 'Pandora', '2983514569', 7),
+(22, '82347111', 'Anastacio', 'Dolagaray', '29835689785', 8),
+(23, '74125008', 'Julian Martin', 'Gomez', '29835689785', 10),
+(24, '85247333', 'Anastacia', 'Martinez', '29835689785', 9),
+(25, '74125236', 'Cristian', 'Viale', '29835689785', 11),
+(26, '74125866', 'Daiana', 'Galli', '29835689785', 11),
+(27, '74125338', 'Julian', 'Cardoso', '29835689785', 11),
+(28, '85111333', 'Gabriela', 'Martinez', '29835689785', 9),
+(29, '74125276', 'Cristiana', 'Viale', '29835689785', 13),
+(30, '74133866', 'Daiana Maria', 'Gallindo', '29835689785', 12),
+(31, '74125448', 'Juliana', 'Cardoso', '29835689785', 12),
+(32, '14125888', 'Damiana', 'Galli Garcia', '29835689785', 13),
+(33, '374125311', 'Julian', 'Carrozi', '29835689785', 13),
+(34, '34133866', 'Milagros Antonia', 'Gallindo', '29835689785', 12),
+(35, '34125276', 'Cristiana', 'Viale', '29835689785', 13);
 
 -- --------------------------------------------------------
 
@@ -126,10 +154,50 @@ CREATE TABLE `medico_os` (
 INSERT INTO `medico_os` (`mos_id`, `mos_id_medico`, `mos_id_obrasocial`) VALUES
 (1, 1, 1),
 (2, 1, 2),
-(3, 1, 5),
-(4, 2, 1),
+(3, 1, 9),
+(4, 2, 5),
 (5, 10, 1),
-(6, 10, 10);
+(6, 10, 8),
+(7, 1, 3),
+(8, 1, 4),
+(9, 1, 5),
+(10, 2, 1),
+(11, 2, 3),
+(12, 10, 10),
+(13, 2, 9),
+(14, 10, 3),
+(15, 10, 4),
+(16, 3, 2),
+(17, 3, 1),
+(18, 3, 3),
+(19, 3, 5),
+(20, 5, 4),
+(21, 5, 3),
+(22, 5, 10),
+(23, 5, 1),
+(24, 5, 8),
+(25, 4, 1),
+(26, 4, 2),
+(27, 4, 9),
+(28, 4, 5),
+(29, 6, 1),
+(30, 6, 2),
+(31, 6, 9),
+(32, 7, 1),
+(33, 7, 2),
+(34, 7, 9),
+(35, 7, 5),
+(36, 7, 8),
+(37, 23, 1),
+(38, 23, 5),
+(39, 12, 4),
+(40, 12, 3),
+(41, 12, 9),
+(42, 11, 2),
+(43, 15, 3),
+(44, 15, 4),
+(45, 12, 8),
+(46, 12, 10);
 
 -- --------------------------------------------------------
 
@@ -156,7 +224,10 @@ INSERT INTO `obra_social` (`os_id`, `os_nombre`) VALUES
 (7, 'OSPIN'),
 (8, 'OSPRERA'),
 (9, 'PAMI'),
-(10, 'Sancor Salud');
+(10, 'Sancor Salud'),
+(11, 'OSPRERA RURAL'),
+(12, 'OSECAD'),
+(13, 'OSPRERA');
 
 -- --------------------------------------------------------
 
@@ -239,7 +310,7 @@ INSERT INTO `rol` (`rol_id`, `rol_nombre`) VALUES
 (1, 'Medico'),
 (2, 'Secretaria'),
 (3, 'Administrador'),
-(4, '');
+(4, 'Superadmin');
 
 -- --------------------------------------------------------
 
@@ -298,7 +369,22 @@ INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_
 (17, NULL, 4, '2022-10-28', '18:00:00', NULL, 0),
 (18, NULL, 5, '2022-10-19', '18:00:00', NULL, 0),
 (19, NULL, 2, '2022-10-19', '18:00:00', NULL, 0),
-(20, NULL, 2, '2022-10-28', '18:30:00', NULL, 0);
+(20, NULL, 2, '2022-10-28', '18:30:00', NULL, 0),
+(21, NULL, 5, '2022-11-21', '10:00:00', NULL, 0),
+(22, NULL, 1, '2022-11-24', '09:30:00', NULL, 0),
+(23, NULL, 4, '2022-11-23', '10:30:00', NULL, 0),
+(24, NULL, 4, '2022-11-28', '10:00:00', NULL, 0),
+(25, NULL, 4, '2022-10-28', '18:30:00', NULL, 0),
+(26, NULL, 4, '2022-10-28', '18:00:00', NULL, 0),
+(27, NULL, 5, '2022-10-19', '18:00:00', NULL, 0),
+(28, NULL, 2, '2022-10-19', '18:00:00', NULL, 0),
+(29, NULL, 2, '2022-10-28', '18:30:00', NULL, 0),
+(30, NULL, 4, '2022-11-30', '18:30:00', NULL, 0),
+(31, NULL, 4, '2022-11-28', '18:00:00', NULL, 0),
+(32, NULL, 4, '2022-10-28', '10:30:00', NULL, 0),
+(33, NULL, 4, '2022-10-28', '18:40:00', NULL, 0),
+(34, NULL, 5, '2022-10-19', '17:00:00', NULL, 0),
+(35, NULL, 2, '2022-10-19', '18:40:00', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -418,7 +504,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `especialidad`
 --
 ALTER TABLE `especialidad`
-  MODIFY `esp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `esp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `grupo`
@@ -430,19 +516,19 @@ ALTER TABLE `grupo`
 -- AUTO_INCREMENT de la tabla `medico`
 --
 ALTER TABLE `medico`
-  MODIFY `medico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `medico_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `medico_os`
 --
 ALTER TABLE `medico_os`
-  MODIFY `mos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `mos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `obra_social`
 --
 ALTER TABLE `obra_social`
-  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
@@ -472,7 +558,7 @@ ALTER TABLE `tarifa`
 -- AUTO_INCREMENT de la tabla `turno`
 --
 ALTER TABLE `turno`
-  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `turno_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`

@@ -68,7 +68,7 @@ class PacienteController {
         //$mutuales=$this->model->obtenerMutuales();
         $dni= $_POST['dni'];
         $paciente=$this->model->existePaciente($dni);
-        var_dump($paciente);
+        //var_dump($paciente);
         
         if (!empty($dni) && !empty($paciente)){
             // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
