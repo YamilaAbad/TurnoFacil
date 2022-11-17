@@ -1,6 +1,8 @@
 <?php
     include_once 'app/models/pacienteModel.php';
     include_once 'app/views/pacienteView.php';
+    
+    
 
 class PacienteController {
 
@@ -8,10 +10,15 @@ class PacienteController {
     private $views;
 
 
+
     function __construct() {
         
         $this->view = new PacienteView();
         $this->model = new PacienteModel();
+        session_start();
+       // $this->chequearLogin();
+     
+        
     }
     /* "Como paciente quiero ver la lista de médicos para seleccionar
     uno"
@@ -20,6 +27,16 @@ class PacienteController {
         -Permitir filtrar médicos por especialidad y obra social que trabaja
         -Mostrar días y horarios que atiende un médico
     */
+    /*function chequearLogin(){
+        session_start();
+        if (!isset($_SESSION['ID_PACIENTE'])){
+
+            header("Location: " . BASE_URL . "login");
+            //$this->view->showOpciones($mensaje = '');
+            
+            die();
+        }
+    }*/
 
     function filtroDeEspecialidad($id){
        
@@ -72,9 +89,8 @@ class PacienteController {
         
         if (!empty($dni) && !empty($paciente)){
             // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
-            session_start();
             $_SESSION['ID_PACIENTE'] = $paciente->paciente_id;
-
+            $_SESSION['DNI_PACIENTE'] = $paciente->paciente_dni;
             $this->view->showOpciones($mensaje = '');
         }else{
             // si no existe registro el paciente
@@ -217,9 +233,10 @@ class PacienteController {
         * aca registra el turno elegido para el paciente
     */
     function registrarTurno(){
-        session_start();
+        //session_start();
         //guardo el id del paciente
         $idPaciente= $_SESSION['ID_PACIENTE'];
+        var_dump($idPaciente);
        
         //guarda el turno seleccionado
         $idTurno = $_POST['check_list'];
