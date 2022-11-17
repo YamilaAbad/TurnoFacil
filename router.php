@@ -38,15 +38,18 @@ switch ($params[0]) {
         break;
 
     case 'opciones':
-        $dni = $params[1];
-        if (!empty($dni) && isset($dni)){
-            $pacienteController->showOpciones($dni);
+        $pacienteController->showOpciones();
+            break;  
+       
+       /* $id = $params[1];
+        if (!empty($id) && isset($id)){
+            $pacienteController->showOpciones($id);
             break;  
         }else{
             // si no ingreso con dni redirigirlo a la pantalla de login
             $pacienteController->showLogin();
             break;
-        }        
+        }     */   
     case 'prueba':
         $controller->pruebaTemplate();
         break;
