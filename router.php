@@ -78,6 +78,10 @@ switch ($params[0]) {
         // registrar el nuevo paciente
         $pacienteController->registrarPaciente();
         break;
+    case 'listar_turnos':
+        // registrar el nuevo paciente
+        $pacienteController->listadoPaciente();
+        break;
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
     default:
        // $controller = new ErrorHelper();

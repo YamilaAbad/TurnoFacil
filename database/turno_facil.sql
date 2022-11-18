@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-11-2022 a las 23:44:50
+-- Tiempo de generación: 18-11-2022 a las 23:45:48
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -315,6 +315,32 @@ INSERT INTO `rol` (`rol_id`, `rol_nombre`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `secretaria`
+--
+
+CREATE TABLE `secretaria` (
+  `id_secretaria` int(11) NOT NULL,
+  `nombre` varchar(56) COLLATE utf8_spanish_ci NOT NULL,
+  `apellido` varchar(56) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `secretaria`
+--
+
+INSERT INTO `secretaria` (`id_secretaria`, `nombre`, `apellido`) VALUES
+(1, 'Laura', 'Millara'),
+(2, 'Matilda', 'Martinez'),
+(3, 'Gabriela', 'Martin'),
+(4, 'Maria', 'Catalina'),
+(5, 'Maria Lucia', 'Cardoso'),
+(6, 'Maria Antonieta', 'Carrozi'),
+(7, 'Julieta', 'Trueba'),
+(8, 'Monica', 'Straser');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tarifa`
 --
 
@@ -394,8 +420,6 @@ INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_
 
 CREATE TABLE `usuario` (
   `usuario_id` int(11) NOT NULL,
-  `usuario_nombre` varchar(60) NOT NULL,
-  `usuario_apellido` varchar(60) NOT NULL,
   `usuario_user` varchar(100) NOT NULL,
   `usuario_contrasenia` varchar(150) NOT NULL,
   `usuario_id_rol` int(11) NOT NULL
@@ -405,19 +429,19 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`usuario_id`, `usuario_nombre`, `usuario_apellido`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`) VALUES
-(1, 'Martin', 'Gonzales', 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1),
-(2, 'Juan', 'Martinez', 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1),
-(3, 'Cristian', 'Diaz', 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1),
-(4, 'Sol', 'Roteta', 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2),
-(5, 'Maria', 'Cinalli', 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1),
-(6, 'Cruz', 'Cinalli', 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1),
-(7, 'Olivia', 'Centeno', 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2),
-(8, 'David', 'Orlando', 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1),
-(9, 'Julian', 'Tormes', 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1),
-(10, 'Jose', 'Lopez', 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1),
-(11, 'Carla', 'Iriarte', 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1),
-(12, 'Manuela', 'Centeno', 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3);
+INSERT INTO `usuario` (`usuario_id`, `usuario_user`, `usuario_contrasenia`, `usuario_id_rol`) VALUES
+(1, 'martinG', '$2y$10$BMx0W06okg.lqU3OKI9CROJsosJrhtwt/UpZyT99LnKJj1h3CGN7W', 1),
+(2, 'juanM', '$2y$10$KSHVkwQx7CbmbB0xNnhZ4.xvcWGsHQHsLo2Bqv57CoPT4TJjP244G', 1),
+(3, 'cristianD', '$2y$10$pB0bS8e7youT6fo2Hf5jxemBKoXA2yDiVrFmtGkyasJqOSaKttwE.', 1),
+(4, 'solR', '$2y$10$4vpBwrpCgQBQqSAkAqK0muDvsx/J7KB3pJi5mV5FwOiDKhiK9ULQq', 2),
+(5, 'mariaC', '$2y$10$QTf4nta3yMoN.b3LwQ3vEeNBibi3HTmqJ57Rd356WwZ83jZoShvM6', 1),
+(6, 'cruzC', '$2y$10$4ltU9LjOJ.z/VfLUddFZYuu2ioqs505eotfMIV7EZpo9ecWzJQbVa', 1),
+(7, 'oliC', '$2y$10$9d.TOLLB.A1V4XQ30qOdTubfYsufxOw5LNWI4/Ji2dtrBNOV1yLLW', 2),
+(8, 'davidO', '$2y$10$DA94rA0hddTIEPfiyDpFce73L2fPrktxrMdpep9AlROr0EffE8ELG', 1),
+(9, 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1),
+(10, 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1),
+(11, 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1),
+(12, 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3);
 
 --
 -- Índices para tablas volcadas
@@ -474,6 +498,12 @@ ALTER TABLE `paciente_os`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`rol_id`);
+
+--
+-- Indices de la tabla `secretaria`
+--
+ALTER TABLE `secretaria`
+  ADD PRIMARY KEY (`id_secretaria`);
 
 --
 -- Indices de la tabla `tarifa`
@@ -547,6 +577,12 @@ ALTER TABLE `paciente_os`
 --
 ALTER TABLE `rol`
   MODIFY `rol_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `secretaria`
+--
+ALTER TABLE `secretaria`
+  MODIFY `id_secretaria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `tarifa`

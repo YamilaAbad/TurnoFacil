@@ -93,7 +93,7 @@ class PacienteModel {
     function obtenerMutuales(){
 
         $query = $this->db->prepare("SELECT * FROM obra_social ORDER BY os_nombre;");
-        $query->execute([]);
+        $query->execute();
         $mutuales = $query->fetchAll(PDO::FETCH_OBJ);
         return $mutuales;
     }
@@ -104,7 +104,6 @@ class PacienteModel {
     function obtenerMedicos(){
 
         $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.medico_id_especialidad = e.esp_id ORDER BY medico_apellido, medico_nombre;");
-        $query->execute([]);
         $query->execute();
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
         return $medicos;
@@ -228,7 +227,22 @@ class PacienteModel {
 
     }
 
-    
+    /*****************************FILTRO DE TURNOS PACIENTE**********************************/
+    /*
+    *Filtra los turnos de un paciente dado, mostrará el nombre del medico, especialidad, dia y horario de atención
+    *del turno correspondiente
+    */
+   function obtenerTurnosPaciente($idPaciente){
+    $query = $this->db->prepare('SELECT m.medico_nombre,e.esp_nombre,t.turno_fecha,t.turno_hora
+                                 FROM paciente p 
+                                 INNER JOIN turno t ON (t.turno_id_paciente = p.paciente_id)
+                                 INNER JOIN medico m ON (t.turno_id_medico = m.medico_id)
+                                 INNER JOIN especialidad e ON (m.medico_id_especialidad=e.esp_id)
+                                 WHERE p.paciente_id = ?
+                                 ORDER BY t.turno_fecha ASC');
+    $query->execute([$idPaciente]);
+    return $turnos = $query -> fetchAll(PDO::FETCH_OBJ);
+   }
 
 }   
 

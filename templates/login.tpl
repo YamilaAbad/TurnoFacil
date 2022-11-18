@@ -19,11 +19,8 @@
           <input type="text" class="form-control rounded-3" id="dni" name="dni" required>
           <label for="floatingInput">DNI</label>
         </div>
-        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Ingresar</button>
-      </form>
-    </div>
+      </div>
   </div>
-</div>
 </div>
 
 {include file="footer.tpl"}
