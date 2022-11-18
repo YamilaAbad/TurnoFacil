@@ -138,6 +138,14 @@ class PacienteController {
 
     }
 
+    /** cierra session recientemente creada */
+    function logout(){
+
+        session_start();
+        session_destroy();
+        header("Location: " . BASE_URL . 'home');
+    }
+
     function showLogin(){
         $mensaje = '';
         $this->view->showLogin($mensaje);
@@ -236,7 +244,7 @@ class PacienteController {
         //session_start();
         //guardo el id del paciente
         $idPaciente= $_SESSION['ID_PACIENTE'];
-        var_dump($idPaciente);
+        //var_dump($idPaciente);
        
         //guarda el turno seleccionado
         $idTurno = $_POST['check_list'];
@@ -272,7 +280,7 @@ class PacienteController {
                 }*/
                 // obtengo los datos del turno para poder mostrar en la pantalla de confirmacion de turno
                 $datos=$this->model->obtenerInfoTurno($idTurno);
-                $msg='Se ha enviado un mail con la confirmacion del turno';
+                $msg='Se ha enviado un e-mail con la confirmacion del turno';
                 $this->view->confirmacionDeTurno($msg, $datos);
             }
         }else{
@@ -310,10 +318,13 @@ class PacienteController {
     //Muestra los turnos que tiene el paciente
     
     function listadoPaciente(){
-        session_start();
+        
+        if (!isset($_SESSION['ID_PACIENTE'])){
+            session_start();
+        }
 
         $idPaciente= $_SESSION['ID_PACIENTE'];
-        var_dump($idPaciente);
+        //var_dump($idPaciente);
         $listTurnos = $this->model->obtenerTurnosPaciente($idPaciente);
         if(!empty($listTurnos)){
             $this->view->showList($listTurnos);

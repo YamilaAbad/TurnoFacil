@@ -36,10 +36,12 @@ switch ($params[0]) {
     case 'login':
         $pacienteController->showLogin();
         break;
-
+    case 'login-user':
+        $usuarioController->login();
+        break;
     case 'opciones':
         $pacienteController->showOpciones();
-            break;  
+        break;  
        
        /* $id = $params[1];
         if (!empty($id) && isset($id)){
@@ -83,6 +85,9 @@ switch ($params[0]) {
         $pacienteController->listadoPaciente();
         break;
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
+    case 'cerrar-session':
+        $pacienteController->logout();
+        break;
     default:
        // $controller = new ErrorHelper();
         // $controller->errorNotFound();

@@ -21,7 +21,7 @@
                             <a class="nav-link" href="#">Link</a>
                         </li> *}
                         <li class="nav-item me-3 ms-5">
-                            <button type="button" class="btn bg-verde">Acceso institución</button>
+                            <button type="button" class="btn bg-verde"><a class="nav-link nav-item p-0 text-light" href="login-user">Acceso institución</a></button>
                         </li>
                         <li class="nav-item">
                             <button type="button" class="btn bg-verde"><a class="nav-link nav-item p-0 text-light" href="login">Acceso paciente</a></button>
