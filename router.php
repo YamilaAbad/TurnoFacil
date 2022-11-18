@@ -4,6 +4,7 @@
 // include("file_with_errors.php");
 
 include_once 'app/controller/pacienteController.php';
+include_once 'app/controller/secretariaController.php';
 include_once 'app/controller/nuevo.php';
 //  include_once 'app/helpers/DB.Helper.php';
 
@@ -19,6 +20,7 @@ if (!empty($_GET['action'])) {
 }
 
 $pacienteController = new PacienteController();
+$secretariaController = new SecretariaController();
 $controller = new NuevoController(); 
 // phpinfo();
 
@@ -34,7 +36,16 @@ switch ($params[0]) {
         break;
 
     case 'login':
-        $pacienteController->showLogin();
+
+        //++++++++++++++VER CON BRENDA ++++++++++++++
+        /*if(sesion = secretaria){
+            $secretariaController->showLogin();
+        }
+
+        */
+        //$pacienteController->showLogin();
+
+        $secretariaController->showLogin();
         break;
     case 'login-user':
         $usuarioController->login();
@@ -61,16 +72,41 @@ switch ($params[0]) {
         $pacienteController->obtenerTurno();
         break;   
 
+        //secretaria
+    case 'ingresar-turnos':
+        $secretariaController->ingresarTurno();
+        break;   
+
+        case 'filtrar_turnos':
+            // realiza el filtro con los turnos 
+            $secretariaController->filtrarDiasDeAtencion();
+            break;
     case 'verificar_datos':
         $pacienteController->showDatos();
         break;
     case 'obtener_turnos':
-        // realiza el filtro con los turnos
+        // realiza el filtro con los turnos 
+
+        
+        //++++++++++++++VER CON BRENDA ++++++++++++++
+        /*if(sesion = secretaria){
+            $secretariaController->filtrarDiasDeAtencion();
+        }
+
+        */
         $pacienteController->filtrarDiasDeAtencion();
         break;
     case'chequear_paciente':
         // chequea el paciente ingresado
-        $pacienteController->verificarPaciente();
+                /* +++++++++ VER TEMA SESION CON BRENDA ++++++++
+        if(el usuario es secretaria){
+            $secretariaController->verificarPaciente();
+        }
+        else{
+            $pacienteController->verificarPaciente();
+        }
+        */
+        $secretariaController->verificarPaciente();
         break;
     case 'registrar_turno':
         // registrar el turno elegido
@@ -78,7 +114,15 @@ switch ($params[0]) {
         break;
     case 'registrar_datos':
         // registrar el nuevo paciente
-        $pacienteController->registrarPaciente();
+        /* +++++++++ VER TEMA SESION CON BRENDA ++++++++
+        if(el usuario es secretaria){
+            $secretariaController->registrarPaciente();
+        }
+        else{
+            $pacienteController->registrarPaciente();
+        }
+        */
+        $secretariaController->registrarPaciente();
         break;
     case 'listar_turnos':
         // registrar el nuevo paciente
