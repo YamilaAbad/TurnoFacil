@@ -1,4 +1,4 @@
-{include file="header.tpl"}
+{include file="header_login.tpl"}
 
 <div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
 <div class="modal-dialog" role="document">

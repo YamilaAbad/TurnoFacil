@@ -3,7 +3,7 @@
 
 <div class="portada">
 
-    <img class="img-portada" src="img/1.jpg" alt="Municipalidad">
+    <img class="img-portada" src="img/1.jpg" alt="Consultorios">
 
     <h1 class="titulo-portada-home ms-5"> Bienvenido a TurnoFacil</h1>
     <p class="texto-portada ms-5">Ingrese al listado para ver cuando es su proximo turno o consulte al médico que desee</p>
