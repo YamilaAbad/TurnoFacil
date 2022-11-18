@@ -38,7 +38,6 @@ switch ($params[0]) {
         break;
 
     case 'opciones':
-        
         $pacienteController->showOpciones();
         break;
         
