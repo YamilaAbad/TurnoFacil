@@ -19,21 +19,21 @@
                         </tr>
                     </thead>
                     <tbody >
-                        {* {if isset($turnos) && !empty($turnos)}   *}
-                                {* {foreach from=$turnos item=turno}
+                        {if isset($turnos) && !empty($turno)}   
+                                {foreach from=$turnos item=turno}
                                     <tr>
                                         <td class="ps-4">
                                             {$turno->medico_nombre}
                                         </td>
                                         <td>
-                                            {$turno->medico_especialidad},
+                                            {$turno->esp_especialidad},
                                         </td>
                                         <td>
                                             {$turno->turno_fecha} - {$turno->turno_hora}
                                         </td>
                                     </tr>
-                                {/foreach} *}
-                            {* {/if} *}
+                                {/foreach} 
+                        {/if}
                     </tbody>
                 </table>
             </div>
