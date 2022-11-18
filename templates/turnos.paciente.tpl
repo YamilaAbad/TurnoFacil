@@ -26,7 +26,7 @@
                                             {$turno->medico_nombre}
                                         </td>
                                         <td>
-                                            {$turno->esp_especialidad},
+                                            {$turno->esp_nombre}
                                         </td>
                                         <td>
                                             {$turno->turno_fecha} - {$turno->turno_hora}

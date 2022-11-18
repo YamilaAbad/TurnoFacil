@@ -279,8 +279,10 @@ class PacienteController {
             mail($to, $subject, $message);*/
     }
     //Muestra los turnos que tiene el paciente
+    
     function listadoPaciente(){
         session_start();
+
         $idPaciente= $_SESSION['ID_PACIENTE'];
         var_dump($idPaciente);
         $listTurnos = $this->model->obtenerTurnosPaciente($idPaciente);

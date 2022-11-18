@@ -38,8 +38,8 @@ switch ($params[0]) {
         break;
 
     case 'opciones':
-        $dni = $params[1];
-        $pacienteController->showOpciones($dni);
+        
+        $pacienteController->showOpciones();
         break;
         
     case 'prueba':
