@@ -38,11 +38,12 @@ class SecretariaController {
             // si el paciente se encuentra registrado notifico
             $mensaje="El paciente ya se encuentra registrado";
         }else{
-            // si no lo guardo en la BD
+            // si no estaba registrado lo registro al paciente 
             $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
             if ($paciente > 0){
                 $mensaje="Se registro correctamente.";
-                if ($mutual != 11){
+                // si posee mutual lo registro
+                if ($mutual != 14){
                     $reg_mut=$this->model->registraMutualPaciente($paciente, $mutual, $afiliado);  
                 }
             }else{
@@ -65,16 +66,41 @@ class SecretariaController {
 
     }
 
+    /**
+     * Muestra el formulario de login de secretaria
+     */
     function showLogin(){
         $mensaje = '';
-        $secretaria = 2;
-        $this->view->showLogin($secretaria,$mensaje);
+        $this->secretariaView->showLogin($mensaje);
     }
-
+    
+    /**
+     * Muestra las opciones de la secretaria
+     */
     function showOpciones(){
 
         $mensaje = '';
-        $this->view->showOpciones($mensaje);
+        $this->secretariaView->showOpciones($mensaje);
+    }
+
+    /**
+     * Muestra las opciones de la secretaria
+     */
+    function verificarUsuario(){
+
+        $user= $_POST['user'];
+        $pass= MD5($_POST['pass']);
+
+        // controlo que los datos de la secretaria ingresada existan
+        $control=$this->secretariaModel->existeUsuario($user, $pass);
+        if (!empty($control)){
+            // si existe le muestro la pantalla de turno
+            $this->secretariaView->showOpciones($mensaje=null);
+        }else{
+            // si no existe registro el paciente
+            $mensaje="Los datos ingresados son incorrectos.";
+            $this->secretariaView->showLogin($mensaje);
+        }
     }
 
     /*

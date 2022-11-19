@@ -42,7 +42,7 @@
         <h1 class="titulo-portada ms-5"> TurnoFacil Gestión de turnos online</h1>
         <p class="texto-portada ms-5">Bienvenido a Turno Facil, la turnera online más intuitiva y flexible que te permitirá gestionar tus turnos desde la comodidad de tu casa </p>
         <div class="botones-portada ms-5">
-            <button type="button" class="btn bg-verde me-2"><a class="nav-link nav-item" href="login">Acceso institución</a></button>
+            <button type="button" class="btn bg-verde me-2"><a class="nav-link nav-item" href="login-user">Acceso institución</a></button>
             <button type="button" class="btn bg-verde ms-2"><a class="nav-link nav-item" href="login">Acceso paciente</a></button>
         </div>
     </div>

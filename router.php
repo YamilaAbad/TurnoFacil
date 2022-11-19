@@ -34,21 +34,18 @@ switch ($params[0]) {
     case 'home':    
         $controller->showHome();
         break;
-
+    
     case 'login':
-
-        //++++++++++++++VER CON BRENDA ++++++++++++++
-        /*if(sesion = secretaria){
-            $secretariaController->showLogin();
-        }
-
-        */
-        //$pacienteController->showLogin();
-
-        $secretariaController->showLogin();
+        // este es el login de paciente
+        $pacienteController->showLogin();
         break;
     case 'login-user':
-        $usuarioController->login();
+        // este es el login de secretaria y medico
+        $secretariaController->showLogin($mensaje=null);
+        break;
+    case 'chequear_usuario':
+        // este es el login de secretaria y medico
+        $secretariaController->verificarUsuario();
         break;
     case 'opciones':
         $pacienteController->showOpciones();

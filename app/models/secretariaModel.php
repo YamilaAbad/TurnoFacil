@@ -13,6 +13,16 @@ class SecretariaModel {
         $this->db = $this->dbHelper->connect();
     }
 
+    /**
+     * Verifica que la secretaria ingrese sus datos correctos
+     */
+    function existeUsuario($user, $pass){
+
+        $query = $this->db->prepare("SELECT * FROM usuario 
+        WHERE usuario_user = ? and usuario_contrasenia = ? and usuario_id_rol = 2");
+        $query->execute([$user, $pass]);
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
 
     /**
      * Obtiene los dias de atencion de un medico en particular

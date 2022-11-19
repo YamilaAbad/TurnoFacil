@@ -188,7 +188,7 @@ class PacienteController {
 
         if (empty($especialidad) && empty($medico) && empty($mutual) && !empty($turno) ) {
             // si no filtro especialidad ni medico filtro solo por la fecha elegida y turno
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
         }else{
             // filtro por medico los turnos
             if (!empty($medico) && empty($especialidad) && empty($mutual) ) {
@@ -214,7 +214,7 @@ class PacienteController {
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
 
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{

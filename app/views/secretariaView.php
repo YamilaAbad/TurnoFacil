@@ -52,12 +52,11 @@ class SecretariaView{
         $smarty->display('./templates/turno.tpl');
     }
 
-    function showLogin($secretaria, $mensaje = ''){
+    function showLogin($mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
-        $smarty->assign('secretaria', $secretaria);
-        $smarty->display('./templates/login.tpl');
+        $smarty->display('./templates/login_user.tpl');
     }
 
     /* 
@@ -70,7 +69,15 @@ class SecretariaView{
         $smarty->display('./templates/login.tpl');
     }
 
+    /* 
+     * muestra las opciones de la secretaria
+    */
+    function showOpciones($mensaje){
 
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/opciones-secretaria.tpl');
+    }
 
     /**
      * si es un paciente verifico los datos
