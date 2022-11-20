@@ -83,6 +83,10 @@ switch ($params[0]) {
         // realiza el filtro con los turnos 
         $secretariaController->filtrarDiasDeAtencion();
         break;
+    case 'confirmar_turno':
+        // registrar el turno elegido
+        $secretariaController->registrarTurno();
+        break;
     case 'verificar_datos':
         $pacienteController->showDatos();
         break;

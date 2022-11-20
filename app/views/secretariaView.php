@@ -20,14 +20,15 @@ class SecretariaView{
     /**
      * Muestra los resultados que obtiene de aplicar los diferentes filtros
      */
-    function mostrarResultados($filtro, $medicos, $mensaje = ''){
+    function mostrarResultados($dni,$filtro, $mutuales,$medicos,$mensaje = ''){
 
         $smarty = new Smarty();
-        //$smarty->assign('secretaria', $secretaria);
+        $smarty->assign('dni', $dni);
         $smarty->assign('medicos', $medicos);
         $smarty->assign('mensaje', $mensaje);
+        $smarty->assign('mutuales', $mutuales);
         $smarty->assign('filtro', $filtro);
-        $smarty->display('./templates/turno.tpl');
+        $smarty->display('./templates/turno_secre.tpl');
     }
 
     /**

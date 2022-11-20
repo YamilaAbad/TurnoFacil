@@ -129,9 +129,9 @@ class SecretariaController {
     function verificarPaciente(){
         
         // obtengo mutuales del modelo Paciente
-        $mutuales=$this->model->obtenerMutuales();
+        $mutuales=$this->secretariaModel->obtenerMutuales();
         $dni= $_POST['dni'];
-        var_dump($dni);
+        //var_dump($dni);
         // verifico si el paciente existe
         $paciente=$this->secretariaModel->existePaciente($dni);
 
@@ -153,7 +153,10 @@ class SecretariaController {
     */
     function registrarTurno(){
 
-        $idPaciente= $_POST['paciente'];// se utiliza de esta forma hasta hacer el iniciar seccion
+        $paciente= $_POST['paciente'];// se utiliza de esta forma hasta hacer el iniciar seccion
+
+        // obtengo el idPaciente ya que vengo pasando el dni
+        $idPaciente=$this->secretariaModel->obtenerIdPaciente($paciente);
         //guarda el turno seleccionado
         $idTurno = $_POST['check_list'];
         
@@ -175,7 +178,7 @@ class SecretariaController {
          
         if(!empty($idPaciente && !empty($idTurno))){
             
-            $turno=$this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
+            $turno=$this->secretariaModel->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
 
             // si devuelve un numero mayor es porque actualizo
             if ($turno > 0){
@@ -210,6 +213,8 @@ class SecretariaController {
     function filtrarDiasDeAtencion (){
 
         $medicos=$this->secretariaModel->obtenerMedicos();
+        $mutuales=$this->model->obtenerMutuales();
+        $especialidades=$this->secretariaModel->obtenerEspecialidades();
         
         // tomo los datos filtrados en el formulario
         $rangoElegidoD= $_POST['fechaDesde'];
@@ -217,12 +222,12 @@ class SecretariaController {
         $turno = $_POST['turno'];
         $dni = $_POST['dni'];
         $medico = $_POST['medico'];
-        
+
         // filtro por medico los turnos
         $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
-            
-
-        if (!empty($filtro)){
+        //var_dump($filtro);  
+        //die();
+        /*if (!empty($filtro)){
             $mensaje="Seleccione el dia que desea y confirme por favor";
         }else{
             // si no encuentra resultados en la semana elegida muestra la semana siguiente
@@ -236,8 +241,9 @@ class SecretariaController {
             }else{
                 $mensaje="El medico elegido no tiene turnos disponibles para el rango elegido ni para la siguiente semana. Por favor elija otro medico o intente otra fecha.";
             }
-        }
-        $this->secretariaView->mostrarResultados($dni,$filtro, $medicos, $mensaje);
+        }*/
+
+        $this->view->mostrarResultados($dni,$filtro, $mutuales,$medicos, $mensaje='');
 
 
     }

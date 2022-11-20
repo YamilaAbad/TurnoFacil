@@ -88,8 +88,6 @@
                     </div>
                 </form>
             </div>
-        
-            {* fin de filtro para obtener los turnos *}
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -100,8 +98,8 @@
                     </thead>
                     <tbody>
                         {if isset($filtro) && !empty($filtro)}  
-                            <form action="registrar_turno" method="POST" class="form-inline my-2 my-lg-0"> 
-                                <input type="hidden" name="paciente" value="1">
+                            <form action="confirmar_turno" method="POST" class="form-inline my-2 my-lg-0"> 
+                                <input type="hidden" name="paciente" id="paciente" value="{$dni}">
                                 {foreach from=$filtro item=resu}
                                     <tr>
                                         <td>
