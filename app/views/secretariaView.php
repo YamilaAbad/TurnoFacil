@@ -33,23 +33,26 @@ class SecretariaView{
     /**
      * muestra el registro de paciente
      */
-    function showTemplate($mutuales){
+    function showTemplate($mutuales, $dni){
 
         $smarty = new Smarty();
         $smarty->assign('mutuales', $mutuales);
-        $smarty->display('./templates/registro.tpl');
+        $smarty->assign('dni', $dni);
+        $smarty->display('./templates/registro_paciente.tpl');
     }
 
     /**
      * Muestra la vista para sacar un nuevo turno
      */
-    function nuevoTurno($secretaria, $medicos, $mensaje = ''){
+    function nuevoTurno($mutuales, $medicos, $especialidades, $dni,$mensaje = ''){
 
         $smarty = new Smarty();
-        $smarty->assign('secretaria', $secretaria);
         $smarty->assign('medicos', $medicos);
+        $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('dni', $dni);
+        $smarty->assign('especialidades', $especialidades);
         $smarty->assign('mensaje', $mensaje);
-        $smarty->display('./templates/turno.tpl');
+        $smarty->display('./templates/turno_secre.tpl');
     }
 
     function showLogin($mensaje = ''){
@@ -66,7 +69,7 @@ class SecretariaView{
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
-        $smarty->display('./templates/login.tpl');
+        $smarty->display('./templates/buscador_paciente.tpl');
     }
 
     /* 

@@ -27,7 +27,7 @@ class PacienteController {
         -Permitir filtrar médicos por especialidad y obra social que trabaja
         -Mostrar días y horarios que atiende un médico
     */
-    /*function chequearLogin(){
+    function chequearLogin(){
         session_start();
         if (!isset($_SESSION['ID_PACIENTE'])){
 
@@ -36,7 +36,7 @@ class PacienteController {
             
             die();
         }
-    }*/
+    }
 
     function filtroDeEspecialidad($id){
        
@@ -325,9 +325,9 @@ class PacienteController {
 
         $idPaciente= $_SESSION['ID_PACIENTE'];
         //var_dump($idPaciente);
-        $listTurnos = $this->model->obtenerTurnosPaciente($idPaciente);
-        if(!empty($listTurnos)){
-            $this->view->showList($listTurnos);
+        $turnos = $this->model->obtenerTurnosPaciente($idPaciente);
+        if(!empty($turnos)){
+            $this->view->showList($turnos);
         }else{
             $this->view->showError("No hay turnos seleccionados");
         }

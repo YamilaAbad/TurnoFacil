@@ -73,37 +73,26 @@ switch ($params[0]) {
     case 'ingresar-turnos':
         $secretariaController->ingresarTurno();
         break;   
-
-        case 'filtrar_turnos':
-            // realiza el filtro con los turnos 
-            $secretariaController->filtrarDiasDeAtencion();
-            break;
+    case 'buscar_paciente':
+        $secretariaController->verificarPaciente();
+        break;  
+    case 'registrar_paciente':
+        $secretariaController->registrarPaciente();
+        break;  
+    case 'filtrar_turnos':
+        // realiza el filtro con los turnos 
+        $secretariaController->filtrarDiasDeAtencion();
+        break;
     case 'verificar_datos':
         $pacienteController->showDatos();
         break;
     case 'obtener_turnos':
         // realiza el filtro con los turnos 
-
-        
-        //++++++++++++++VER CON BRENDA ++++++++++++++
-        /*if(sesion = secretaria){
-            $secretariaController->filtrarDiasDeAtencion();
-        }
-
-        */
         $pacienteController->filtrarDiasDeAtencion();
         break;
     case'chequear_paciente':
         // chequea el paciente ingresado
-                /* +++++++++ VER TEMA SESION CON BRENDA ++++++++
-        if(el usuario es secretaria){
-            $secretariaController->verificarPaciente();
-        }
-        else{
             $pacienteController->verificarPaciente();
-        }
-        */
-        $secretariaController->verificarPaciente();
         break;
     case 'registrar_turno':
         // registrar el turno elegido
@@ -111,15 +100,7 @@ switch ($params[0]) {
         break;
     case 'registrar_datos':
         // registrar el nuevo paciente
-        /* +++++++++ VER TEMA SESION CON BRENDA ++++++++
-        if(el usuario es secretaria){
-            $secretariaController->registrarPaciente();
-        }
-        else{
-            $pacienteController->registrarPaciente();
-        }
-        */
-        $secretariaController->registrarPaciente();
+        $pacienteController->registrarPaciente();
         break;
     case 'listar_turnos':
         // registrar el nuevo paciente

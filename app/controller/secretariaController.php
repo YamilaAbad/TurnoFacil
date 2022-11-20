@@ -8,15 +8,13 @@ class SecretariaController {
 
     private $model;
     private $view;
-    private $secretariaView;
     private $secretariaModel;
 
 
     function __construct() {
         
-        $this->view = new PacienteView();
         $this->model = new PacienteModel();
-        $this->secretariaView = new SecretariaView();
+        $this->view = new SecretariaView();
         $this->secretariaModel = new SecretariaModel();
     }
 
@@ -33,36 +31,48 @@ class SecretariaController {
         $telefono= $_POST['telefono'];
         $mutual= $_POST['obra_elegida'];
         $afiliado= $_POST['afiliado'];
-
-        if ($this->model->existePaciente($dni) > 0){
+        var_dump($dni);
+        $existe=$this->model->existePaciente($dni);
+        if (!empty($existe)){
             // si el paciente se encuentra registrado notifico
             $mensaje="El paciente ya se encuentra registrado";
         }else{
             // si no estaba registrado lo registro al paciente 
             $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
             if ($paciente > 0){
-                $mensaje="Se registro correctamente.";
+                
                 // si posee mutual lo registro
                 if ($mutual != 14){
-                    $reg_mut=$this->model->registraMutualPaciente($paciente, $mutual, $afiliado);  
+                    $reg_mut=$this->model->registraMutualPaciente($paciente, $mutual, $afiliado); 
+                    if($reg_mut){
+                        // si se registro la mutual correctamente y el paciente muestro la pantalla de turnos
+                        $mensaje="Se registro correctamente el paciente.";
+                        // muestra la view para sacar turno
+                        $this->showTurno();
+
+                    } 
                 }
             }else{
                 $mensaje="Ups! ocurrio un error intente mas tarde.";
             }
         }
 
-        // muestra la view para sacar turno
-        $this->showTurno();
-
+        
     }
 
-    //muestro la pantalla de turnos
+    /*
+        * muestro la pantalla de turnos con los medicos habilitados para la secretaria
+    */
     function showTurno(){
+
         $medicos=$this->secretariaModel->obtenerMedicos();
-        $obraSocial=$this->secretariaModel->obtenerMutuales($medicos);
+        // obtiene solo las diferentes mutuales 
+        $mutuales=$this->model->obtenerMutuales();
+        // aca solo debe tener las especialidades de los medicos que tiene la secretaria
+        $especialidades=$this->secretariaModel->obtenerEspecialidades();
+
         /*SESION - VER CON BRENDA*/ 
-        $secretaria='2';
-        $this->secretariaView->nuevoTurno($secretaria, $medicos, $mensaje = '');
+        $this->view->nuevoTurno($mutuales, $medicos, $especialidades,$mensaje = '');
 
     }
 
@@ -71,7 +81,7 @@ class SecretariaController {
      */
     function showLogin(){
         $mensaje = '';
-        $this->secretariaView->showLogin($mensaje);
+        $this->view->showLogin($mensaje);
     }
     
     /**
@@ -95,11 +105,12 @@ class SecretariaController {
         $control=$this->secretariaModel->existeUsuario($user, $pass);
         if (!empty($control)){
             // si existe le muestro la pantalla de turno
-            $this->secretariaView->showOpciones($mensaje=null);
+            $_SESSION['ID_SECRETARIA'] = 1;
+            $this->view->showOpciones($mensaje=null);
         }else{
             // si no existe registro el paciente
             $mensaje="Los datos ingresados son incorrectos.";
-            $this->secretariaView->showLogin($mensaje);
+            $this->view->showLogin($mensaje);
         }
     }
 
@@ -109,17 +120,27 @@ class SecretariaController {
     function ingresarTurno(){
 
       //  $medicos=$this->secretariaModel->obtenerMedicos();
-        $this->secretariaView->showBuscador($mensaje = '');
+        $this->view->showBuscador($mensaje = '');
     }
 
+    /**
+     * este verifica si el paciente se encuentra registrado
+     */
     function verificarPaciente(){
         
+        // obtengo mutuales del modelo Paciente
         $mutuales=$this->model->obtenerMutuales();
         $dni= $_POST['dni'];
-        if (!empty($dni) && $d=$this->model->existePaciente($dni) > 0){
-            // si existe le muestro la pantalla de turno
-            $this->showTurno();
+        var_dump($dni);
+        // verifico si el paciente existe
+        $paciente=$this->secretariaModel->existePaciente($dni);
 
+        if (!empty($paciente)){
+            // si existe le muestro la pantalla de turnos para que directamente pueda sacarle turno
+            // debo obtener los medicos, especialidades y mutuales
+            $medicos=$this->secretariaModel->obtenerMedicos();
+            $especialidades=$this->secretariaModel->obtenerEspecialidades();
+            $this->view->nuevoTurno($mutuales, $medicos, $especialidades, $dni,$mensaje='');
         }else{
             // si no existe registro el paciente
             $this->view->showTemplate($mutuales,$dni);
@@ -183,15 +204,18 @@ class SecretariaController {
 
     }
 
+    /**
+     * obtiene  los turnos segun el filtro elegido
+     */
     function filtrarDiasDeAtencion (){
 
-        $secretaria = '2';
         $medicos=$this->secretariaModel->obtenerMedicos();
         
         // tomo los datos filtrados en el formulario
         $rangoElegidoD= $_POST['fechaDesde'];
         $rangoElegidoH= $_POST['fechaHasta'];
         $turno = $_POST['turno'];
+        $dni = $_POST['dni'];
         $medico = $_POST['medico'];
         
         // filtro por medico los turnos
@@ -213,7 +237,7 @@ class SecretariaController {
                 $mensaje="El medico elegido no tiene turnos disponibles para el rango elegido ni para la siguiente semana. Por favor elija otro medico o intente otra fecha.";
             }
         }
-        $this->secretariaView->mostrarResultados($secretaria, $filtro, $medicos, $mensaje);
+        $this->secretariaView->mostrarResultados($dni,$filtro, $medicos, $mensaje);
 
 
     }

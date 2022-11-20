@@ -68,20 +68,24 @@ class SecretariaModel {
      */
     function obtenerMedicos(){
 
-        $query = $this->db->prepare("SELECT * FROM `secretaria` s inner join medico m on s.medico_asociado = m.medico_id WHERE s.id_usuario=7;");
-        $query->execute([]);
+        $query = $this->db->prepare("SELECT * FROM `secretaria_de_medicos` s inner join medico m on s.id_medico = m.medico_id WHERE s.id_secretaria=1;");
         $query->execute();
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
         return $medicos;
+        
     }
 
         /**
-     * Obtiene las mutuales por las que trabaja el medico seleccionado
+     * Obtiene las especialidades por las que trabaja los medico que tiene en su consultorio la secretaria
      */
-    function obtenerMutuales($idMedico){
+    function obtenerEspecialidades(){
 
-        $query = $this->db->prepare("SELECT * FROM medico_os WHERE mos_id_medico = ? ORDER BY os_nombre;");
-        $query->execute([$idMedico]);
+        $query = $this->db->prepare("SELECT e.* 
+            FROM secretaria_de_medicos sm 
+            inner join medico m on sm.id_medico = m.id_medico 
+            inner join especialidad e on e.esp_id = m.medico_id_especialidad
+            ORDER BY e.esp_nombre;");
+        $query->execute();
         $mutuales = $query->fetchAll(PDO::FETCH_OBJ);
         return $mutuales;
     }
@@ -112,9 +116,9 @@ class SecretariaModel {
      */
     function existePaciente($dni){
 
-        $query = $this->db->prepare("SELECT * FROM paciente where paciente_dni = ?;");
+        $query = $this->db->prepare("SELECT paciente_dni FROM paciente where paciente_dni = ?;");
         $query->execute([$dni]);
-        return $query->rowCount();
+        return $query->fetch(PDO::FETCH_OBJ);;
     }
 
 
