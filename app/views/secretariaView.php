@@ -20,10 +20,10 @@ class SecretariaView{
     /**
      * Muestra los resultados que obtiene de aplicar los diferentes filtros
      */
-    function mostrarResultados($secretaria, $filtro, $medicos, $mensaje = ''){
+    function mostrarResultados($filtro, $medicos, $mensaje = ''){
 
         $smarty = new Smarty();
-        $smarty->assign('secretaria', $secretaria);
+        //$smarty->assign('secretaria', $secretaria);
         $smarty->assign('medicos', $medicos);
         $smarty->assign('mensaje', $mensaje);
         $smarty->assign('filtro', $filtro);

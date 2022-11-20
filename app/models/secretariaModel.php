@@ -80,10 +80,11 @@ class SecretariaModel {
      */
     function obtenerEspecialidades(){
 
-        $query = $this->db->prepare("SELECT e.* 
+        $query = $this->db->prepare("SELECT * 
             FROM secretaria_de_medicos sm 
-            inner join medico m on sm.id_medico = m.id_medico 
+            inner join medico m on sm.id_medico = m.medico_id
             inner join especialidad e on e.esp_id = m.medico_id_especialidad
+            where id_secretaria=1
             ORDER BY e.esp_nombre;");
         $query->execute();
         $mutuales = $query->fetchAll(PDO::FETCH_OBJ);

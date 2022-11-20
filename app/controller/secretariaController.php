@@ -219,7 +219,7 @@ class SecretariaController {
         $medico = $_POST['medico'];
         
         // filtro por medico los turnos
-      $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
+        $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
             
 
         if (!empty($filtro)){
@@ -242,13 +242,7 @@ class SecretariaController {
 
     }
     
-    // function showTemplate(){
-    //     $this->view->showTemplate();
-    // }
 
-    // function showDatos(){
-    //     $this->view->showDatos();
-    // }
 
 }
 

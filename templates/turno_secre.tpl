@@ -10,18 +10,40 @@
             <div class="card-body">
                 <form class='form' action='filtrar_turnos' method='POST'>
                      <div class="form-group">
-                     {foreach from=$dni item=d} 
                         <input type='hidden' name='dni' id='dni' class='form-control' value='{$dni}' required>
                         <div class="row justify-content-between text-left mt-4">
                             <div class="form-group col-sm-12 flex-column d-flex">
                                 <label for='inputMedico'>Médico:</label>
                                 <select name="medico" id="medicoSeleccionado" class="form-select">
-                                    <option name="medico" value=''>Selecione</option>
+                                    <option name="medico" value=''>Seleccione</option>
                                     {foreach from=$medicos item=med} 
                                         <option name="medico" value='{$med->medico_id}'> {$med->medico_apellido}, {$med->medico_nombre}</option>
                                     {/foreach}
                                 </select>
                             </div>
+                        </div>
+                        <div class="row justify-content-between text-left mt-4">
+                            <div class="form-group col-sm-12 flex-column d-flex">
+                                <label for='inputMedico'>Especialidad:</label>
+                                <select name="especialidad" class="form-select">
+                                    <option name="especialidad" value=''>Selecione</option>
+                                    {foreach from=$especialidades item=esp} 
+                                        <option name="especialidad" value='{$esp->esp_id}'> {$esp->esp_nombre}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left mt-4">
+                            <div class="form-group col-sm-12 flex-column d-flex">
+                                <label for='inputMedico'>Obra Social</label>
+                                <select name="obra_elegida" class="form-select"> 
+                                    <option name="obra_elegida" value=''>Selecione</option>
+                                    {foreach from=$mutuales item=mut} 
+                                        <option name="obra_elegida" value='{$mut->os_id}'> {$mut->os_nombre}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
                     </div>    
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-md-4 flex-column d-flex">
@@ -67,15 +89,44 @@
                 </form>
             </div>
         
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
-                <button class=" btn btn-danger" type="button">Cancelar</button>
+            {* fin de filtro para obtener los turnos *}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Elegir</th>
+                            <th>Médico</th>
+                            <th>Fecha y hora</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if isset($filtro) && !empty($filtro)}  
+                            <form action="registrar_turno" method="POST" class="form-inline my-2 my-lg-0"> 
+                                <input type="hidden" name="paciente" value="1">
+                                {foreach from=$filtro item=resu}
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="check_list" value="{$resu->turno_id}">
+                                        </td>
+                                        <td>
+                                            {$resu->medico_apellido}, {$resu->medico_nombre}
+                                        </td>
+                                        <td>
+                                            {$resu->turno_fecha} - {$resu->turno_hora}
+                                        </td>
+                                    </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button class=" btn btn-primary" type="submit">Confirmar Turno</button>
+                                <button class=" btn btn-danger" type="button">Cancelar</button>
+                            </div>
+                        </form>
+                    {/if}
+
             </div>
-        </form>
-                             
-                 </div>
             </div>
-        </div> 
 
         <script type="text/javascript" src="./js/script.js"></script>
     </div> {* fin del div d-flex justify-content-center *}
