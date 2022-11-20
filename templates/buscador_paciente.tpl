@@ -1,4 +1,4 @@
-{include file="header_login.tpl"}
+{include file="header.tpl"}
 
 <div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
 <div class="modal-dialog" role="document">
@@ -13,7 +13,7 @@
       </div>
     {/if}
     <div class="modal-body p-5 pt-0">
-      <form class="" method="POST" action="chequear_paciente">
+      <form class="" method="POST" action="buscar_paciente">
         <div class="form-floating mb-3">
           <input type="text" class="form-control rounded-3" id="dni" name="dni" required>
           <label for="floatingInput">DNI</label>

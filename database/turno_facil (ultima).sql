@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-11-2022 a las 23:45:48
+-- Tiempo de generación: 20-11-2022 a las 01:35:21
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -227,7 +227,8 @@ INSERT INTO `obra_social` (`os_id`, `os_nombre`) VALUES
 (10, 'Sancor Salud'),
 (11, 'OSPRERA RURAL'),
 (12, 'OSECAD'),
-(13, 'OSPRERA');
+(13, 'OSPRERA'),
+(14, 'NO POSEE');
 
 -- --------------------------------------------------------
 
@@ -260,7 +261,8 @@ INSERT INTO `paciente` (`paciente_id`, `paciente_dni`, `paciente_nombre`, `pacie
 (8, 14321234, 'Raul', 'Poloniato', 'Cangallo 125', '425465', 'raulsito@gmail.com'),
 (9, 11098273, 'Teresa', 'Mancini', 'Canada 35', '428178', 'tere@gmail.com'),
 (10, 5678432, 'Hector', 'Garcia', 'Burchardo 40', '430908', 'hector@gmail.com'),
-(11, 34509257, 'Noelia Daiana', 'Carrizo', '25 de mayo 445', '2983510330', 'noeliacarrizo22@gmail.com');
+(11, 34509257, 'Noelia Daiana', 'Carrizo', '25 de mayo 445', '2983510330', 'noeliacarrizo22@gmail.com'),
+(12, 0, 'Martina', 'Carrizo', 'Balcarce 445', '(298) 351-0330', 'martinac22@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -289,7 +291,8 @@ INSERT INTO `paciente_os` (`pos_id`, `pos_id_obrasocial`, `pos_id_paciente`, `po
 (7, 7, 7, 87654),
 (8, 2, 8, 45678),
 (9, 10, 9, 23456),
-(10, 2, 10, 21234);
+(10, 2, 10, 21234),
+(11, 11, 12, 675845);
 
 -- --------------------------------------------------------
 
@@ -321,22 +324,53 @@ INSERT INTO `rol` (`rol_id`, `rol_nombre`) VALUES
 CREATE TABLE `secretaria` (
   `id_secretaria` int(11) NOT NULL,
   `nombre` varchar(56) COLLATE utf8_spanish_ci NOT NULL,
-  `apellido` varchar(56) COLLATE utf8_spanish_ci NOT NULL
+  `apellido` varchar(56) COLLATE utf8_spanish_ci NOT NULL,
+  `usuario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `secretaria`
 --
 
-INSERT INTO `secretaria` (`id_secretaria`, `nombre`, `apellido`) VALUES
-(1, 'Laura', 'Millara'),
-(2, 'Matilda', 'Martinez'),
-(3, 'Gabriela', 'Martin'),
-(4, 'Maria', 'Catalina'),
-(5, 'Maria Lucia', 'Cardoso'),
-(6, 'Maria Antonieta', 'Carrozi'),
-(7, 'Julieta', 'Trueba'),
-(8, 'Monica', 'Straser');
+INSERT INTO `secretaria` (`id_secretaria`, `nombre`, `apellido`, `usuario_id`) VALUES
+(1, 'Noelia', 'Millara', 13),
+(2, 'Juana Matilda', 'Martinez', 2),
+(3, 'Gabriela', 'Martin', 10),
+(4, 'Maria', 'Catalina', 5),
+(5, 'Maria Lucia', 'Cardoso', 11),
+(6, 'Maria Antonieta', 'Carrozi', 1),
+(7, 'Julieta', 'Trueba', 9),
+(8, 'Monica', 'Straser', 12);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `secretaria_de_medicos`
+--
+
+CREATE TABLE `secretaria_de_medicos` (
+  `id_sec_med` int(11) NOT NULL,
+  `id_secretaria` int(11) NOT NULL,
+  `id_medico` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `secretaria_de_medicos`
+--
+
+INSERT INTO `secretaria_de_medicos` (`id_sec_med`, `id_secretaria`, `id_medico`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 1, 4),
+(5, 1, 5),
+(6, 1, 6),
+(7, 2, 4),
+(8, 2, 3),
+(9, 3, 6),
+(10, 3, 8),
+(11, 1, 13),
+(12, 1, 12);
 
 -- --------------------------------------------------------
 
@@ -380,7 +414,7 @@ CREATE TABLE `turno` (
 
 INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_fecha`, `turno_hora`, `turno_id_tarifa`, `turno_ocupado`) VALUES
 (1, 1, 1, '2022-10-27', '16:30:00', 1, 1),
-(2, 2, 5, '2022-10-27', '17:30:00', 1, 1),
+(2, 11, 5, '2022-10-27', '17:30:00', 1, 1),
 (3, NULL, 10, '2022-10-19', '10:00:00', NULL, 0),
 (4, NULL, 3, '2022-10-28', '09:30:00', NULL, 0),
 (5, NULL, 10, '2022-10-25', '18:00:00', NULL, 0),
@@ -397,8 +431,8 @@ INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_
 (19, NULL, 2, '2022-10-19', '18:00:00', NULL, 0),
 (20, NULL, 2, '2022-10-28', '18:30:00', NULL, 0),
 (21, NULL, 5, '2022-11-21', '10:00:00', NULL, 0),
-(22, NULL, 1, '2022-11-24', '09:30:00', NULL, 0),
-(23, NULL, 4, '2022-11-23', '10:30:00', NULL, 0),
+(22, 11, 1, '2022-11-24', '09:30:00', 2, 1),
+(23, 11, 4, '2022-11-23', '10:30:00', 2, 1),
 (24, NULL, 4, '2022-11-28', '10:00:00', NULL, 0),
 (25, NULL, 4, '2022-10-28', '18:30:00', NULL, 0),
 (26, NULL, 4, '2022-10-28', '18:00:00', NULL, 0),
@@ -441,7 +475,8 @@ INSERT INTO `usuario` (`usuario_id`, `usuario_user`, `usuario_contrasenia`, `usu
 (9, 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1),
 (10, 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1),
 (11, 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1),
-(12, 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3);
+(12, 'monis', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3),
+(13, 'noelia', '17d7cd52cd18e7bab99bb71de1669d95', 2);
 
 --
 -- Índices para tablas volcadas
@@ -506,6 +541,12 @@ ALTER TABLE `secretaria`
   ADD PRIMARY KEY (`id_secretaria`);
 
 --
+-- Indices de la tabla `secretaria_de_medicos`
+--
+ALTER TABLE `secretaria_de_medicos`
+  ADD PRIMARY KEY (`id_sec_med`);
+
+--
 -- Indices de la tabla `tarifa`
 --
 ALTER TABLE `tarifa`
@@ -558,19 +599,19 @@ ALTER TABLE `medico_os`
 -- AUTO_INCREMENT de la tabla `obra_social`
 --
 ALTER TABLE `obra_social`
-  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
 --
 ALTER TABLE `paciente`
-  MODIFY `paciente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `paciente_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente_os`
 --
 ALTER TABLE `paciente_os`
-  MODIFY `pos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `pos_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
@@ -583,6 +624,12 @@ ALTER TABLE `rol`
 --
 ALTER TABLE `secretaria`
   MODIFY `id_secretaria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `secretaria_de_medicos`
+--
+ALTER TABLE `secretaria_de_medicos`
+  MODIFY `id_sec_med` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `tarifa`
@@ -600,7 +647,7 @@ ALTER TABLE `turno`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas

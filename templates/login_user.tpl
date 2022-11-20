@@ -4,7 +4,7 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content rounded-4 shadow">
     <div class="pt-5 pb-2 border-bottom-0">
-      <h1 class="modal-title fs-5" >Ingrese DNI:</h1>     
+      <h1 class="modal-title fs-5" >Ingrese datos:</h1>     
     </div>
     {if isset($mensaje) && !empty($mensaje)}
       <div class="alert alert-dismissible alert-secondary">
@@ -13,14 +13,19 @@
       </div>
     {/if}
     <div class="modal-body p-5 pt-0">
-      <form class="" method="POST" action="chequear_paciente">
+      <form class="" method="POST" action="chequear_usuario">
         <div class="form-floating mb-3">
-          <input type="text" class="form-control rounded-3" id="dni" name="dni" required>
-          <label for="floatingInput">DNI</label>
+          <input type="text" class="form-control rounded-3" id="user" name="user" required>
+          <label for="floatingInput">Usuario:</label>
         </div>
-      </form>
-    </div>
-  </div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control rounded-3" id="pass" name="pass" required>
+          <label for="floatingInput">Password:</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="submit" class="form-control rounded-3" value="Ingresar">
+        </div>
+      </div>
   </div>
 </div>
 

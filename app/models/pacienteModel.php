@@ -58,7 +58,7 @@ class PacienteModel {
     function obtenerHorariosDeAtencionPorEspecialidad($rangoElegidoD, $rangoElegidoH, $especialidad){
 
         $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
-        WHERE t.turno_fecha between ? and ? and m.especialidad_id = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
+        WHERE t.turno_fecha between ? and ? and m.medico_id_especialidad = ? and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;");
         $query->execute([$rangoElegidoD, $rangoElegidoH, $especialidad]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
@@ -67,21 +67,21 @@ class PacienteModel {
     /**
      * Obtiene los dias de atencion con turnos disponibles para el rango elegido de un medico en particular
      */
-    function obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno){
+    function obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico){
 
         // dependiendo si elige de mañana o tarde el rango elegido para filtrar turnos son esos horarios
-        if ($turno == 'maniana'){
-            $hora_desde='08:00:00';
-            $hora_hasta='12:00:00';
-        }else{
+        if ($turno == 'tarde'){
             $hora_desde='15:00:00';
             $hora_hasta='20:00:00';
+        }else{
+            $hora_desde='08:00:00';
+            $hora_hasta='12:00:00';
         }
 
         // busco los turnos disponibles
-        $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
-        WHERE t.turno_fecha between ? and ? and t.turno_hora between ? and ? and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora ;");
-        $query->execute([$rangoElegidoD, $rangoElegidoH, $hora_desde, $hora_hasta]);
+        $query = $this->db->prepare("SELECT * FROM turno t
+        WHERE t.turno_fecha between ? and ? and t.turno_hora between ? and ? and t.turno_ocupado = 0 and t.turno_id_medico = ? ORDER BY turno_fecha, turno_hora ;");
+        $query->execute([$rangoElegidoD, $rangoElegidoH, $hora_desde, $hora_hasta, $medico]);
         $turnos = $query->fetchAll(PDO::FETCH_OBJ);
         return $turnos;
 
@@ -93,7 +93,7 @@ class PacienteModel {
     function obtenerMutuales(){
 
         $query = $this->db->prepare("SELECT * FROM obra_social ORDER BY os_nombre;");
-        $query->execute([]);
+        $query->execute();
         $mutuales = $query->fetchAll(PDO::FETCH_OBJ);
         return $mutuales;
     }
@@ -104,7 +104,6 @@ class PacienteModel {
     function obtenerMedicos(){
 
         $query = $this->db->prepare("SELECT * FROM medico m inner join especialidad e on m.medico_id_especialidad = e.esp_id ORDER BY medico_apellido, medico_nombre;");
-        $query->execute([]);
         $query->execute();
         $medicos = $query->fetchAll(PDO::FETCH_OBJ);
         return $medicos;
@@ -148,7 +147,8 @@ class PacienteModel {
 
         $query = $this->db->prepare("SELECT * FROM paciente where paciente_dni = ?;");
         $query->execute([$dni]);
-        return $query->rowCount();
+        //return $query->rowCount();
+        return $query->fetch(PDO::FETCH_OBJ);
     }
 
     /********************************* NUEVA FUNCIÓN PARA OBTENER LOS MEDICOS QUE TRABAJAR POR OBRA SOCIAL ************/
@@ -227,7 +227,23 @@ class PacienteModel {
 
     }
 
-    
+    /*****************************FILTRO DE TURNOS PACIENTE**********************************/
+    /*
+    *Filtra los turnos de un paciente dado, mostrará el nombre del medico, especialidad, dia y horario de atención
+    *del turno correspondiente
+    */
+
+   function obtenerTurnosPaciente($idPaciente){
+        $query = $this->db->prepare('SELECT m.medico_nombre,e.esp_nombre,t.turno_fecha,t.turno_hora
+                                    FROM paciente p 
+                                    INNER JOIN turno t ON (t.turno_id_paciente = p.paciente_id)
+                                    INNER JOIN medico m ON (t.turno_id_medico = m.medico_id)
+                                    INNER JOIN especialidad e ON (m.medico_id_especialidad=e.esp_id)
+                                    WHERE p.paciente_id = ?
+                                    ORDER BY t.turno_fecha ASC');
+        $query->execute([$idPaciente]);
+        return $turnos = $query -> fetchAll(PDO::FETCH_OBJ);
+   }
 
 }   
 

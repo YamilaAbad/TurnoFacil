@@ -3,7 +3,7 @@
 require_once('libs/Smarty/libs/Smarty.class.php');
 
 
-class PacienteView{
+class SecretariaView{
 
    
     /*  
@@ -20,57 +20,68 @@ class PacienteView{
     /**
      * Muestra los resultados que obtiene de aplicar los diferentes filtros
      */
-    function mostrarResultados($filtro, $especialidades,$mutuales, $medicos, $mensaje = ''){
+    function mostrarResultados($dni,$filtro, $mutuales,$medicos,$mensaje = ''){
 
         $smarty = new Smarty();
-        $smarty->assign('especialidades', $especialidades);
-        $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('dni', $dni);
         $smarty->assign('medicos', $medicos);
         $smarty->assign('mensaje', $mensaje);
+        $smarty->assign('mutuales', $mutuales);
         $smarty->assign('filtro', $filtro);
-        $smarty->display('./templates/turno.tpl');
+        $smarty->display('./templates/turno_secre.tpl');
     }
 
     /**
      * muestra el registro de paciente
      */
-    function showTemplate($mutuales){
+    function showTemplate($mutuales, $dni){
 
         $smarty = new Smarty();
         $smarty->assign('mutuales', $mutuales);
-        $smarty->display('./templates/registro.tpl');
+        $smarty->assign('dni', $dni);
+        $smarty->display('./templates/registro_paciente.tpl');
     }
 
     /**
      * Muestra la vista para sacar un nuevo turno
      */
-    function nuevoTurno($especialidades,$mutuales, $medicos, $mensaje = ''){
+    function nuevoTurno($mutuales, $medicos, $especialidades, $dni,$mensaje = ''){
 
         $smarty = new Smarty();
-        $smarty->assign('especialidades', $especialidades);
-        $smarty->assign('mutuales', $mutuales);
         $smarty->assign('medicos', $medicos);
+        $smarty->assign('mutuales', $mutuales);
+        $smarty->assign('dni', $dni);
+        $smarty->assign('especialidades', $especialidades);
         $smarty->assign('mensaje', $mensaje);
-        $smarty->display('./templates/turno.tpl');
+        $smarty->display('./templates/turno_secre.tpl');
     }
 
     function showLogin($mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
-        $smarty->display('./templates/login.tpl');
+        $smarty->display('./templates/login_user.tpl');
     }
 
-    /**
-     * muestro las pantallas de opciones que puede hacer el paciente
-     */
-    function showOpciones($mensaje = ''){
+    /* 
+    Busco si el paciente está registrado 
+    */
+    function showBuscador($mensaje = ''){
 
         $smarty = new Smarty();
         $smarty->assign('mensaje', $mensaje);
-        $smarty->display('./templates/home.paciente.tpl');
+        $smarty->display('./templates/buscador_paciente.tpl');
     }
 
+    /* 
+     * muestra las opciones de la secretaria
+    */
+    function showOpciones($mensaje){
+
+        $smarty = new Smarty();
+        $smarty->assign('mensaje', $mensaje);
+        $smarty->display('./templates/opciones-secretaria.tpl');
+    }
 
     /**
      * si es un paciente verifico los datos
@@ -93,14 +104,6 @@ class PacienteView{
         $smarty->assign('datos', $datos);
         $smarty->assign('mensaje', $msg);
         $smarty->display('templates/confirmacion.turno.tpl');
-    }
-
-    /** muestra los turnos del paciente */
-    function showList($turnos){
-
-        $smarty = new Smarty();
-        $smarty->assign('turnos', $turnos);
-        $smarty->display('templates/turnos.paciente.tpl');
     }
 
     /*****************************************MENSAJE DE ERROR***********************************************/

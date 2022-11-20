@@ -4,6 +4,7 @@
 // include("file_with_errors.php");
 
 include_once 'app/controller/pacienteController.php';
+include_once 'app/controller/secretariaController.php';
 include_once 'app/controller/nuevo.php';
 //  include_once 'app/helpers/DB.Helper.php';
 
@@ -15,10 +16,11 @@ define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] 
 if (!empty($_GET['action'])) {
     $action = $_GET['action'];
 } else {
-    $action = 'login'; // acción por defecto si no envían
+    $action = 'home'; // acción por defecto si no envían
 }
 
 $pacienteController = new PacienteController();
+$secretariaController = new SecretariaController();
 $controller = new NuevoController(); 
 // phpinfo();
 
@@ -32,16 +34,32 @@ switch ($params[0]) {
     case 'home':    
         $controller->showHome();
         break;
-
+    
     case 'login':
+        // este es el login de paciente
         $pacienteController->showLogin();
         break;
-
-    case 'opciones':
-        $dni = $params[1];
-        $pacienteController->showOpciones($dni);
+    case 'login-user':
+        // este es el login de secretaria y medico
+        $secretariaController->showLogin($mensaje=null);
         break;
-        
+    case 'chequear_usuario':
+        // este es el login de secretaria y medico
+        $secretariaController->verificarUsuario();
+        break;
+    case 'opciones':
+        $pacienteController->showOpciones();
+        break;  
+       
+       /* $id = $params[1];
+        if (!empty($id) && isset($id)){
+            $pacienteController->showOpciones($id);
+            break;  
+        }else{
+            // si no ingreso con dni redirigirlo a la pantalla de login
+            $pacienteController->showLogin();
+            break;
+        }     */   
     case 'prueba':
         $controller->pruebaTemplate();
         break;
@@ -51,16 +69,34 @@ switch ($params[0]) {
         $pacienteController->obtenerTurno();
         break;   
 
+        //secretaria
+    case 'ingresar-turnos':
+        $secretariaController->ingresarTurno();
+        break;   
+    case 'buscar_paciente':
+        $secretariaController->verificarPaciente();
+        break;  
+    case 'registrar_paciente':
+        $secretariaController->registrarPaciente();
+        break;  
+    case 'filtrar_turnos':
+        // realiza el filtro con los turnos 
+        $secretariaController->filtrarDiasDeAtencion();
+        break;
+    case 'confirmar_turno':
+        // registrar el turno elegido
+        $secretariaController->registrarTurno();
+        break;
     case 'verificar_datos':
         $pacienteController->showDatos();
         break;
     case 'obtener_turnos':
-        // realiza el filtro con los turnos
+        // realiza el filtro con los turnos 
         $pacienteController->filtrarDiasDeAtencion();
         break;
     case'chequear_paciente':
         // chequea el paciente ingresado
-        $pacienteController->verificarPaciente();
+            $pacienteController->verificarPaciente();
         break;
     case 'registrar_turno':
         // registrar el turno elegido
@@ -70,7 +106,14 @@ switch ($params[0]) {
         // registrar el nuevo paciente
         $pacienteController->registrarPaciente();
         break;
+    case 'listar_turnos':
+        // registrar el nuevo paciente
+        $pacienteController->listadoPaciente();
+        break;
     /***************** ANTE ERROR MUESTRA PANTALLA POR DEFECTO ***********************/  
+    case 'cerrar-session':
+        $pacienteController->logout();
+        break;
     default:
        // $controller = new ErrorHelper();
         // $controller->errorNotFound();

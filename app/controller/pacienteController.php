@@ -1,6 +1,8 @@
 <?php
     include_once 'app/models/pacienteModel.php';
     include_once 'app/views/pacienteView.php';
+    
+    
 
 class PacienteController {
 
@@ -8,10 +10,15 @@ class PacienteController {
     private $views;
 
 
+
     function __construct() {
         
         $this->view = new PacienteView();
         $this->model = new PacienteModel();
+        session_start();
+       // $this->chequearLogin();
+     
+        
     }
     /* "Como paciente quiero ver la lista de médicos para seleccionar
     uno"
@@ -20,6 +27,16 @@ class PacienteController {
         -Permitir filtrar médicos por especialidad y obra social que trabaja
         -Mostrar días y horarios que atiende un médico
     */
+    function chequearLogin(){
+        session_start();
+        if (!isset($_SESSION['ID_PACIENTE'])){
+
+            header("Location: " . BASE_URL . "login");
+            //$this->view->showOpciones($mensaje = '');
+            
+            die();
+        }
+    }
 
     function filtroDeEspecialidad($id){
        
@@ -65,14 +82,20 @@ class PacienteController {
      */
     function verificarPaciente(){
         
-        $mutuales=$this->model->obtenerMutuales();
+        //$mutuales=$this->model->obtenerMutuales();
         $dni= $_POST['dni'];
-        if (!empty($dni) && $d=$this->model->existePaciente($dni) > 0){
+        $paciente=$this->model->existePaciente($dni);
+        //var_dump($paciente);
+        
+        if (!empty($dni) && !empty($paciente)){
             // si existe le muestro la pantalla de opciones de lo que puede hacer el paciente
+            $_SESSION['ID_PACIENTE'] = $paciente->paciente_id;
+            $_SESSION['DNI_PACIENTE'] = $paciente->paciente_dni;
             $this->view->showOpciones($mensaje = '');
         }else{
             // si no existe registro el paciente
-            $this->view->showTemplate($mutuales,$dni);
+            $this->view->showError("Datos incorrectos");
+            //$this->view->showTemplate($mutuales,$dni);
         }
     }
 
@@ -93,22 +116,34 @@ class PacienteController {
         if ($this->model->existePaciente($dni) > 0){
             // si el paciente se encuentra registrado notifico
             $mensaje="El paciente ya se encuentra registrado";
+            $this->view->showLogin($mensaje);
         }else{
             // si no lo guardo en la BD
             $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
             if ($paciente > 0){
-                $mensaje="Se registro correctamente.";
+                $mensaje="Se registro correctamente. Inicie session por favor";
                 if ($mutual != 11){
                     $reg_mut=$this->model->registraMutualPaciente($paciente, $mutual, $afiliado);  
+                }else{
+                    // si no posee mutual
+                    $reg_mut=$this->model->registraMutualPaciente($paciente, 11, 0);
                 }
+                // si se registro mutual y paciente correctamente lo mando al login
+                $this->view->showLogin($mensaje);
             }else{
-                $mensaje="Ups! ocurrio un error intente mas tarde.";
+                $mensaje="Ups! no pudimos registrarlo como paciente. Intente mas tarde.";
+                $this->view->showLogin($mensaje);
             }
         }
 
-        // muestra la home de usuario
-        $this->view->showOpciones();
+    }
 
+    /** cierra session recientemente creada */
+    function logout(){
+
+        session_start();
+        session_destroy();
+        header("Location: " . BASE_URL . 'home');
     }
 
     function showLogin(){
@@ -153,7 +188,7 @@ class PacienteController {
 
         if (empty($especialidad) && empty($medico) && empty($mutual) && !empty($turno) ) {
             // si no filtro especialidad ni medico filtro solo por la fecha elegida y turno
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
         }else{
             // filtro por medico los turnos
             if (!empty($medico) && empty($especialidad) && empty($mutual) ) {
@@ -179,7 +214,7 @@ class PacienteController {
             //sumo 7 dias
             $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
 
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno);
+            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
             if (!empty($filtro)){
                 $mensaje="Seleccione el dia que desea y confirme por favor";
             }else{
@@ -206,16 +241,18 @@ class PacienteController {
         * aca registra el turno elegido para el paciente
     */
     function registrarTurno(){
-
-        $idPaciente= $_POST['paciente'];// se utiliza de esta forma hasta hacer el iniciar seccion
+        //session_start();
+        //guardo el id del paciente
+        $idPaciente= $_SESSION['ID_PACIENTE'];
+        //var_dump($idPaciente);
+       
         //guarda el turno seleccionado
         $idTurno = $_POST['check_list'];
         
        
         // si el paciente tiene obra social le cobro un tarifa sino la otra
         $obraSocial= $this->model->obtenerObraSocial($idPaciente); 
-        //var_dump($obraSocial);
-        //$idTarifa=null;
+
         if(!empty($obraSocial)){
             $idTarifa=1;
             $mensaje='Al poseer obra social solo tiene que abonar un adicional de $1000'; 
@@ -225,7 +262,7 @@ class PacienteController {
             $mensaje='No posee obra social por lo que tiene que abonar el costo del turno que seria de $3000';
              
         }
-       // $this->model->cambiarTurnoOcupado($idPaciente,$idTarifa,$idTurno);
+    
          
         if(!empty($idPaciente && !empty($idTurno))){
             
@@ -243,7 +280,7 @@ class PacienteController {
                 }*/
                 // obtengo los datos del turno para poder mostrar en la pantalla de confirmacion de turno
                 $datos=$this->model->obtenerInfoTurno($idTurno);
-                $msg='Se ha enviado un mail con la confirmacion del turno';
+                $msg='Se ha enviado un e-mail con la confirmacion del turno';
                 $this->view->confirmacionDeTurno($msg, $datos);
             }
         }else{
@@ -277,6 +314,24 @@ class PacienteController {
         
  
             mail($to, $subject, $message);*/
+    }
+    //Muestra los turnos que tiene el paciente
+    
+    function listadoPaciente(){
+        
+        if (!isset($_SESSION['ID_PACIENTE'])){
+            session_start();
+        }
+
+        $idPaciente= $_SESSION['ID_PACIENTE'];
+        //var_dump($idPaciente);
+        $turnos = $this->model->obtenerTurnosPaciente($idPaciente);
+        if(!empty($turnos)){
+            $this->view->showList($turnos);
+        }else{
+            $this->view->showError("No hay turnos seleccionados");
+        }
+       
     }
 }
 

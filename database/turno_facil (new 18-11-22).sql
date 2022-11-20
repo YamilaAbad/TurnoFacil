@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-11-2022 a las 23:45:48
+-- Tiempo de generación: 19-11-2022 a las 01:28:45
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 8.0.11
 
@@ -227,7 +227,8 @@ INSERT INTO `obra_social` (`os_id`, `os_nombre`) VALUES
 (10, 'Sancor Salud'),
 (11, 'OSPRERA RURAL'),
 (12, 'OSECAD'),
-(13, 'OSPRERA');
+(13, 'OSPRERA'),
+(14, 'NO POSEE');
 
 -- --------------------------------------------------------
 
@@ -397,7 +398,7 @@ INSERT INTO `turno` (`turno_id`, `turno_id_paciente`, `turno_id_medico`, `turno_
 (19, NULL, 2, '2022-10-19', '18:00:00', NULL, 0),
 (20, NULL, 2, '2022-10-28', '18:30:00', NULL, 0),
 (21, NULL, 5, '2022-11-21', '10:00:00', NULL, 0),
-(22, NULL, 1, '2022-11-24', '09:30:00', NULL, 0),
+(22, 11, 1, '2022-11-24', '09:30:00', 2, 1),
 (23, NULL, 4, '2022-11-23', '10:30:00', NULL, 0),
 (24, NULL, 4, '2022-11-28', '10:00:00', NULL, 0),
 (25, NULL, 4, '2022-10-28', '18:30:00', NULL, 0),
@@ -441,7 +442,8 @@ INSERT INTO `usuario` (`usuario_id`, `usuario_user`, `usuario_contrasenia`, `usu
 (9, 'juliT', '$2y$10$KP0ANjHbyj9r/v7Yb5IJ0OcXdxkFB67UjRYwlGRqzhfq6A7gU63Nm', 1),
 (10, 'joseL', '$2y$10$dZvU1OcVruxAR6Dv0UiqF.RFB4qVt3hJsJ7itZdkT8btrGF6/ptVe', 1),
 (11, 'carlI', '$2y$10$RDRYCGPH5QXPG7sgbm3o2u4DMqOZOJRBIOK481ADBhWZO0hb2lRea', 1),
-(12, 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3);
+(12, 'manuC', '$2y$10$oBbZ1ITXpDRgAHSr5iActuiWZa3KRh34mGiVKTw2dYo898NmMqmx2', 3),
+(13, 'noelia', '17d7cd52cd18e7bab99bb71de1669d95', 2);
 
 --
 -- Índices para tablas volcadas
@@ -558,7 +560,7 @@ ALTER TABLE `medico_os`
 -- AUTO_INCREMENT de la tabla `obra_social`
 --
 ALTER TABLE `obra_social`
-  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `os_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
@@ -600,7 +602,7 @@ ALTER TABLE `turno`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `usuario_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
