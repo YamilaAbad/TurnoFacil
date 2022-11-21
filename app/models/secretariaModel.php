@@ -29,7 +29,6 @@ class SecretariaModel {
      */
     function obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico){
 
-        // busco los turnos disponibles
 
         /* SELECT DISTINCT(t.turno_id), m.*, t.* FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
         WHERE  t.turno_id_medico = 4 and t.turno_ocupado = 0 ORDER BY t.turno_fecha, t.turno_hora;*/
@@ -64,6 +63,28 @@ class SecretariaModel {
 
     }
 
+    function obtenerHorariosDeAtencionManiana($rangoElegidoD, $rangoElegidoH, $medico){
+
+        // busco los turnos disponibles
+        $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
+        WHERE t.turno_fecha between ? and ? and t.turno_id_medico = ? and t.turno_hora > '08:00:00' and t.turno_hora < '12:00:00' and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora ;");
+        $query->execute([$rangoElegidoD, $rangoElegidoH, $medico]);
+        $turnos = $query->fetchAll(PDO::FETCH_OBJ);
+        return $turnos;
+
+    }
+
+    function obtenerHorariosDeAtencionTarde($rangoElegidoD, $rangoElegidoH, $medico){
+
+        // busco los turnos disponibles
+        $query = $this->db->prepare("SELECT * FROM turno t inner join medico m on t.turno_id_medico = m.medico_id
+        WHERE t.turno_fecha between ? and ? and t.turno_id_medico = ? and t.turno_hora > '15:00:00' and t.turno_hora < '20:00:00' and turno_ocupado = 0 ORDER BY turno_fecha, turno_hora ;");
+        $query->execute([$rangoElegidoD, $rangoElegidoH, $medico]);
+        $turnos = $query->fetchAll(PDO::FETCH_OBJ);
+        return $turnos;
+
+    }
+
 
 
     /**
@@ -79,38 +100,16 @@ class SecretariaModel {
         
     }
 
-    /**
-     * Obtiene las especialidades por las que trabaja los medico que tiene en su consultorio la secretaria
-     */
-    function obtenerEspecialidades(){
-
-        $query = $this->db->prepare("SELECT DISTINCT(e.esp_nombre) , e.esp_id
-        FROM secretaria_de_medicos sm 
-        inner join medico m on sm.id_medico = m.medico_id
-        inner join especialidad e on e.esp_id = m.medico_id_especialidad
-        where id_secretaria=1
-        ORDER BY e.esp_nombre;");
-        $query->execute();
-        $mutuales = $query->fetchAll(PDO::FETCH_OBJ);
-        return $mutuales;
-    }
-
-    /**
-     * Obtiene las mutuales por las que trabaja los medico que tiene en su consultorio la secretaria
+     /**
+     * Obtiene los mutuales que atienden los medicos del sistema
      */
     function obtenerMutuales(){
 
-        $query = $this->db->prepare("SELECT DISTINCT(o.os_nombre) , o.os_id
-        FROM secretaria_de_medicos sm 
-        inner join medico_os m on sm.id_medico = m.mos_id_medico
-        inner join obra_social o on o.os_id = m.mos_id_obrasocial
-        where id_secretaria=1
-        ORDER BY o.os_nombre;");
+        $query = $this->db->prepare("SELECT * FROM obra_social ORDER BY os_nombre;");
         $query->execute();
         $mutuales = $query->fetchAll(PDO::FETCH_OBJ);
         return $mutuales;
     }
-
 
     /**
      * Registra un nuevo paciente 
@@ -130,6 +129,17 @@ class SecretariaModel {
         $query = $this->db->prepare('INSERT INTO paciente_os (pos_id_obrasocial, pos_id_paciente, pos_n_afiliado ) VALUES (?,?,?)');
         $query->execute([$mutual,$paciente, $afiliado]);
         return $this->db->lastInsertId();
+    }
+
+        /**
+     * Obtiene las diferentes especialidades registradas en el sistema
+     */
+    function obtenerEspecialidades(){
+
+        $query = $this->db->prepare("SELECT * FROM especialidad ORDER BY esp_nombre;");
+        $query->execute([]);
+        $especialidades = $query->fetchAll(PDO::FETCH_OBJ);
+        return $especialidades;
     }
 
     /**

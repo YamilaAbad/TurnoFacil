@@ -31,7 +31,6 @@ class SecretariaController {
         $telefono= $_POST['telefono'];
         $mutual= $_POST['obra_elegida'];
         $afiliado= $_POST['afiliado'];
-        var_dump($dni);
         $existe=$this->model->existePaciente($dni);
         if (!empty($existe)){
             // si el paciente se encuentra registrado notifico
@@ -56,8 +55,6 @@ class SecretariaController {
                 $mensaje="Ups! ocurrio un error intente mas tarde.";
             }
         }
-
-        
     }
 
     /*
@@ -66,13 +63,8 @@ class SecretariaController {
     function showTurno(){
 
         $medicos=$this->secretariaModel->obtenerMedicos();
-        // obtiene solo las diferentes mutuales 
-        $mutuales=$this->model->obtenerMutuales();
-        // aca solo debe tener las especialidades de los medicos que tiene la secretaria
-        $especialidades=$this->secretariaModel->obtenerEspecialidades();
-
-        /*SESION - VER CON BRENDA*/ 
-        $this->view->nuevoTurno($mutuales, $medicos, $especialidades,$mensaje = '');
+        $dni = $_POST['dni'];
+        $this->view->nuevoTurno($medicos, $dni ,$mensaje = '');
 
     }
 
@@ -129,8 +121,9 @@ class SecretariaController {
     function verificarPaciente(){
         
         // obtengo mutuales del modelo Paciente
-        $mutuales=$this->secretariaModel->obtenerMutuales();
+       $mutuales=$this->secretariaModel->obtenerMutuales();
         $dni= $_POST['dni'];
+       $usuario= $_SESSION;
         //var_dump($dni);
         // verifico si el paciente existe
         $paciente=$this->secretariaModel->existePaciente($dni);
@@ -139,8 +132,7 @@ class SecretariaController {
             // si existe le muestro la pantalla de turnos para que directamente pueda sacarle turno
             // debo obtener los medicos, especialidades y mutuales
             $medicos=$this->secretariaModel->obtenerMedicos();
-            $especialidades=$this->secretariaModel->obtenerEspecialidades();
-            $this->view->nuevoTurno($mutuales, $medicos, $especialidades, $dni,$mensaje='');
+            $this->view->nuevoTurno($medicos, $dni,$mensaje='');
         }else{
             // si no existe registro el paciente
             $this->view->showTemplate($mutuales,$dni);
@@ -213,8 +205,7 @@ class SecretariaController {
     function filtrarDiasDeAtencion (){
 
         $medicos=$this->secretariaModel->obtenerMedicos();
-        $mutuales=$this->model->obtenerMutuales();
-        $especialidades=$this->secretariaModel->obtenerEspecialidades();
+
         
         // tomo los datos filtrados en el formulario
         $rangoElegidoD= $_POST['fechaDesde'];
@@ -224,26 +215,16 @@ class SecretariaController {
         $medico = $_POST['medico'];
 
         // filtro por medico los turnos
-        $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico);
-        //var_dump($filtro);  
-        //die();
-        /*if (!empty($filtro)){
-            $mensaje="Seleccione el dia que desea y confirme por favor";
-        }else{
-            // si no encuentra resultados en la semana elegida muestra la semana siguiente
-            $rangoElegidoD= date("d-m-Y",strtotime($rangoElegidoD."+ 7 days")); 
-            //sumo 7 dias
-            $rangoElegidoH= date("d-m-Y",strtotime($rangoElegidoH."+ 7 days")); 
+      //  $filtro=$this->model->obtenerHorariosDeAtencionPorMedico($rangoElegidoD, $rangoElegidoH, $medico, $turno);
 
-            $filtro=$this->model->obtenerHorariosDeAtencion($rangoElegidoD, $rangoElegidoH, $turno, $medico);
-            if (!empty($filtro)){
-                $mensaje="Seleccione el dia que desea y confirme por favor";
-            }else{
-                $mensaje="El medico elegido no tiene turnos disponibles para el rango elegido ni para la siguiente semana. Por favor elija otro medico o intente otra fecha.";
-            }
-        }*/
+        if($turno == 'maniana'){
+            $filtro=$this->secretariaModel->obtenerHorariosDeAtencionManiana($rangoElegidoD, $rangoElegidoH, $medico);
+        }
+        else if($turno == 'tarde' ){
+            $filtro=$this->secretariaModel->obtenerHorariosDeAtencionTarde($rangoElegidoD, $rangoElegidoH, $medico);
+        }
 
-        $this->view->mostrarResultados($dni,$filtro, $mutuales,$medicos, $mensaje='');
+        $this->view->mostrarResultados($dni,$filtro,$medicos, $mensaje='');
 
 
     }

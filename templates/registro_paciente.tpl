@@ -9,7 +9,8 @@
             </div>
             <div class="card-body">
                 <div class="form-group">  
-                    <form class='form' action='registrar_paciente' method='POST'>  
+                    <form class='form' action='nuevo_turno' method='POST'> 
+
                         <div class="row justify-content-between text-left m-2 mt-2  mt-3">       
                             <div class="form-group col-sm-6 flex-column d-flex" >
                                 <label for='inputEmail'>Apellido <span class="text-danger">*</span> </label>
@@ -44,6 +45,7 @@
                                 <label for='inputEmail'>Email</label>
                                 <input type='email' name='email' id='email' class='form-control' required>
                             </div>
+                        
                         </div>
                 </div>
         </div>

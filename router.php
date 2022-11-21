@@ -106,6 +106,12 @@ switch ($params[0]) {
         // registrar el nuevo paciente
         $pacienteController->registrarPaciente();
         break;
+
+    case 'nuevo_turno':
+        // registrar el nuevo paciente
+        $secretariaController->showTurno();
+        break;
+
     case 'listar_turnos':
         // registrar el nuevo paciente
         $pacienteController->listadoPaciente();
