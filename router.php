@@ -104,8 +104,16 @@ switch ($params[0]) {
         break;
     case 'registrar_datos':
         // registrar el nuevo paciente
+        $pacienteController->verRegistro();
+        break;
+    case 'guardar_datos':
         $pacienteController->registrarPaciente();
         break;
+    case 'nuevo_turno':
+        // registrar el nuevo paciente
+        $secretariaController->showTurno();
+        break;
+
     case 'listar_turnos':
         // registrar el nuevo paciente
         $pacienteController->listadoPaciente();

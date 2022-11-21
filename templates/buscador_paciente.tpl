@@ -4,7 +4,7 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content rounded-4 shadow">
     <div class="pt-5 pb-2 border-bottom-0">
-      <h1 class="modal-title fs-5" >Ingrese DNI:</h1>     
+    <h1 class="text-center fw-bold mb-0 fs-2 ">Buscar paciente</h1> 
     </div>
     {if isset($mensaje) && !empty($mensaje)}
       <div class="alert alert-dismissible alert-secondary">

@@ -94,16 +94,21 @@ class PacienteController {
             $this->view->showOpciones($mensaje = '');
         }else{
             // si no existe registro el paciente
-            $this->view->showError("Datos incorrectos");
-            //$this->view->showTemplate($mutuales,$dni);
+             $this->view->showError("Datos incorrectos"); 
+            //$this->view->showTemplate($dni);
         }
+    }
+
+    function verRegistro(){
+        $mutuales=$this->model->obtenerMutuales();
+        $this->view->showTemplate($mutuales);
     }
 
     /**
      * Ingreso un nuevo paciente
      */
     function registrarPaciente(){
-
+        
         $nombre= $_POST['nombre'];
         $apellido= $_POST['apellido'];
         $dni= $_POST['dni'];
@@ -119,6 +124,7 @@ class PacienteController {
             $this->view->showLogin($mensaje);
         }else{
             // si no lo guardo en la BD
+            
             $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
             if ($paciente > 0){
                 $mensaje="Se registro correctamente. Inicie session por favor";
@@ -129,7 +135,7 @@ class PacienteController {
                     $reg_mut=$this->model->registraMutualPaciente($paciente, 11, 0);
                 }
                 // si se registro mutual y paciente correctamente lo mando al login
-                $this->view->showLogin($mensaje);
+                $this->view->showOpciones();
             }else{
                 $mensaje="Ups! no pudimos registrarlo como paciente. Intente mas tarde.";
                 $this->view->showLogin($mensaje);
@@ -230,7 +236,7 @@ class PacienteController {
         * pantalla inicial para sacar un turno el paciente
     */
     function obtenerTurno(){
-
+        
         $especialidades=$this->model->obtenerEspecialidadesDeMedicos();
         $mutuales=$this->model->obtenerMutuales();
         $medicos=$this->model->obtenerMedicos();

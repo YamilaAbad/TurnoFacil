@@ -22,28 +22,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row justify-content-between text-left mt-4">
-                            <div class="form-group col-sm-12 flex-column d-flex">
-                                <label for='inputMedico'>Especialidad:</label>
-                                <select name="especialidad" class="form-select">
-                                    <option name="especialidad" value=''>Selecione</option>
-                                    {foreach from=$especialidades item=esp} 
-                                        <option name="especialidad" value='{$esp->esp_id}'> {$esp->esp_nombre}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row justify-content-between text-left mt-4">
-                            <div class="form-group col-sm-12 flex-column d-flex">
-                                <label for='inputMedico'>Obra Social</label>
-                                <select name="obra_elegida" class="form-select"> 
-                                    <option name="obra_elegida" value=''>Selecione</option>
-                                    {foreach from=$mutuales item=mut} 
-                                        <option name="obra_elegida" value='{$mut->os_id}'> {$mut->os_nombre}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        </div>
+                       
                     </div>    
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-md-4 flex-column d-flex">
@@ -68,16 +47,17 @@
                             </span>
                         </div>
                     </div>
+
                     <div class="form-group col-md-4 flex-column d-flex">
                         <label for='checkTurno'>Seleccione el turno:<span class="text-danger">*</span> </label>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="turno" id="turno" value="maniana" required>
+                            <input class="form-check-input" type="radio" name="turno" id="turnoManiana" value="maniana" required>
                             <label class="form-check-label" for="turno">
                                 Mañana
                             </label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="turno" id="turno" value="tarde" required>
+                            <input class="form-check-input" type="radio" name="turno" id="turnoTarde" value="tarde" required>
                             <label class="form-check-label" for="turno">
                                 Tarde
                             </label>
