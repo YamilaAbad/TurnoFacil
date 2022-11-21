@@ -20,7 +20,7 @@
               <label for="floatingInput">Ingrese DNI</label>
             </div>
             <div class="d-flex justify-content-center">
-              <button type="button" class="btn bg-verde boton-login shadow">Ingresar</button>
+              <button type="submit" class="btn bg-verde boton-login shadow">Ingresar</button>
             </div>
           </form>
         </div>

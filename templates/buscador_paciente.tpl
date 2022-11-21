@@ -18,6 +18,10 @@
           <input type="text" class="form-control rounded-3" id="dni" name="dni" required>
           <label for="floatingInput">DNI</label>
         </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn bg-verde boton-login shadow">Buscar</button>
+        </div>
+        
       </form>
     </div>
   </div>
