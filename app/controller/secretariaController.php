@@ -25,12 +25,13 @@ class SecretariaController {
 
         $nombre= $_POST['nombre'];
         $apellido= $_POST['apellido'];
-        $dni= $_POST['dni'];
+        $dni= $_POST['dni'];    
         $email= $_POST['email'];
         $domicilio= $_POST['domicilio'];
         $telefono= $_POST['telefono'];
         $mutual= $_POST['obra_elegida'];
         $afiliado= $_POST['afiliado'];
+        
         $existe=$this->model->existePaciente($dni);
         
         if (!empty($existe)){
@@ -39,8 +40,7 @@ class SecretariaController {
             $this->showTurno();
         }else{
             // si no estaba registrado lo registro al paciente 
-            $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
-            var_dump($paciente);
+            $paciente=$this->secretariaModel->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
             if ($paciente > 0){
                 
                 // si posee mutual lo registro
@@ -125,7 +125,7 @@ class SecretariaController {
         
         // obtengo mutuales del modelo Paciente
        $mutuales=$this->secretariaModel->obtenerMutuales();
-        $dni= $_POST['dni'];
+       $dni= $_POST['dni'];
        $usuario= $_SESSION;
         //var_dump($dni);
         // verifico si el paciente existe

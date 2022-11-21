@@ -22,7 +22,7 @@
                                     <input type='text' name='nombre' id='nombre' class='form-control' required autofocus>
                                 </div>
                             </div>
-                            <input type='hidden' name='dni' id='dni' class='form-control' value="{ $dni }" required>
+                            <input type='hidden' name='dni' id='dni' class='form-control' value="{$dni}" required>
                         </div>
                         <div class="row justify-content-between text-left m-2 mt-2  mt-3"> 
                             <div class="form-group col-sm-6 flex-column d-flex" >
