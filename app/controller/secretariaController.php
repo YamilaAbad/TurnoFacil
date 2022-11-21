@@ -32,12 +32,15 @@ class SecretariaController {
         $mutual= $_POST['obra_elegida'];
         $afiliado= $_POST['afiliado'];
         $existe=$this->model->existePaciente($dni);
+        
         if (!empty($existe)){
             // si el paciente se encuentra registrado notifico
             $mensaje="El paciente ya se encuentra registrado";
+            $this->showTurno();
         }else{
             // si no estaba registrado lo registro al paciente 
             $paciente=$this->model->registrarPaciente($dni, $nombre, $apellido, $domicilio, $telefono, $email);
+            var_dump($paciente);
             if ($paciente > 0){
                 
                 // si posee mutual lo registro
